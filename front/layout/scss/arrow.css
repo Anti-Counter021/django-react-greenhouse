@@ -1,0 +1,16 @@
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-top: 50%;
+  cursor: pointer;
+}
+.arrow__left {
+  transform: rotate(135deg);
+}
+.arrow__right {
+  transform: rotate(-45deg);
+}
+
+/*# sourceMappingURL=arrow.css.map */

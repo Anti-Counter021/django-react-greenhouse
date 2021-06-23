@@ -1,0 +1,12 @@
+.btn {
+  padding: 5px 3px;
+  border-radius: 15px;
+  width: 100%;
+  background: #fff;
+}
+.btn__success {
+  color: #fff;
+  background-color: #205635;
+}
+
+/*# sourceMappingURL=btn.css.map */
