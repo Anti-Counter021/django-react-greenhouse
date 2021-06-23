@@ -1,0 +1,24 @@
+.nav {
+    background: #205635;
+    display: flex;
+    justify-content: center;
+    font-size: 17px;
+
+    &__item {
+        padding: 16px;
+        color: #808080;
+        text-align: center;
+    }
+
+    & .nav__link:hover {
+        color: #fff;
+    }
+
+    .cart__icon {
+        font-size: 20px;
+    }
+
+    .active {
+        color: #fff;
+    }
+}
