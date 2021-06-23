@@ -10,7 +10,7 @@
     }
 
     &__author {
-        font-size: 30px;
+        font-size: 25px;
         &__username {
             font-weight: bold;
         }
@@ -19,6 +19,7 @@
     &__content {
         margin-top: 10px;
         font-size: 20px;
+        width: 100%;
 
         display: flex;
     }

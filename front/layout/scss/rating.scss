@@ -1,5 +1,5 @@
 .rating {
-    display: inline-flex;
+    display: flex;
     flex-direction: row-reverse;
     margin: 0 auto;
 
@@ -10,7 +10,7 @@
         transition: .2s;
 
         &:hover,
-        &:hover ~ &{
+        &:hover ~ & {
             color: #989898;
         }
     }
@@ -22,4 +22,9 @@
     &[data-total-value="5"] &__item:nth-child(n + 1) {
         color: #FFA500;
     }
+}
+
+
+.star {
+    font-size: 80px;
 }
