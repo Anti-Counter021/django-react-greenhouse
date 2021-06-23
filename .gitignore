@@ -2,3 +2,6 @@
 /back/.idea/
 /.idea/
 /front/.idea/
+/back/db.sqlite3
+/back/config.env
+/back/media/
