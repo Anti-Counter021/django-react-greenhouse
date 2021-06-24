@@ -17,4 +17,30 @@ const productsError = () => {
     };
 };
 
-export {productsLoaded, productsError, productsRequested};
+const productNewLoaded = (newProduct) => {
+    return {
+        type: 'PRODUCT_NEW_LOADED',
+        payload: newProduct,
+    };
+};
+
+const productNewRequested = () => {
+    return {
+        type: 'PRODUCT_NEW_REQUESTED',
+    };
+};
+
+const productNewError = () => {
+    return {
+        type: 'PRODUCT_NEW_ERROR',
+    };
+};
+
+export {
+    productsLoaded,
+    productsError,
+    productsRequested,
+    productNewLoaded,
+    productNewError,
+    productNewRequested,
+};

@@ -2,6 +2,7 @@ const initialState = {
     error: false,
     loading: true,
     products: [],
+    newProduct: {},
 };
 
 const reducer = (state=initialState, action) => {
@@ -18,6 +19,22 @@ const reducer = (state=initialState, action) => {
                 loading: true,
             };
         case 'PRODUCTS_ERROR':
+            return {
+                ...state,
+                error: true,
+            };
+        case 'PRODUCT_NEW_LOADED':
+            return {
+                ...state,
+                newProduct: action.payload,
+                loading: false,
+            };
+        case 'PRODUCT_NEW_REQUESTED':
+            return {
+                ...state,
+                loading: true,
+            };
+        case 'PRODUCT_NEW_ERROR':
             return {
                 ...state,
                 error: true,

@@ -1,33 +1,69 @@
-import React from "react";
+import React, {Component} from "react";
+
+import {connect} from "react-redux";
+
+import Error from "../error/error";
+import Spinner from "../spinner/spinner";
+import WithServices from "../hoc/with_services";
+import {productNewLoaded, productNewError, productNewRequested} from "../../redux/action";
 
 import "./new.scss"
 
-const New = () => {
 
-    return (
-        <section className="new">
-            <div className="container">
-                <div className="section__header">Новинка 2022</div>
-                <div className="section">
-                    <img className="section__image" src="https://via.placeholder.com/400x400" alt=""/>
-                    <div className="section__body">
-                        <div className="section__content__header">Теплица "Прямостенная"</div>
-                        <div className="section__content">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores illum mollitia
-                            nihil. Ab accusamus commodi distinctio, dolores eum fuga illum impedit in ipsa,
-                            laudantium natus placeat quae repellat repudiandae vitae.
-                            <ul className="section__product__feature__list">
-                                <li className="section__product__feature">Труба 40x20</li>
-                                <li className="section__product__feature">Расстояние между дугами - 1м</li>
-                                <li className="section__product__feature">Ширина 2м</li>
-                            </ul>
+class New extends Component {
+
+    componentDidMount() {
+        const {productNewLoaded, productNewRequested, productNewError, Services} = this.props;
+        productNewRequested();
+        Services.getNewProduct().then(product => productNewLoaded(product)).catch(error => productNewError);
+    }
+
+    render() {
+
+        const {newProduct: {image, title, id, description, price}, loading, error} = this.props;
+
+        if (loading) {
+            return <Spinner/>
+        }
+
+        if (error) {
+            return <Error/>
+        }
+
+        return (
+            <section className="new">
+                <div className="container">
+                    <div className="section__header">Новинка {new Date().getFullYear()}</div>
+                    <div className="section" key={id}>
+                        <img className="section__image section__image__new" src={image} alt={title}/>
+                        <div className="section__body">
+                            <div className="section__new__content__header">"{title}"</div>
+                            <div className="section__new__content">
+                                {description}
+                            </div>
+                            <div className="section__new__content">Цена: <span id="section__new__price">{price}</span> руб.</div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    );
+            </section>
+        );
 
+    }
+
+}
+
+const mapStateToProps = (state) => {
+    return {
+        newProduct: state.newProduct,
+        loading: state.loading,
+        error: state.error,
+    };
 };
 
-export default New;
+const mapDispatchToProps = {
+    productNewLoaded,
+    productNewRequested,
+    productNewError,
+};
+
+export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(New));

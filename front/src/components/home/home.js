@@ -1,21 +1,27 @@
-import React from "react";
+import React, {Component} from "react";
 
 import New from "../new/new";
 import Navbar from "../navbar/navbar";
 import Slider from "../slider/slider";
 import Products from "../products/products";
+import WithServices from "../hoc/with_services";
 
-const Home = () => {
 
-    return (
-        <>
-            <Navbar/>
-            <Slider/>
-            <New/>
-            <Products/>
-        </>
-    );
+class Home extends Component {
 
-};
+    render() {
+        const {Services} = this.props;
 
-export default Home;
+        return (
+            <>
+                <Navbar active="Главная"/>
+                <Slider/>
+                <New/>
+                <Products title="Наши товары" getProducts={Services.getProducts}/>
+            </>
+        );
+    }
+
+}
+
+export default WithServices()(Home);

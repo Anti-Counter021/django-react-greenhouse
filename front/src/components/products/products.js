@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 
 import Error from "../error/error";
 import Spinner from "../spinner/spinner";
-import WithServices from "../hoc/with_services";
 import {productsLoaded, productsRequested, productsError} from "../../redux/action";
 
 import "./card.scss"
@@ -13,14 +12,14 @@ import "./card.scss"
 class Products extends Component {
 
     componentDidMount() {
-        const {productsLoaded, productsRequested, productsError, Services} = this.props;
+        const {productsLoaded, productsRequested, productsError, getProducts} = this.props;
         productsRequested();
-        Services.getProducts().then(products => productsLoaded(products)).catch(error => productsError);
+        getProducts().then(products => productsLoaded(products)).catch(error => productsError);
     }
 
     render() {
 
-        const {products, loading, error} = this.props;
+        const {products, loading, error, title} = this.props;
 
         if (loading) {
             return <Spinner/>
@@ -33,7 +32,7 @@ class Products extends Component {
         return (
             <section className="products">
                 <div className="container">
-                    <div className="header">Наши товары</div>
+                    <div className="header">{title}</div>
                     <div className="products__body">
                         {
                             products.map(({title, id, image, price}) => (
@@ -42,11 +41,6 @@ class Products extends Component {
                                     <img className="card__image" src={image} alt={title}/>
                                     <div className="card__content">
                                         <div className="card__price">Цена: {price} руб.</div>
-                                        <ul className="section__product__feature__list">
-                                            <li className="section__product__feature">Труба 40x20</li>
-                                            <li className="section__product__feature">Расстояние между дугами - 1м</li>
-                                            <li className="section__product__feature">Ширина 2м</li>
-                                        </ul>
                                     </div>
                                     <div className="products__action">
                                         <button className="buttons buttons__success">Добавить в корзину</button>
@@ -76,4 +70,4 @@ const mapDispatchToProps = {
     productsError,
 };
 
-export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Products));
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

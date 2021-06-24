@@ -1,14 +1,12 @@
 .new {
     background-color: #205635;
+    min-height: 435px;
 
-    .section__product__feature__list {
+    .section__image__new {
+        max-height: 280px;
+    }
 
-        margin-top: 15px;
-        font-size: 18px;
-
-        .section__product__feature {
-            margin-left: 30px;
-            margin-top: 5px;
-        }
+    #section__new__price {
+        font-weight: bold;
     }
 }

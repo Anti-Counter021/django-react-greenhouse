@@ -1,18 +1,30 @@
 import React from "react";
 
+import {Link} from "react-router-dom";
+
 import "./navbar.scss";
 
-const Navbar = () => {
+const navbarLink = [
+    {path: '/', body: 'Главная'},
+    {path: '/greenhouses', body: 'Теплицы'},
+    {path: '#', body: 'Категории'},
+    {path: '#', body: 'Отзывы'},
+    {path: '#', body: 'Контакты'},
+    {path: '#', body: <i className="fa fa-cart-arrow-down" aria-hidden="true"/>},
+];
+
+const Navbar = ({active}) => {
 
     return (
         <nav className="navbar">
             <div className="nav">
-                <div className="nav__item"><a href="#" className="nav__link active">Главная</a></div>
-                <div className="nav__item"><a href="#" className="nav__link">Категории</a></div>
-                <div className="nav__item"><a href="#" className="nav__link">Отзывы</a></div>
-                <div className="nav__item"><a href="#" className="nav__link">Контакты</a></div>
-                <div className="nav__item cart__icon"><a href="#" className="nav__link">
-                    <i className="fa fa-cart-arrow-down" aria-hidden="true"/></a></div>
+                {
+                    navbarLink.map(({path, body}, index) => (
+                        <div key={index} className="nav__item">
+                            <Link to={path} className={"nav__link" + (active === body ? ' active': '')}>{body}</Link>
+                        </div>
+                    ))
+                }
             </div>
             <div className="nav__toggle">
                 <span className="nav__toggle__item"><i className="fas fa-bars"/></span>

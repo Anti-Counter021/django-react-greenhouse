@@ -4,10 +4,11 @@ export default class Services {
     _token = '9034236dfd85f611292c77b81a8c41613da7abfd'
 
     async getData(url, token='') {
+        const token_auth = token ? {'Authorization': `Token ${token}`} : {};
         const res = await fetch(this._url + url, {
             method: 'GET',
             headers: {
-                'Authorization': `Token ${token}`,
+                ...token_auth,
             }
         });
 
@@ -19,7 +20,15 @@ export default class Services {
     }
 
     getProducts = async () => {
-        return await this.getData('products/', this._token);
+        return await this.getData('products/');
+    }
+
+    getNewProduct = async () => {
+        return await this.getData('new-product');
+    }
+
+    getGreenhouses = async () => {
+        return await this.getData('greenhouses');
     }
 
 }
