@@ -1,0 +1,41 @@
+.products {
+
+    &__body {
+        flex-flow: wrap;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+
+.card {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin: 15px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+
+    &__image {
+        max-width: 330px;
+        padding: 10px;
+    }
+
+    &__title {
+        border-radius: 10px;
+        text-align: center;
+        padding: 5px;
+        font-size: 20px;
+        background: #008f32;
+        color: #fff;
+    }
+
+    &__content {
+        padding: 10px;
+    }
+
+    &__price {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+}

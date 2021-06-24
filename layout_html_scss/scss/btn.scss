@@ -1,0 +1,11 @@
+.buttons {
+    padding: 5px 3px;
+    border-radius: 15px;
+    width: 100%;
+    background: #fff;
+
+    &__success {
+        color: #fff;
+        background-color: #205635;
+    }
+}

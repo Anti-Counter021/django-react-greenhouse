@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Корзина</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="../scss/style.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    </head>
+    <body>
+
+        <nav class="nav">
+            <div class="nav__item"><a href="#" class="nav__link">Главная</a></div>
+            <div class="nav__item"><a href="#" class="nav__link">Категории</a></div>
+            <div class="nav__item"><a href="#" class="nav__link">Отзывы</a></div>
+            <div class="nav__item"><a href="#" class="nav__link">Контакты</a></div>
+            <div class="nav__item cart__icon"><a href="#" class="nav__link active"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></a></div>
+        </nav>
+
+        <section class="cart">
+            <div class="container">
+                <table class="table">
+                    <tr class="cart__table__header">
+                        <th>Товар</th>
+                        <th>Количество</th>
+                        <th class="cart__table__image__header">Изображение</th>
+                        <th>Цена</th>
+                        <th>Общая цена</th>
+                        <th>Действие</th>
+                    </tr>
+                    <tr class="cart__table__body">
+                        <td class="cart__table__title">Теплица Капелька</td>
+                        <td class="cart__table__qty"><input class="cart__table__qty__input form-control" type="number" value="1" min="1"></td>
+                        <td class="cart__table__image"><img class="cart__table__image__content" src="https://via.placeholder.com/400x400" alt=""></td>
+                        <td class="cart__table__price">19000 руб.</td>
+                        <td class="cart__table__price">19000 руб.</td>
+                        <td><button class="buttons buttons__success">Удалить из корзины</button></td>
+                    </tr>
+                    <tr class="cart__table__body">
+                        <td class="cart__table__title">Теплица Оцинкованная</td>
+                        <td class="cart__table__qty"><input class="cart__table__qty__input form-control" type="number" value="2" min="1"></td>
+                        <td class="cart__table__image"><img class="cart__table__image__content" src="https://via.placeholder.com/400x400" alt=""></td>
+                        <td class="cart__table__price">21000 руб.</td>
+                        <td class="cart__table__price">42000 руб.</td>
+                        <td><button class="buttons buttons__success">Удалить из корзины</button></td>
+                    </tr>
+                </table>
+                <div class="cart__total">
+                    <div class="cart__total__label">Итого:</div>
+                    <div class="cart__total__price">61000 руб.</div>
+                    <div class="cart__total__action"><button class="buttons buttons__success">Перейти к оформлению</button></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer__item">&copy;Все права защищены _Counter021_</div>
+        </footer>
+
+    </body>
+</html>

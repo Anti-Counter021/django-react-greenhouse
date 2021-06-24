@@ -1,0 +1,118 @@
+@media (max-width: 990px) {
+
+    .arrow {
+        display: none;
+    }
+
+    .section {
+        flex-wrap: wrap;
+
+        &__body {
+            margin-top: 30px;
+        }
+
+        &__action {
+            width: 100%;
+        }
+    }
+
+    .product__action {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 770px) {
+
+    .nav {
+        display: none;
+
+        &__toggle {
+            display: block;
+        }
+    }
+
+    .reviews {
+        &__author__username {
+            font-size: 17px;
+        }
+
+        &__content {
+            font-size: 17px;
+        }
+    }
+
+    .star {
+        font-size: 70px;
+    }
+
+    .cart__table__image {
+        &, &__header {
+            display: none;
+        }
+    }
+
+    .header {
+        font-size: 25px;
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    img {
+        max-width: 340px;
+    }
+
+    .reviews__content {
+        flex-wrap: wrap;
+    }
+
+    .section {
+        &__content__header {
+            text-align: left;
+            font-size: 20px;
+        }
+
+        &__header {
+            font-size: 20px;
+        }
+
+        &__body {
+            margin-left: 0;
+        }
+    }
+
+    .header {
+        font-size: 20px;
+    }
+
+    .star {
+        font-size: 40px;
+    }
+
+    .cart {
+        &__total {
+            font-size: 15px;
+        }
+
+        &__table {
+            &__qty__input {
+                width: 50px;
+            }
+
+            &__header {
+                font-size: 15px;
+            }
+
+            &__title {
+                font-size: 13px;
+            }
+
+            &__price {
+                font-size: 15px;
+            }
+        }
+    }
+
+}
