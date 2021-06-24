@@ -1,4 +1,5 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Category, Product
@@ -10,7 +11,6 @@ class CategoryAPIView(ModelViewSet):
 
     queryset = Category.objects
     serializer_class = CustomCategorySerializer
-    permission_classes = (IsAuthenticated,)
 
 
 class ProductAPIView(ModelViewSet):
@@ -18,4 +18,17 @@ class ProductAPIView(ModelViewSet):
 
     queryset = Product.objects
     serializer_class = ProductSerializer
-    permission_classes = (IsAuthenticated,)
+
+
+class NewProductAPIView(APIView):
+    """ Новый товар """
+
+    def get(self, request, *args, **kwargs):
+        return Response(ProductSerializer(Product.objects.first()).data)
+
+
+class GreenhouseAPIView(APIView):
+    """ Теплицы """
+
+    def get(self, request, *args, **kwargs):
+        return Response(ProductSerializer(Product.objects.filter(category__slug='greenhouses'), many=True).data)
