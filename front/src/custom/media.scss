@@ -132,4 +132,12 @@
         font-size: 15px;
     }
 
+    .categories {
+        display: none;
+
+        &__phone {
+            display: block;
+        }
+    }
+
 }

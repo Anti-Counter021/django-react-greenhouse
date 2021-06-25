@@ -8,3 +8,4 @@
 /front/node_modules/
 *.css
 *.map
+/layout_html_scss/.idea/

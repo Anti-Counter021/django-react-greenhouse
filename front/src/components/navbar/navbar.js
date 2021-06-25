@@ -7,7 +7,7 @@ import "./navbar.scss";
 const navbarLink = [
     {path: '/', body: 'Главная'},
     {path: '/greenhouses', body: 'Теплицы'},
-    {path: '#', body: 'Категории'},
+    {path: '/categories', body: 'Категории'},
     {path: '#', body: 'Отзывы'},
     {path: '#', body: 'Контакты'},
     {path: '#', body: <i className="fa fa-cart-arrow-down" aria-hidden="true"/>},

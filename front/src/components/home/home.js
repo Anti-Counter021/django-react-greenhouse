@@ -17,7 +17,12 @@ class Home extends Component {
                 <Navbar active="Главная"/>
                 <Model3D/>
                 <New/>
-                <Products host='' title="Наши товары" getProducts={Services.getProducts}/>
+                <section className="products">
+                    <div className="container">
+                        <div className="header">Наши товары</div>
+                        <Products host='' getProducts={Services.getProducts}/>
+                    </div>
+                </section>
             </>
         );
     }

@@ -19,7 +19,7 @@ class Products extends Component {
 
     render() {
 
-        const {products, loading, error, title, host} = this.props;
+        const {products, loading, error, host} = this.props;
 
         if (loading) {
             return <Spinner/>
@@ -30,44 +30,45 @@ class Products extends Component {
         }
 
         return (
-            <section className="products">
-                <div className="container">
-                    <div className="header">{title}</div>
-                    <div className="products__body">
-                        {
-                            products.map(({title, id, image, price}) => (
-                                <div className="card" key={id}>
-                                    <div className="card__title">{title}</div>
-                                    <img className="card__image" src={host + image} alt={title}/>
-                                    <div className="card__content">
-                                        <div className="card__price">Цена: {price} руб.</div>
-                                    </div>
-                                    <div className="products__action">
-                                        <button className="buttons buttons__success">Добавить в корзину</button>
-                                    </div>
+            <>
+                <div className="products__body">
+                    {
+                        products.map(({title, id, image, price}) => (
+                            <div className="card" key={id}>
+                                <div className="card__title">{title}</div>
+                                <img className="card__image" src={host + image} alt={title}/>
+                                <div className="card__content">
+                                    <div className="card__price">Цена: {price} руб.</div>
                                 </div>
-                            ))
-                        }
-                    </div>
+                                <div className="products__action">
+                                    <button className="buttons buttons__success">Добавить в корзину</button>
+                                </div>
+                            </div>
+                        ))
+                    }
                 </div>
-            </section>
+            </>
         );
-   }
+    }
 
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) =>
+{
     return {
         products: state.products,
         loading: state.loading,
         error: state.error,
     };
-};
+}
+;
 
-const mapDispatchToProps = {
+const mapDispatchToProps =
+{
     productsLoaded,
-    productsRequested,
-    productsError,
-};
+        productsRequested,
+        productsError,
+}
+;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

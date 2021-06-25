@@ -14,11 +14,9 @@ class CategorySerializer(ModelSerializer):
 class ProductSerializer(ModelSerializer):
     """ Товар """
 
-    category = CategorySerializer()
-
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('category',)
 
 
 class CustomCategorySerializer(CategorySerializer):

@@ -14,7 +14,12 @@ class GreenHouse extends Component {
         return (
             <>
                 <Navbar active="Теплицы"/>
-                <Products title="Теплицы" host={host} getProducts={Services.getGreenhouses}/>
+                <section className="products">
+                    <div className="container">
+                        <div className="header">Теплицы</div>
+                        <Products host={host} getProducts={Services.getGreenhouses}/>
+                    </div>
+                </section>
             </>
         );
     }
