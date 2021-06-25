@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Регистрация</title>
+        <link href="../scss/style.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    </head>
+    <body>
+
+        <nav class="navbar">
+            <div class="nav">
+                <div class="nav__item"><a href="#" class="nav__link">Главная</a></div>
+                <div class="nav__item"><a href="#" class="nav__link">Категории</a></div>
+                <div class="nav__item"><a href="#" class="nav__link">Отзывы</a></div>
+                <div class="nav__item"><a href="#" class="nav__link">Контакты</a></div>
+                <div class="nav__item cart__icon"><a href="#" class="nav__link"><i class="fa fa-cart-arrow-down"
+                                                                                   aria-hidden="true"></i></a></div>
+            </div>
+            <div class="nav__toggle">
+                <span class="nav__toggle__item"><i class="fas fa-bars"></i></span>
+            </div>
+
+            <div class="nav__toggle__active">
+                <span class="nav__toggle__item"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+        </nav>
+
+        <section class="register__section">
+            <div class="container">
+                <div class="register__header">Регистрация</div>
+                <div class="register">
+                    <form class="register__form">
+                        <div class="register__form__group">
+                            <label for="username">Имя пользователя<span class="required">*</span></label>
+                            <input class="register__form__input" id="username" type="text" placeholder="Имя пользователя">
+                        </div>
+
+                        <div class="register__form__group">
+                            <label for="first_name">Имя<span class="required">*</span></label>
+                            <input class="register__form__input" id="first_name" type="text" placeholder="Имя">
+                        </div>
+
+                        <div class="register__form__group">
+                            <label for="last_name">Фамилия<span class="required">*</span></label>
+                            <input class="register__form__input" id="last_name" type="text" placeholder="Фамилия">
+                        </div>
+
+                        <div class="register__form__group">
+                            <label for="email">Адресс эл. почты<span class="required">*</span></label>
+                            <input class="register__form__input" id="email" type="email" placeholder="Адресс эл. почты">
+                        </div>
+
+                        <div class="register__form__group">
+                            <label for="phone">Телефон<span class="required">*</span></label>
+                            <input class="register__form__input" id="phone" type="text" placeholder="Телефон">
+                        </div>
+
+                        <div class="register__form__group">
+                            <label for="address">Адрес<span class="required">*</span></label>
+                            <input class="register__form__input" id="address" type="text" placeholder="Адрес">
+                        </div>
+
+                        <div class="register__form__group">
+                            <label for="password">Пароль<span class="required">*</span></label>
+                            <input class="register__form__input" id="password" type="password" placeholder="Пароль">
+                        </div>
+
+                        <div class="register__form__group">
+                            <label for="confirm_password">Повторите пароль<span class="required">*</span></label>
+                            <input class="register__form__input" id="confirm_password" type="password" placeholder="Повторите пароль">
+                        </div>
+
+                        <button class="buttons buttons__success register__form__btn" type="submit">Зарегистрироваться</button>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer__item">&copy;Все права защищены _Counter021_</div>
+        </footer>
+
+    </body>
+</html>
