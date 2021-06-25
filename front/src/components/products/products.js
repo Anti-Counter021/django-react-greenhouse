@@ -19,7 +19,7 @@ class Products extends Component {
 
     render() {
 
-        const {products, loading, error, title} = this.props;
+        const {products, loading, error, title, host} = this.props;
 
         if (loading) {
             return <Spinner/>
@@ -38,7 +38,7 @@ class Products extends Component {
                             products.map(({title, id, image, price}) => (
                                 <div className="card" key={id}>
                                     <div className="card__title">{title}</div>
-                                    <img className="card__image" src={image} alt={title}/>
+                                    <img className="card__image" src={host + image} alt={title}/>
                                     <div className="card__content">
                                         <div className="card__price">Цена: {price} руб.</div>
                                     </div>

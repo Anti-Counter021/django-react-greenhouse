@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 import Error from "../error/error";
+import host from "../../services/host";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
 import {productNewLoaded, productNewError, productNewRequested} from "../../redux/action";
@@ -35,7 +36,7 @@ class New extends Component {
                 <div className="container">
                     <div className="section__header">Новинка {new Date().getFullYear()}</div>
                     <div className="section" key={id}>
-                        <img className="section__image section__image__new" src={image} alt={title}/>
+                        <img className="section__image section__image__new" src={host + image} alt={title}/>
                         <div className="section__body">
                             <div className="section__new__content__header">"{title}"</div>
                             <div className="section__new__content">
