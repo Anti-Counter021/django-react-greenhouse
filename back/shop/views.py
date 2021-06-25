@@ -13,11 +13,11 @@ class CategoryAPIView(ModelViewSet):
     serializer_class = CustomCategorySerializer
 
 
-class ProductAPIView(ModelViewSet):
+class ProductAPIView(APIView):
     """ Товары """
 
-    queryset = Product.objects
-    serializer_class = ProductSerializer
+    def get(self, request, *args, **kwargs):
+        return Response(ProductSerializer(Product.objects.all(), many=True).data)
 
 
 class NewProductAPIView(APIView):
@@ -25,10 +25,3 @@ class NewProductAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         return Response(ProductSerializer(Product.objects.first()).data)
-
-
-class GreenhouseAPIView(APIView):
-    """ Теплицы """
-
-    def get(self, request, *args, **kwargs):
-        return Response(ProductSerializer(Product.objects.filter(category__slug='greenhouses'), many=True).data)

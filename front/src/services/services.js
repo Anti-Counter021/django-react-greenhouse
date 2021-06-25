@@ -27,10 +27,6 @@ export default class Services {
         return await this.getData('new-product');
     }
 
-    getGreenhouses = async () => {
-        return await this.getData('greenhouses');
-    }
-
     getCategoryProducts = async () => {
         return await this.getData('categories');
     }

@@ -36,11 +36,35 @@ const productNewError = () => {
     };
 };
 
+const categoriesLoaded = (newCategories) => {
+    return {
+        type: 'CATEGORIES_LOADED',
+        payload: newCategories,
+    };
+};
+
+const categoriesRequested = () => {
+    return {
+        type: 'CATEGORIES_REQUESTED',
+    };
+};
+
+const categoriesError = () => {
+    return {
+        type: 'CATEGORIES_ERROR',
+    };
+};
+
 export {
     productsLoaded,
     productsError,
     productsRequested,
+
     productNewLoaded,
     productNewError,
     productNewRequested,
+
+    categoriesLoaded,
+    categoriesError,
+    categoriesRequested,
 };

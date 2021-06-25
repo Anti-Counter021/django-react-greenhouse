@@ -23,6 +23,11 @@ class CustomCategorySerializer(CategorySerializer):
     """ Категория с товарами """
 
     products = SerializerMethodField()
+    products_count = SerializerMethodField()
+
+    @staticmethod
+    def get_products_count(obj):
+        return Product.objects.filter(category=obj).count()
 
     @staticmethod
     def get_products(obj):

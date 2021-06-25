@@ -3,6 +3,7 @@ const initialState = {
     loading: true,
     products: [],
     newProduct: {},
+    categories: [],
 };
 
 const reducer = (state=initialState, action) => {
@@ -35,6 +36,22 @@ const reducer = (state=initialState, action) => {
                 loading: true,
             };
         case 'PRODUCT_NEW_ERROR':
+            return {
+                ...state,
+                error: true,
+            };
+        case 'CATEGORIES_LOADED':
+            return {
+                ...state,
+                categories: action.payload,
+                loading: false,
+            };
+        case 'CATEGORIES_REQUESTED':
+            return {
+                ...state,
+                loading: true,
+            };
+        case 'CATEGORIES_ERROR':
             return {
                 ...state,
                 error: true,

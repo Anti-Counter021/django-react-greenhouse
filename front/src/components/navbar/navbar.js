@@ -6,7 +6,6 @@ import "./navbar.scss";
 
 const navbarLink = [
     {path: '/', body: 'Главная'},
-    {path: '/greenhouses', body: 'Теплицы'},
     {path: '/categories', body: 'Категории'},
     {path: '#', body: 'Отзывы'},
     {path: '#', body: 'Контакты'},

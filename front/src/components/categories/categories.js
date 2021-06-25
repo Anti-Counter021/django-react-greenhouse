@@ -3,23 +3,36 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 import Navbar from "../navbar/navbar";
-import host from "../../services/host";
 import Products from "../products/products";
 import WithServices from "../hoc/with_services";
+import {
+    categoriesError,
+    categoriesRequested,
+    categoriesLoaded,
+    productsRequested,
+    productsLoaded,
+} from "../../redux/action";
 
 import "./categories.scss";
 
 
 class Categories extends Component {
 
-    // componentDidMount() {
-    //     const {Services} = this.props;
-    //
-    //     // Services.getCategoryProducts().then(res => console.log(res));
-    // }
+    componentDidMount() {
+        const {Services, categoriesError, categoriesRequested, categoriesLoaded} = this.props;
+        categoriesRequested();
+
+        Services.getCategoryProducts().then(res => categoriesLoaded(res)).catch(error => categoriesError());
+    }
+
+    getProducts = (id) => {
+        const {categories, productsRequested, productsLoaded} = this.props;
+        productsRequested();
+        productsLoaded(categories.find(item => item.id === id).products);
+    }
 
     render() {
-        const {Services} = this.props;
+        const {categories, Services} = this.props;
 
         return (
             <>
@@ -28,29 +41,25 @@ class Categories extends Component {
                     <div className="container">
                         <div className="header">Категории</div>
                         <ul className="categories__phone">
-                            <li className="categories__phone__item">
-                                Автополивы <span className="categories__item__count">2</span>
-                            </li>
-                            <li className="categories__phone__item">
-                                Грядки <span className="categories__item__count">3</span>
-                            </li>
-                            <li className="categories__phone__item">
-                                Заборы <span className="categories__item__count">5</span>
-                            </li>
+                            {
+                                categories.map(({name, id, products_count}) => (
+                                    <li className="categories__phone__item" key={id} onClick={() => this.getProducts(id)}>
+                                        {name} <span className="categories__item__count">{products_count}</span>
+                                    </li>
+                                ))
+                            }
                         </ul>
                         <div className="products__categories">
                             <div className="categories">
-                                <div className="categories__item">
-                                    Автополивы <span className="categories__item__count">2</span>
-                                </div>
-                                <div className="categories__item">
-                                    Грядки <span className="categories__item__count">3</span>
-                                </div>
-                                <div className="categories__item">
-                                    Заборы <span className="categories__item__count">5</span>
-                                </div>
+                                {
+                                    categories.map(({name, id, products_count}) => (
+                                        <div className="categories__item" key={id} onClick={() => this.getProducts(id)}>
+                                            {name} <span className="categories__item__count">{products_count}</span>
+                                        </div>
+                                    ))
+                                }
                             </div>
-                            <Products title="Теплицы" host={host} getProducts={Services.getGreenhouses}/>
+                            <Products title="Теплицы" getProducts={Services.getProducts}/>
                         </div>
                     </div>
                 </section>
@@ -60,4 +69,20 @@ class Categories extends Component {
 
 }
 
-export default WithServices()(connect()(Categories));
+const mapStateToProps = (state) => {
+    return {
+        categories: state.categories,
+        loading: state.loading,
+        error: state.error,
+    };
+};
+
+const mapDispatchToProps = {
+    categoriesLoaded,
+    categoriesRequested,
+    categoriesError,
+    productsRequested,
+    productsLoaded,
+};
+
+export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Categories));

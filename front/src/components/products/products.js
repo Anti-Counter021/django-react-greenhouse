@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 import Error from "../error/error";
+import host from "../../services/host";
 import Spinner from "../spinner/spinner";
 import {productsLoaded, productsRequested, productsError} from "../../redux/action";
 
@@ -19,7 +20,7 @@ class Products extends Component {
 
     render() {
 
-        const {products, loading, error, host} = this.props;
+        const {products, loading, error} = this.props;
 
         if (loading) {
             return <Spinner/>
@@ -53,22 +54,18 @@ class Products extends Component {
 
 }
 
-const mapStateToProps = (state) =>
-{
+const mapStateToProps = (state) => {
     return {
         products: state.products,
         loading: state.loading,
         error: state.error,
     };
-}
-;
+};
 
-const mapDispatchToProps =
-{
+const mapDispatchToProps = {
     productsLoaded,
-        productsRequested,
-        productsError,
-}
-;
+    productsRequested,
+    productsError,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
