@@ -25,12 +25,15 @@ const Navbar = ({active}) => {
                     ))
                 }
             </div>
-            <div className="nav__toggle">
-                <span className="nav__toggle__item"><i className="fas fa-bars"/></span>
-            </div>
 
-            <div className="nav__toggle__active">
-                <span className="nav__toggle__item"><i className="fa fa-times-circle" aria-hidden="true"/></span>
+            <div className="nav__phone">
+                {
+                    navbarLink.map(({path, body}, index) => (
+                        <div key={index} className="nav__item">
+                            <Link to={path} className={"nav__link" + (active === body ? ' active': '')}>{body}</Link>
+                        </div>
+                    ))
+                }
             </div>
         </nav>
     );

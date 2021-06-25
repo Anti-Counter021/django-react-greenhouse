@@ -16,6 +16,10 @@ export default class Model3D extends Component {
         renderer.setClearColor(0x000000, 0);
         renderer.setSize(500, 240)
 
+        if (window.innerWidth < 570) {
+            camera.position.z = 42;
+        }
+
         renderer.domElement.setAttribute('id', 'Greenhouse3DObj');
         document.querySelector('.model__nav').append(renderer.domElement);
 

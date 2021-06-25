@@ -24,14 +24,6 @@
 
 @media (max-width: 770px) {
 
-    .nav {
-        display: none;
-
-        &__toggle {
-            display: block;
-        }
-    }
-
     .reviews {
         &__author__username {
             font-size: 17px;
@@ -68,6 +60,14 @@
 }
 
 @media (max-width: 550px) {
+
+    .nav {
+        display: none;
+
+        &__phone {
+            display: block;
+        }
+    }
 
     img {
         max-width: 340px;
