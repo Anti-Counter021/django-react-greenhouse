@@ -1,6 +1,6 @@
 export default class Services {
 
-    _url = 'http://localhost:8000/'
+    _url = 'http://localhost:8000/api/'
     _token = '9034236dfd85f611292c77b81a8c41613da7abfd'
 
     async getData(url, token='') {
@@ -31,6 +31,7 @@ export default class Services {
         });
 
         if (!res.ok) {
+            console.log(res)
             throw new Error(`Ошибка ${url}, статус = ${res.status}`);
         }
 
@@ -53,12 +54,20 @@ export default class Services {
         return await this.getData(`products/${slug}`)
     }
 
+    userIsAuthenticated = async (token) => {
+        return await this.getData('auth/user', token);
+    }
+
+    logoutUser = async (token) => {
+        return await this.getData('auth/logout', token);
+    }
+
     loginUser = async (data) => {
         return await this.postData('auth/token', data);
     }
 
-    userIsAuthenticated = async (token) => {
-        return await this.getData('auth/user', token);
+    registerUser = async (data) => {
+        return await this.postData('auth/register', data);
     }
 
 }

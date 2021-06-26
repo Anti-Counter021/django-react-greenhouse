@@ -16,7 +16,9 @@ class Navbar extends Component {
         Services.userIsAuthenticated(GetTokenFromLocalStorage())
             .then(res => {
                 if (!res.is_authenticated && !navbarLinks.find(item => item.path === '/login')) {
-                    addNavbarElement({path: '/login', body: 'Войти'});
+                    addNavbarElement({path: '/login', body: 'Вход / Регистрация'});
+                } else if (res.is_authenticated && !navbarLinks.find(item => item.path === '/logout')) {
+                    addNavbarElement({path: '/logout', body: 'Выход'});
                 }
             })
             .catch(error => console.log(error));

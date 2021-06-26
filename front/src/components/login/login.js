@@ -31,7 +31,7 @@ class Login extends Component {
 
         return (
             <>
-                <Navbar active="Вход"/>
+                <Navbar active="Вход / Регистрация"/>
                 <section className="login__section">
                     <div className="container">
                         <div className="login__header">Авторизация</div>
@@ -41,13 +41,13 @@ class Login extends Component {
                                 <div className="login__form__group">
                                     <label htmlFor="username">Имя пользователя<span
                                         className="required">*</span></label>
-                                    <input name="username" className="login__form__input" id="username" type="text"
+                                    <input required name="username" className="login__form__input" id="username" type="text"
                                            placeholder="Имя пользователя"/>
                                 </div>
 
                                 <div className="login__form__group">
                                     <label htmlFor="password">Пароль<span className="required">*</span></label>
-                                    <input name="password" className="login__form__input" id="password" type="password"
+                                    <input required name="password" className="login__form__input" id="password" type="password"
                                            placeholder="Пароль"/>
                                 </div>
 
@@ -57,8 +57,8 @@ class Login extends Component {
                                 </button>
 
                             </form>
-                            <Link>
-                                <button style={{width: '25%'}} className="buttons buttons__success login__form__btn"
+                            <Link to="/register">
+                                <button style={{width: '25%'}} className="buttons buttons__success"
                                         type="submit">
                                     Зарегистрироваться
                                 </button>

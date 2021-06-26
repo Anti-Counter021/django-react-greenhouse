@@ -2,7 +2,9 @@ import {Switch, Route} from "react-router-dom";
 
 import Home from "./components/home/home";
 import Login from "./components/login/login";
+import Logout from "./components/logout/logout";
 import Footer from "./components/footer/footer";
+import Register from "./components/register/register";
 import Categories from "./components/categories/categories";
 import ProductDetail from "./components/product_detail/product_detail";
 
@@ -24,6 +26,8 @@ function App() {
                 }/>
                 <Route exact path='/categories' component={Categories}/>
                 <Route exact path='/login' component={Login}/>
+                <Route exact path='/logout' component={Logout}/>
+                <Route exact path='/register' component={Register}/>
                 <Route component={Home}/>
             </Switch>
             <Footer/>
