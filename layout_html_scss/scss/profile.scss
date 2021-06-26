@@ -1,0 +1,61 @@
+.profile {
+    font-size: 19px;
+
+    &__user__div {
+        display: flex;
+        justify-content: center;
+        margin: 50px 0;
+    }
+
+    &__username {
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    &__user__orders {
+        padding: 10px;
+    }
+
+}
+
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    vertical-align: top;
+    border-color: #dee2e6;
+
+    & > :not(caption) > * > * {
+        padding: 0.5rem 0.5rem;
+        background-color: var(--bs-table-bg);
+        border-bottom-width: 1px;
+        box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+    }
+
+    & > tbody {
+        vertical-align: inherit;
+    }
+
+    & > thead {
+        vertical-align: bottom;
+    }
+}
+
+.orders__content > td {
+    text-align: center;
+}
+
+.orders__image {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+@import "media";

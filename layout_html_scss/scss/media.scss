@@ -1,5 +1,9 @@
 @media (max-width: 990px) {
 
+    .profile {
+        font-size: 17px;
+    }
+
     .arrow {
         display: none;
     }
@@ -23,6 +27,11 @@
 }
 
 @media (max-width: 770px) {
+
+    .orders__image {
+        max-width: 180px;
+        max-height: 180px;
+    }
 
     .nav {
         display: none;
@@ -58,7 +67,19 @@
 
 }
 
-@media (max-width: 550px) {
+@media (max-width: 570px) {
+
+    .profile {
+        font-size: 15px;
+    }
+
+    .orders__content > td {
+        text-align: left;
+    }
+
+    .orders__img, .orders__header__image {
+        display: none;
+    }
 
     img {
         max-width: 340px;
@@ -117,6 +138,7 @@
 
     .categories {
         display: none;
+
         &__phone {
             display: block;
         }
