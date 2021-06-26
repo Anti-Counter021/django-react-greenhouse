@@ -34,6 +34,22 @@ class Product(models.Model):
         ordering = ['-id', 'category']
 
 
+class ProductFeature(models.Model):
+    """ Характеристики товара """
+
+    product = models.ForeignKey(Product, verbose_name='Товар', on_delete=models.CASCADE, related_name='features')
+    name = models.CharField(max_length=50, verbose_name='Название характеристики')
+    feature_value = models.CharField(max_length=50, verbose_name='Значение')
+    unit = models.CharField(max_length=20, verbose_name='Единица измерения', blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.product.title} - {self.name}'
+
+    class Meta:
+        verbose_name = 'Характеристика'
+        verbose_name_plural = 'Характеристики'
+
+
 class CartProduct(models.Model):
     """ Товар в корзине """
 

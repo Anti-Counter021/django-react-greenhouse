@@ -24,6 +24,11 @@ class ProductDetail extends Component {
     render() {
 
         const {productDetail: {title, image, description, price}, loading, error} = this.props;
+        let {features} = this.props.productDetail;
+
+        if (!features) {
+            features = [];
+        }
 
         if (error) {
             return <Error/>
@@ -54,28 +59,28 @@ class ProductDetail extends Component {
                                 <div className="product__action">
                                     <button className="buttons buttons__success">Добавить в корзину</button>
                                 </div>
-                                <table className="table">
-                                    <thead>
-                                        <tr className="product__table__header">
-                                            <th>Название</th>
-                                            <th>Характеристика</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr className="product__table__content">
-                                            <td>Высота</td>
-                                            <td>3м</td>
-                                        </tr>
-                                        <tr className="product__table__content">
-                                            <td>Ширина</td>
-                                            <td>4м</td>
-                                        </tr>
-                                        <tr className="product__table__content">
-                                            <td>Длина</td>
-                                            <td>6м</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                {
+                                    features.length ? (
+                                        <table className="table">
+                                            <thead>
+                                                <tr className="product__table__header">
+                                                    <th>Название</th>
+                                                    <th>Характеристика</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    features.map(({id, name, feature_value, unit}) => (
+                                                        <tr key={id} className="product__table__content">
+                                                            <td>{name}</td>
+                                                            <td>{feature_value} {unit}</td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </table>
+                                    ) : null
+                                }
                             </div>
                         </div>
                     </div>

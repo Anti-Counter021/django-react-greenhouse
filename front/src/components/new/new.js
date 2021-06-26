@@ -9,6 +9,7 @@ import WithServices from "../hoc/with_services";
 import {productNewLoaded, productNewError, productNewRequested} from "../../redux/action";
 
 import "./new.scss"
+import {Link} from "react-router-dom";
 
 
 class New extends Component {
@@ -21,7 +22,7 @@ class New extends Component {
 
     render() {
 
-        const {newProduct: {image, title, id, description, price}, loading, error} = this.props;
+        const {newProduct: {image, title, id, description, price, slug}, loading, error} = this.props;
 
         if (loading) {
             return <Spinner/>
@@ -36,13 +37,17 @@ class New extends Component {
                 <div className="container">
                     <div className="section__header">Новинка {new Date().getFullYear()}</div>
                     <div className="section" key={id}>
-                        <img className="section__image section__image__new" src={host + image} alt={title}/>
+                        <Link to={`/products/${slug}`}>
+                            <img className="section__image section__image__new" src={host + image} alt={title}/>
+                        </Link>
                         <div className="section__body">
                             <div className="section__new__content__header">"{title}"</div>
                             <div className="section__new__content">
                                 {description}
                             </div>
-                            <div className="section__new__content">Цена: <span id="section__new__price">{price}</span> руб.</div>
+                            <div className="section__new__content">
+                                Цена: <span id="section__new__price">{price}</span> руб.
+                            </div>
                         </div>
                     </div>
                 </div>

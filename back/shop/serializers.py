@@ -1,6 +1,14 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import Category, Product
+from .models import Category, Product, ProductFeature
+
+
+class FeatureSerializer(ModelSerializer):
+    """ Характеристика """
+
+    class Meta:
+        model = ProductFeature
+        exclude = ('product',)
 
 
 class CategorySerializer(ModelSerializer):
@@ -13,6 +21,12 @@ class CategorySerializer(ModelSerializer):
 
 class ProductSerializer(ModelSerializer):
     """ Товар """
+
+    features = SerializerMethodField()
+
+    @staticmethod
+    def get_features(obj):
+        return FeatureSerializer(ProductFeature.objects.filter(product=obj), many=True).data
 
     class Meta:
         model = Product
