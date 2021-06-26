@@ -24,6 +24,10 @@
 
 @media (max-width: 770px) {
 
+    .password__help {
+        margin-left: 30%;
+    }
+
     .reviews {
         &__author__username {
             font-size: 17px;
@@ -64,6 +68,10 @@
 }
 
 @media (max-width: 550px) {
+
+    .password__help {
+        margin-left: 20%;
+    }
 
     .nav {
         display: none;

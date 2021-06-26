@@ -40,3 +40,17 @@
         }
     }
 }
+
+
+.password__help {
+    max-width: 300px;
+    font-size: 15px;
+    color: #808080;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 40%;
+
+    > li {
+        margin: 10px;
+    }
+}

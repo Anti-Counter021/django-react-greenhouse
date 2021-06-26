@@ -90,6 +90,12 @@ class Register extends Component {
                                     <input required name="password" className="register__form__input" id="password"
                                            type="password"
                                            placeholder="Пароль"/>
+                                    <ul className="password__help">
+                                        <li>Пароль не должен быть слишком похож на другую вашу личную информацию.</li>
+                                        <li>Ваш пароль должен содержать как минимум 8 символов.</li>
+                                        <li>Такой пароль часто используется.</li>
+                                        <li>Пароль не может состоять только из цифр.</li>
+                                    </ul>
                                 </div>
 
                                 <div className="register__form__group">
