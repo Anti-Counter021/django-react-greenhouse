@@ -1,3 +1,5 @@
+from django.contrib.auth.password_validation import validate_password
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -28,6 +30,11 @@ class RegisterView(APIView):
 
         if not (attrs['password'] == attrs['confirm_password']):
             return Response({'error': 'Пароли не совпадают!'})
+
+        try:
+            validate_password(attrs['password'])
+        except:
+            return Response({'error': 'Пароль не надёжный!'})
 
         user = User.objects.create(
             username=attrs['username'], email=attrs['email'], first_name=attrs['first_name'],
