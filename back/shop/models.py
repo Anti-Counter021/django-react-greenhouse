@@ -1,5 +1,7 @@
 from django.db import models
 
+from .utils import get_timestamp_path
+
 
 class Category(models.Model):
     """ Категории """
@@ -21,7 +23,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.PROTECT, related_name='products')
     title = models.CharField(max_length=50, verbose_name='Название товара')
     slug = models.SlugField(unique=True, verbose_name='URL товара')
-    image = models.ImageField(verbose_name='Главное изображение')
+    image = models.ImageField(verbose_name='Главное изображение', upload_to=get_timestamp_path)
     description = models.TextField(verbose_name='Описание')
     price = models.PositiveIntegerField(verbose_name='Цена', default=0)
 
@@ -48,6 +50,21 @@ class ProductFeature(models.Model):
     class Meta:
         verbose_name = 'Характеристика'
         verbose_name_plural = 'Характеристики'
+
+
+class AdditionalImageProduct(models.Model):
+    """ Дополнительные изображения товара """
+
+    product = models.ForeignKey(
+        Product, verbose_name='Товар', on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(verbose_name='Дополнительное изображение', upload_to=get_timestamp_path)
+
+    def __str__(self):
+        return f'{self.product.title}'
+
+    class Meta:
+        verbose_name = 'Дополнительное изображение'
+        verbose_name_plural = 'Дополнительные изображения'
 
 
 class CartProduct(models.Model):

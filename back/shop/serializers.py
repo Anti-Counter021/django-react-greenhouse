@@ -1,6 +1,14 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import Category, Product, ProductFeature
+from .models import Category, Product, ProductFeature, AdditionalImageProduct
+
+
+class AdditionalImageProductSerializer(ModelSerializer):
+    """ Дополнительные изображения товара """
+
+    class Meta:
+        model = AdditionalImageProduct
+        fields = ('image',)
 
 
 class FeatureSerializer(ModelSerializer):
@@ -23,10 +31,20 @@ class ProductSerializer(ModelSerializer):
     """ Товар """
 
     features = SerializerMethodField()
+    additional_images = SerializerMethodField()
+    count_images = SerializerMethodField()
+
+    @staticmethod
+    def get_count_images(obj):
+        return obj.images.count() + 1
 
     @staticmethod
     def get_features(obj):
         return FeatureSerializer(ProductFeature.objects.filter(product=obj), many=True).data
+
+    @staticmethod
+    def get_additional_images(obj):
+        return AdditionalImageProductSerializer(AdditionalImageProduct.objects.filter(product=obj), many=True).data
 
     class Meta:
         model = Product
