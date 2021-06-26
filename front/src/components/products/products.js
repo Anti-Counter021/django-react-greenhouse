@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 import Error from "../error/error";
 import host from "../../services/host";
@@ -34,10 +35,10 @@ class Products extends Component {
             <>
                 <div className="products__body">
                     {
-                        products.map(({title, id, image, price}) => (
+                        products.map(({title, id, image, price, slug}) => (
                             <div className="card" key={id}>
                                 <div className="card__title">{title}</div>
-                                <img className="card__image" src={host + image} alt={title}/>
+                                <Link to={`/products/${slug}`}><img className="card__image" src={host + image} alt={title}/></Link>
                                 <div className="card__content">
                                     <div className="card__price">Цена: {price} руб.</div>
                                 </div>

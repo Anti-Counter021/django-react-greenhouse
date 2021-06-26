@@ -31,4 +31,8 @@ export default class Services {
         return await this.getData('categories');
     }
 
+    getProductDetail = async (slug) => {
+        return await this.getData(`products/${slug}`)
+    }
+
 }

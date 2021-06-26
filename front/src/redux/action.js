@@ -55,6 +55,25 @@ const categoriesError = () => {
     };
 };
 
+const productDetailLoaded = (productDetail) => {
+    return {
+        type: 'PRODUCT_DETAIL_LOADED',
+        payload: productDetail,
+    };
+};
+
+const productDetailRequested = () => {
+    return {
+        type: 'PRODUCT_DETAIL_REQUESTED',
+    };
+};
+
+const productDetailError = () => {
+    return {
+        type: 'PRODUCT_DETAIL_ERROR',
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -67,4 +86,8 @@ export {
     categoriesLoaded,
     categoriesError,
     categoriesRequested,
+
+    productDetailLoaded,
+    productDetailError,
+    productDetailRequested,
 };

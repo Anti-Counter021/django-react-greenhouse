@@ -25,3 +25,10 @@ class NewProductAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         return Response(ProductSerializer(Product.objects.first()).data)
+
+
+class ProductDetailView(APIView):
+    """ Детализация товара """
+
+    def get(self, request, *args, **kwargs):
+        return Response(ProductSerializer(Product.objects.filter(slug=kwargs['slug']).first()).data)

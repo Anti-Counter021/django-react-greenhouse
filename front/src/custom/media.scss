@@ -57,6 +57,10 @@
         }
     }
 
+    .product__table__header {
+        font-size: 17px;
+    }
+
 }
 
 @media (max-width: 550px) {
@@ -70,6 +74,10 @@
     }
 
     img {
+        max-width: 340px;
+    }
+
+    .slider__image {
         max-width: 340px;
     }
 

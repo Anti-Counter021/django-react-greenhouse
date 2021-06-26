@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 import Navbar from "../navbar/navbar";
 import Products from "../products/products";
@@ -42,9 +43,9 @@ class Categories extends Component {
                         <div className="header">Категории</div>
                         <ul className="categories__phone">
                             {
-                                categories.map(({name, id, products_count}) => (
+                                categories.map(({name, id, products_count, slug}) => (
                                     <li className="categories__phone__item" key={id} onClick={() => this.getProducts(id)}>
-                                        {name} <span className="categories__item__count">{products_count}</span>
+                                        <Link style={{color: '#fff'}} to={`/categories/${slug}`}>{name} <span className="categories__item__count">{products_count}</span></Link>
                                     </li>
                                 ))
                             }
@@ -52,9 +53,9 @@ class Categories extends Component {
                         <div className="products__categories">
                             <div className="categories">
                                 {
-                                    categories.map(({name, id, products_count}) => (
+                                    categories.map(({name, id, products_count, slug}) => (
                                         <div className="categories__item" key={id} onClick={() => this.getProducts(id)}>
-                                            {name} <span className="categories__item__count">{products_count}</span>
+                                            <Link style={{color: '#fff'}} to={`/categories/${slug}`}>{name} <span className="categories__item__count">{products_count}</span></Link>
                                         </div>
                                     ))
                                 }
@@ -65,6 +66,7 @@ class Categories extends Component {
                 </section>
             </>
         );
+
     }
 
 }
