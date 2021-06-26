@@ -1,6 +1,7 @@
 import {Switch, Route} from "react-router-dom";
 
 import Home from "./components/home/home";
+import Login from "./components/login/login";
 import Footer from "./components/footer/footer";
 import Categories from "./components/categories/categories";
 import ProductDetail from "./components/product_detail/product_detail";
@@ -22,6 +23,7 @@ function App() {
                     }
                 }/>
                 <Route exact path='/categories' component={Categories}/>
+                <Route exact path='/login' component={Login}/>
                 <Route component={Home}/>
             </Switch>
             <Footer/>

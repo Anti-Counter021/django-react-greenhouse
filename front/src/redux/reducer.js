@@ -1,3 +1,5 @@
+import React from "react";
+
 const initialState = {
     error: false,
     loading: true,
@@ -5,9 +7,16 @@ const initialState = {
     newProduct: {},
     categories: [],
     productDetail: {},
+    navbarLinks: [
+        {path: '/', body: 'Главная'},
+        {path: '/categories', body: 'Категории'},
+        {path: '#', body: 'Отзывы'},
+        {path: '#', body: 'Контакты'},
+        {path: '#', body: <i className="fa fa-cart-arrow-down" aria-hidden="true"/>},
+    ],
 };
 
-const reducer = (state=initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'PRODUCTS_LOADED':
             return {
@@ -72,6 +81,12 @@ const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 error: true,
+            };
+        case 'ADD_NAVBAR_ELEMENT':
+            const navbarLinks = state.navbarLinks;
+            return {
+                ...state,
+                navbarLinks: [...navbarLinks, action.payload],
             };
         default:
             return state;

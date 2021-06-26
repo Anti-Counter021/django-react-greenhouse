@@ -4,6 +4,20 @@
 
 @import "custom/btn";
 
+.required {
+    color: #ff2400;
+    font-weight: bold;
+}
+
+.error {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px;
+    text-align: center;
+    font-size: 17px;
+}
+
 .container {
     max-width: 1200px;
     width: 100%;

@@ -19,6 +19,24 @@ export default class Services {
         return await res.json();
     }
 
+    async postData(url, data, token='') {
+        const token_auth = token ? {'Authorization': `Token ${token}`} : {};
+        const res = await fetch(this._url + url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                ...token_auth,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!res.ok) {
+            throw new Error(`Ошибка ${url}, статус = ${res.status}`);
+        }
+
+        return await res.json();
+    }
+
     getProducts = async () => {
         return await this.getData('products/');
     }
@@ -33,6 +51,14 @@ export default class Services {
 
     getProductDetail = async (slug) => {
         return await this.getData(`products/${slug}`)
+    }
+
+    loginUser = async (data) => {
+        return await this.postData('auth/token', data);
+    }
+
+    userIsAuthenticated = async (token) => {
+        return await this.getData('auth/user', token);
     }
 
 }

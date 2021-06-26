@@ -74,6 +74,13 @@ const productDetailError = () => {
     };
 };
 
+const addNavbarElement = (element) => {
+    return {
+        type: 'ADD_NAVBAR_ELEMENT',
+        payload: element,
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -90,4 +97,6 @@ export {
     productDetailLoaded,
     productDetailError,
     productDetailRequested,
+
+    addNavbarElement,
 };

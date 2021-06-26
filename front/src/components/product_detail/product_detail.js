@@ -23,7 +23,7 @@ class ProductDetail extends Component {
 
     render() {
 
-        const {productDetail: {id, title, image, description, price}, loading, error} = this.props;
+        const {productDetail: {title, image, description, price}, loading, error} = this.props;
 
         if (error) {
             return <Error/>
