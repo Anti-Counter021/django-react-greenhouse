@@ -77,7 +77,8 @@ class ProductDetail extends Component {
         const {
             productDetail: {title, image, description, price, additional_images, count_images},
             loading,
-            error
+            error,
+            sliderItem,
         } = this.props;
         let {features} = this.props.productDetail;
 
@@ -103,11 +104,12 @@ class ProductDetail extends Component {
                             <div className="slider__nav">
                                 {additional_images && additional_images.length ? (
                                     <>
+                                        <div className="slider__total__current">{sliderItem} из {count_images}</div>
                                         <i className="arrow arrow__left" onClick={() => this.prevSlide(count_images)}/>
-                                        <img src={host + image} alt={title} className="slider__image"/>
+                                        <img onClick={() => this.nextSlide(count_images)} src={host + image} alt={title} className="slider__image"/>
                                         {additional_images && additional_images.length ?
                                             (additional_images.map(({image, id}) => (
-                                                <img key={id} src={host + image} alt={title}
+                                                <img onClick={() => this.nextSlide(count_images)} key={id} src={host + image} alt={title}
                                                      className="slider__image slider__image__hide"/>
                                             ))) : null
                                         }
