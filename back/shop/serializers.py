@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import Category, Product, ProductFeature, AdditionalImageProduct
+from .models import Category, Product, ProductFeature, AdditionalImageProduct, CartProduct, Cart
 
 
 class AdditionalImageProductSerializer(ModelSerializer):
@@ -64,3 +64,35 @@ class CustomCategorySerializer(CategorySerializer):
     @staticmethod
     def get_products(obj):
         return ProductSerializer(Product.objects.filter(category=obj), many=True).data
+
+
+class ProductMinSerializer(ModelSerializer):
+    """ Минимально о товаре """
+
+    class Meta:
+        model = Product
+        exclude = ('category', 'slug', 'description')
+
+
+class CartProductSerializer(ModelSerializer):
+    """ Товары в корзине """
+
+    product = ProductMinSerializer()
+
+    class Meta:
+        model = CartProduct
+        exclude = ('user', 'cart')
+
+
+class CartSerializer(ModelSerializer):
+    """ Корзина """
+
+    products = SerializerMethodField()
+
+    @staticmethod
+    def get_products(obj):
+        return CartProductSerializer(CartProduct.objects.filter(cart=obj), many=True).data
+
+    class Meta:
+        model = Cart
+        exclude = ('owner',)

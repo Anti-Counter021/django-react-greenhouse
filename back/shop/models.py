@@ -93,9 +93,10 @@ class Cart(models.Model):
     """ Корзина """
 
     owner = models.ForeignKey('accounts.User', verbose_name='Владелец', on_delete=models.CASCADE, null=True)
-    products = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart')
+    products = models.ManyToManyField(CartProduct, verbose_name='Товары', blank=True, related_name='related_cart')
     total_products = models.PositiveIntegerField(verbose_name='Всего товаров', default=0)
     in_order = models.BooleanField(verbose_name='В заказе корзина?', default=False)
+    final_price = models.PositiveIntegerField(verbose_name='Общая цена', default=0)
     for_anonymous_user = models.BooleanField(verbose_name='Для анонимных пользователей?', default=False)
 
     def __str__(self):
