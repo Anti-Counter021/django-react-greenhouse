@@ -1,9 +1,5 @@
 @media (max-width: 990px) {
 
-    .arrow {
-        display: none;
-    }
-
     .section {
         flex-wrap: wrap;
 
@@ -82,11 +78,11 @@
     }
 
     img {
-        max-width: 340px;
+        max-width: 300px;
     }
 
     .slider__image {
-        max-width: 340px;
+        max-width: 300px;
     }
 
     .reviews__content {

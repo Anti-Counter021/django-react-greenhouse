@@ -81,6 +81,27 @@ const addNavbarElement = (element) => {
     };
 };
 
+const setStartSliderItem = (start) => {
+    return {
+        type: 'DEFAULT_SLIDER_ITEM',
+        payload: start,
+    };
+};
+
+const setNextSliderItem = (nextSlide) => {
+    return {
+        type: 'NEXT_SLIDER_ITEM',
+        payload: nextSlide,
+    };
+};
+
+const setPrevSliderItem = (prevSlide) => {
+    return {
+        type: 'PREV_SLIDER_ITEM',
+        payload: prevSlide,
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -99,4 +120,8 @@ export {
     productDetailRequested,
 
     addNavbarElement,
+
+    setStartSliderItem,
+    setNextSliderItem,
+    setPrevSliderItem,
 };

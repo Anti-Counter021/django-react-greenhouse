@@ -14,6 +14,7 @@ const initialState = {
         {path: '#', body: 'Контакты'},
         {path: '#', body: <i className="fa fa-cart-arrow-down" aria-hidden="true"/>},
     ],
+    sliderItem: 0,
 };
 
 const reducer = (state = initialState, action) => {
@@ -87,6 +88,21 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 navbarLinks: [...navbarLinks, action.payload],
+            };
+        case 'DEFAULT_SLIDER_ITEM':
+            return {
+                ...state,
+                sliderItem: action.payload,
+            };
+        case 'NEXT_SLIDER_ITEM':
+            return  {
+                ...state,
+                sliderItem: action.payload,
+            };
+        case 'PREV_SLIDER_ITEM':
+            return  {
+                ...state,
+                sliderItem: action.payload,
             };
         default:
             return state;

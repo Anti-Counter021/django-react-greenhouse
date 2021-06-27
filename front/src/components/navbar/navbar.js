@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 import WithServices from "../hoc/with_services";
 import {addNavbarElement} from "../../redux/action";
-import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
+import GetTokenFromLocalStorage, {DeleteTokenFromLocalStorage} from "../../services/get_token_from_localstorage";
 
 import "./navbar.scss";
 
@@ -15,13 +15,18 @@ class Navbar extends Component {
         const {Services, addNavbarElement, navbarLinks} = this.props;
         Services.userIsAuthenticated(GetTokenFromLocalStorage())
             .then(res => {
-                if (!res.is_authenticated && !navbarLinks.find(item => item.path === '/login')) {
-                    addNavbarElement({path: '/login', body: 'Вход / Регистрация'});
+                if (!res.is_authenticated) {
+                    if (!navbarLinks.find(item => item.path === '/login')) {
+                        addNavbarElement({path: '/login', body: 'Вход / Регистрация'});
+                    }
                 } else if (res.is_authenticated && !navbarLinks.find(item => item.path === '/logout')) {
                     addNavbarElement({path: '/logout', body: 'Выход'});
                 }
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+                DeleteTokenFromLocalStorage();  // Фикс с изменением токена в localstorage
+            });
     }
 
     render() {

@@ -9,5 +9,4 @@ export function SetTokenToLocalStorage(token) {
 
 export function DeleteTokenFromLocalStorage() {
     localStorage.removeItem('token');
-    window.location.href = '/';
 }

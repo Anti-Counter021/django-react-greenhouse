@@ -48,6 +48,10 @@
 .slider__image {
     max-width: 400px;
     max-height: 400px;
+
+    &__hide {
+        display: none;
+    }
 }
 
 .product__price {
