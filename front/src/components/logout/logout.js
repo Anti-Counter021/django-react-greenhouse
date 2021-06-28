@@ -1,7 +1,10 @@
-import React, {Component} from "react";
+import React, {useEffect} from "react";
+
+import {connect} from "react-redux";
 
 import Navbar from "../navbar/navbar";
 import WithServices from "../hoc/with_services";
+import {setUserIsAuthenticated} from "../../redux/action";
 import GetTokenFromLocalStorage, {DeleteTokenFromLocalStorage} from "../../services/get_token_from_localstorage";
 
 import "./logout.scss";
@@ -9,51 +12,56 @@ import "./logout.scss";
 
 /* Выход */
 
-class Logout extends Component {
+const Logout = ({Services, setUserIsAuthenticated, userIsAuthenticated}) => {
 
-    componentDidMount() {
-        const {Services} = this.props;
-        Services.userIsAuthenticated(GetTokenFromLocalStorage())
-            .then(res => !res.is_authenticated ? window.location.href = '/' : '')
-            .catch(error => console.log(error));
-    }
+    useEffect(() => {
+        if (!userIsAuthenticated) {
+            window.location.href = '/';
+        }
+    });
 
-    logout = () => {
+    const logout = () => {
         /* Выход */
 
-        const {Services} = this.props;
         Services.logoutUser(GetTokenFromLocalStorage())
             .then(() => {
                 DeleteTokenFromLocalStorage();
                 window.location.href = '/';
+                setUserIsAuthenticated(false);
             })
             .catch(error => console.log(error));
-    }
+    };
 
-    render() {
-
-        return (
-            <>
-                <Navbar active="logout"/>
-                <section className="logout__section">
-                    <div className="container">
-                        <div className="logout__header">Выход</div>
-                        <div className="logout">
-                            <button
-                                style={{width: '25%'}}
-                                className="logout__btn buttons buttons__success"
-                                onClick={this.logout}>
-                                    Выйти
-                            </button>
-                        </div>
+    return (
+        <>
+            <Navbar active="logout"/>
+            <section className="logout__section">
+                <div className="container">
+                    <div className="logout__header">Выход</div>
+                    <div className="logout">
+                        <button
+                            style={{width: '25%'}}
+                            className="logout__btn buttons buttons__success"
+                            onClick={logout}>
+                            Выйти
+                        </button>
                     </div>
-                </section>
-            </>
-        );
+                </div>
+            </section>
+        </>
+    );
 
-    }
-
-}
+};
 
 
-export default WithServices()(Logout);
+const mapStateToProps = (state) => {
+    return {
+        userIsAuthenticated: state.userIsAuthenticated,
+    };
+};
+
+const mapDispatchToProps = {
+    setUserIsAuthenticated,
+};
+
+export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Logout));
