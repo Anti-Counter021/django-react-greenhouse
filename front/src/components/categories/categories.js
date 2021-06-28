@@ -37,7 +37,7 @@ class Categories extends Component {
 
         return (
             <>
-                <Navbar active='Категории'/>
+                <Navbar active='categories'/>
                 <section className="products">
                     <div className="container">
                         <div className="header">Категории</div>

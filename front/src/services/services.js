@@ -1,7 +1,6 @@
 export default class Services {
 
     _url = 'http://localhost:8000/api/'
-    _token = '9034236dfd85f611292c77b81a8c41613da7abfd'
 
     async getData(url, token='') {
         const token_auth = token ? {'Authorization': `Token ${token}`} : {};
@@ -52,6 +51,10 @@ export default class Services {
 
     getProductDetail = async (slug) => {
         return await this.getData(`products/${slug}`)
+    }
+
+    getUserCart = async (token) => {
+        return await this.getData('cart', token);
     }
 
     userIsAuthenticated = async (token) => {

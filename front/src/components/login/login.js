@@ -31,7 +31,7 @@ class Login extends Component {
 
         return (
             <>
-                <Navbar active="Вход / Регистрация"/>
+                <Navbar active="login"/>
                 <section className="login__section">
                     <div className="container">
                         <div className="login__header">Авторизация</div>

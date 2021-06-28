@@ -14,7 +14,7 @@ class Home extends Component {
 
         return (
             <>
-                <Navbar active="Главная"/>
+                <Navbar active="home"/>
                 <Model3D/>
                 <New/>
                 <section className="products">

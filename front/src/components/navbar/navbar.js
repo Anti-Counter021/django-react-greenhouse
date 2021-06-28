@@ -17,10 +17,10 @@ class Navbar extends Component {
             .then(res => {
                 if (!res.is_authenticated) {
                     if (!navbarLinks.find(item => item.path === '/login')) {
-                        addNavbarElement({path: '/login', body: 'Вход / Регистрация'});
+                        addNavbarElement({path: '/login', body: 'Вход / Регистрация', id: 'login'});
                     }
                 } else if (res.is_authenticated && !navbarLinks.find(item => item.path === '/logout')) {
-                    addNavbarElement({path: '/logout', body: 'Выход'});
+                    addNavbarElement({path: '/logout', body: 'Выход', id: 'logout'});
                 }
             })
             .catch(error => {
@@ -36,10 +36,10 @@ class Navbar extends Component {
             <nav className="navbar">
                 <div className="nav">
                     {
-                        navbarLinks.map(({path, body}, index) => (
+                        navbarLinks.map(({path, body, id}, index) => (
                             <div key={index} className="nav__item">
                                 <Link to={path}
-                                      className={"nav__link" + (active === body ? ' active' : '')}>{body}</Link>
+                                      className={"nav__link" + (active === id ? ' active' : '')}>{body}</Link>
                             </div>
                         ))
                     }
@@ -47,10 +47,10 @@ class Navbar extends Component {
 
                 <div className="nav__phone">
                     {
-                        navbarLinks.map(({path, body}, index) => (
+                        navbarLinks.map(({path, body, id}, index) => (
                             <div key={index} className="nav__item">
                                 <Link to={path}
-                                      className={"nav__link" + (active === body ? ' active' : '')}>{body}</Link>
+                                      className={"nav__link" + (active === id ? ' active' : '')}>{body}</Link>
                             </div>
                         ))
                     }

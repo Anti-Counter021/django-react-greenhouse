@@ -41,7 +41,7 @@ class Register extends Component {
 
         return (
             <>
-                <Navbar active="Вход / Регистрация"/>
+                <Navbar active="login"/>
                 <section className="register__section">
                     <div className="container">
                         <div className="register__header">Регистрация</div>

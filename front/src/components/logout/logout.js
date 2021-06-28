@@ -30,7 +30,7 @@ class Logout extends Component {
 
         return (
             <>
-                <Navbar active="Выход"/>
+                <Navbar active="logout"/>
                 <section className="logout__section">
                     <div className="container">
                         <div className="logout__header">Выход</div>

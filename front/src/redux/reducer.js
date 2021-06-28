@@ -8,13 +8,14 @@ const initialState = {
     categories: [],
     productDetail: {},
     navbarLinks: [
-        {path: '/', body: 'Главная'},
-        {path: '/categories', body: 'Категории'},
-        {path: '#', body: 'Отзывы'},
-        {path: '#', body: 'Контакты'},
-        {path: '#', body: <i className="fa fa-cart-arrow-down" aria-hidden="true"/>},
+        {path: '/', body: 'Главная', id: 'home'},
+        {path: '/categories', body: 'Категории', id: 'categories'},
+        {path: '#', body: 'Отзывы', id: 'reviews'},
+        {path: '#', body: 'Контакты', id: 'contacts'},
+        {path: '/cart', body: <i className="fa fa-cart-arrow-down" aria-hidden="true"/>, id: 'cart'},
     ],
     sliderItem: 0,
+    cart: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -103,6 +104,22 @@ const reducer = (state = initialState, action) => {
             return  {
                 ...state,
                 sliderItem: action.payload,
+            };
+        case 'CART_LOADED':
+            return {
+                ...state,
+                cart: action.payload,
+                loading: false,
+            };
+        case 'CART_REQUESTED':
+            return {
+                ...state,
+                loading: true,
+            };
+        case 'CART_ERROR':
+            return {
+                ...state,
+                error: true,
             };
         default:
             return state;

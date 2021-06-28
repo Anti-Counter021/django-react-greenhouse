@@ -102,6 +102,25 @@ const setPrevSliderItem = (prevSlide) => {
     };
 };
 
+const cartLoaded = (newCart) => {
+    return {
+        type: 'CART_LOADED',
+        payload: newCart,
+    };
+};
+
+const cartRequested = () => {
+    return {
+        type: 'CART_REQUESTED',
+    };
+};
+
+const cartError = () => {
+    return {
+        type: 'CART_ERROR',
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -124,4 +143,8 @@ export {
     setStartSliderItem,
     setNextSliderItem,
     setPrevSliderItem,
+
+    cartLoaded,
+    cartError,
+    cartRequested,
 };

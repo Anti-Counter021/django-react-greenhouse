@@ -1,5 +1,6 @@
 import {Switch, Route} from "react-router-dom";
 
+import Cart from "./components/cart/cart";
 import Home from "./components/home/home";
 import Login from "./components/login/login";
 import Logout from "./components/logout/logout";
@@ -25,6 +26,7 @@ function App() {
                     }
                 }/>
                 <Route exact path='/categories' component={Categories}/>
+                <Route exact path='/cart' component={Cart}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/logout' component={Logout}/>
                 <Route exact path='/register' component={Register}/>
