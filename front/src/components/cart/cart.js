@@ -32,7 +32,21 @@ class Cart extends Component {
             .then(res => {
                 success.textContent = res.detail;
                 success.style.display = 'block';
-                this.loadCart();
+                setTimeout(() => this.loadCart(), 1500);
+            })
+            .catch(error => document.querySelector('.error').style.display = 'block');
+    }
+
+    changeQTYFromCart = (e, cartProductId) => {
+        const {Services} = this.props;
+        const success = document.querySelector('.success');
+        Services.changeProductQTYFromCart(cartProductId, e.target.value, GetTokenFromLocalStorage())
+            .then(res => {
+                success.textContent = res.detail;
+                success.style.display = 'block';
+                setTimeout(() => success.style.display = 'none', 1000);
+                document.querySelector(`#cart_product_${cartProductId}`).textContent = res.final_price + ' руб.';
+                document.querySelector('#cart__total__price').textContent = res.cart_price + ' руб.';
             })
             .catch(error => document.querySelector('.error').style.display = 'block');
     }
@@ -79,13 +93,14 @@ class Cart extends Component {
                                             products.map(({id, qty, price, final_price, product: {title, image}}) => (
                                                 <tr key={id} className="cart__table__body">
                                                     <td className="cart__table__title">{title}</td>
-                                                    <td className="cart__table__qty"><input className="cart__table__qty__input form-control"
-                                                                                            type="number" defaultValue={qty} min="1"/></td>
+                                                    <td className="cart__table__qty">
+                                                        <input onChange={(e) => this.changeQTYFromCart(e, id)} className="cart__table__qty__input form-control" type="number" defaultValue={qty} min="1"/>
+                                                    </td>
                                                     <td className="cart__table__image"><img className="cart__table__image__content"
                                                                                             src={host + image}
                                                                                             alt=""/></td>
                                                     <td className="cart__table__price">{price} руб.</td>
-                                                    <td className="cart__table__price">{final_price} руб.</td>
+                                                    <td id={"cart_product_" + id} className="cart__table__price">{final_price} руб.</td>
                                                     <td>
                                                         <button onClick={() => this.removeFromCart(id)} className="buttons buttons__success">Удалить из корзины</button>
                                                     </td>
@@ -97,7 +112,7 @@ class Cart extends Component {
                                 </table>
                                 <div className="cart__total">
                                     <div className="cart__total__label">Итого:</div>
-                                    <div className="cart__total__price">{final_price} руб.</div>
+                                    <div id="cart__total__price" className="cart__total__price">{final_price} руб.</div>
                                     <div className="cart__total__action">
                                         <button className="buttons buttons__success">Перейти к оформлению</button>
                                     </div>

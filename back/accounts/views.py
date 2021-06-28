@@ -5,14 +5,16 @@ from rest_framework.views import APIView
 
 from .models import User
 
+from shop.cart import get_cart
+
 
 class UserIsAuthenticated(APIView):
     """ Пользователь аутентифицирован? """
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return Response({'is_authenticated': True})
-        return Response({'is_authenticated': False})
+            return Response({'is_authenticated': True, 'cart_count': get_cart(request.user).products.count()})
+        return Response({'is_authenticated': False, 'cart_count': 0})
 
 
 class RegisterView(APIView):

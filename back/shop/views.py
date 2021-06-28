@@ -72,7 +72,10 @@ class ActionCartAPIView(APIView):
         cart_product.qty = int(kwargs['qty'])
         cart_product.save()
         recalculate_cart(cart_product.cart)
-        return Response({'detail': 'Количество товара успешно изменено'})
+        return Response({
+            'detail': 'Количество товара успешно изменено',
+            'final_price': cart_product.final_price, 'cart_price': cart_product.cart.final_price
+        })
 
     def delete(self, request, *args, **kwargs):
         """ Удаление товара из корзины """
