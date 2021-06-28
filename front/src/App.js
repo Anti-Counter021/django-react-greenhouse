@@ -3,6 +3,7 @@ import {Switch, Route} from "react-router-dom";
 import Cart from "./components/cart/cart";
 import Home from "./components/home/home";
 import Login from "./components/login/login";
+import Order from "./components/order/order";
 import Logout from "./components/logout/logout";
 import Footer from "./components/footer/footer";
 import Register from "./components/register/register";
@@ -30,6 +31,7 @@ function App() {
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/logout' component={Logout}/>
                 <Route exact path='/register' component={Register}/>
+                <Route exact path='/order' component={Order}/>
                 <Route component={Home}/>
             </Switch>
             <Footer/>

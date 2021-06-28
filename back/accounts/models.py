@@ -7,3 +7,4 @@ class User(AbstractUser):
 
     phone = models.CharField(max_length=30, verbose_name='Номер телефона')
     address = models.CharField(max_length=300, verbose_name='Адрес')
+    orders = models.ManyToManyField('shop.Order', verbose_name='Заказы', related_name='customer', null=True, blank=True)

@@ -105,3 +105,38 @@ class Cart(models.Model):
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
+
+
+class Order(models.Model):
+    """ Заказы """
+
+    BUYING_TYPE_SELF = 'self'
+    BUYING_TYPE_DELIVERY = 'delivery'
+
+    BUYING_TYPE_CHOICES = (
+        (BUYING_TYPE_SELF, 'Самовывоз'),
+        (BUYING_TYPE_DELIVERY, 'Доставка'),
+    )
+
+    user = models.ForeignKey(
+        'accounts.User', verbose_name='Покупатель', on_delete=models.CASCADE, related_name='related_orders'
+    )
+    first_name = models.CharField(max_length=255, verbose_name='Имя')
+    last_name = models.CharField(max_length=255, verbose_name='Фамилия')
+    phone = models.CharField(max_length=30, verbose_name='Телефон')
+    cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE)
+    address = models.CharField(max_length=255, verbose_name='Адрес')
+    buying_type = models.CharField(
+        max_length=50, verbose_name='Тип заказа', choices=BUYING_TYPE_CHOICES, default=BUYING_TYPE_SELF
+    )
+    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now=True, verbose_name='Дата оформления заказа')
+    order_date = models.DateTimeField(verbose_name='Дата для получения заказа', auto_now_add=True, db_index=True)
+
+    def __str__(self):
+        return f'{self.id}'
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+        ordering = ['-created_at']

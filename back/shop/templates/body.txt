@@ -1,0 +1,11 @@
+{{ order.first_name }} {{ order.last_name }}
+Телефон: {{ order.phone }}
+
+Товары:
+{% for product in order.cart.products.all %}    {{ product }}.
+{% endfor %}
+Общая цена составляет: {{ order.cart.final_price }} руб.
+{% if order.buying_type != 'self' %}Прошу доставить по адресу: {{ order.address }}{% else %}Заберу самостоятельно{% endif %}
+В качестве желаемой даты получения выбрал: {{ order.order_date }}{% if order.comment %}
+Комментарий к заказу:
+{{ order.comment }}{% endif %}

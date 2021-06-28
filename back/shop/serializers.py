@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import Category, Product, ProductFeature, AdditionalImageProduct, CartProduct, Cart
+from .models import Category, Product, ProductFeature, AdditionalImageProduct, CartProduct, Cart, Order
 
 
 class AdditionalImageProductSerializer(ModelSerializer):
@@ -96,3 +96,17 @@ class CartSerializer(ModelSerializer):
     class Meta:
         model = Cart
         exclude = ('owner',)
+
+
+class OrderSerializer(ModelSerializer):
+    """ Заказы """
+
+    cart = SerializerMethodField()
+
+    @staticmethod
+    def get_cart(obj):
+        return CartSerializer(Cart.objects.filter(order=obj).first()).data
+
+    class Meta:
+        model = Order
+        fields = '__all__'

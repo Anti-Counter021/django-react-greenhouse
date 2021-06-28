@@ -7,8 +7,8 @@ import Navbar from "../navbar/navbar";
 import host from "../../services/host";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
-import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
 import {cartRequested, cartError, cartLoaded} from "../../redux/action";
+import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
 
 import "./cart.scss";
 
@@ -145,7 +145,9 @@ class Cart extends Component {
                                     <div className="cart__total__label">Итого:</div>
                                     <div id="cart__total__price" className="cart__total__price">{final_price} руб.</div>
                                     <div className="cart__total__action">
-                                        <button className="buttons buttons__success">Перейти к оформлению</button>
+                                        <Link to="/order">
+                                            <button className="buttons buttons__success">Перейти к оформлению</button>
+                                        </Link>
                                     </div>
                                 </div>
                             </>

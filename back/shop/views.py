@@ -6,9 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Category, Product, CartProduct
-from .serializers import CustomCategorySerializer, ProductSerializer, CartSerializer
 from .cart import get_cart, get_or_create_cart_product, recalculate_cart
+from .models import Category, Product, CartProduct, Order
+from .send_mail import send_manager_about_new_order
+from .serializers import CustomCategorySerializer, ProductSerializer, CartSerializer
 
 
 class CategoryAPIView(ListAPIView):
@@ -86,3 +87,24 @@ class ActionCartAPIView(APIView):
         cart_product.delete()
         recalculate_cart(cart)
         return Response({'detail': 'Товар успешно удалён'})
+
+
+class OrderAPIView(APIView):
+    """ Заказы """
+
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        attrs = request.data
+        cart = get_cart(request.user)
+        order = Order.objects.create(
+            user=request.user, cart=cart, first_name=attrs['first_name'],
+            last_name=attrs['last_name'], phone=attrs['phone'], address=attrs['address'],
+            buying_type=attrs['buying_type'], comment=attrs['comment']
+        )
+        cart.in_order = True
+        cart.save()
+        request.user.orders.add(order)
+        request.user.save()
+        send_manager_about_new_order(order)
+        return Response({'detail': 'Заказ создан успешно. Ждите ответа'})

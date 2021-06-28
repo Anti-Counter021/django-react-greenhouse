@@ -1,0 +1,85 @@
+.order {
+
+    &__table {
+        &__header {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        &__price {
+            font-weight: bold;
+        }
+
+        &__body {
+            font-size: 17px;
+            align-content: center;
+        }
+
+        &__title {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        &__qty__input {
+            border-radius: 10px;
+            border: 1px solid #205635;
+            text-align: center;
+        }
+
+        &__image__content {
+            max-width: 140px;
+        }
+    }
+
+    &__total {
+        margin: 50px;
+        font-size: 20px;
+        display: flex;
+        justify-content: right;
+
+        &__label {
+            margin: auto;
+        }
+
+        &__price {
+            margin: auto;
+            font-weight: bold;
+        }
+    }
+}
+
+.order {
+
+    text-align: center;
+    margin: auto;
+    font-size: 17px;
+
+    &__form {
+        text-align: center;
+
+        input, select {
+            display: block;
+            margin: auto;
+            height: 30px;
+            width: 250px;
+        }
+
+        &__btn {
+            width: 25%;
+            margin: 10px;
+        }
+
+        input[placeholder], select {
+            text-align: center;
+        }
+
+        &__input {
+            border: 1px solid black;
+            border-radius: 7px;
+        }
+
+        &__group {
+            margin: 15px;
+        }
+    }
+}

@@ -38,7 +38,7 @@
         font-size: 70px;
     }
 
-    .cart__table__image {
+    .cart__table__image, .order__table__image {
         &, &__header {
             display: none;
         }
@@ -116,7 +116,7 @@
         font-size: 40px;
     }
 
-    .cart {
+    .cart, .order {
         &__total {
             font-size: 15px;
         }

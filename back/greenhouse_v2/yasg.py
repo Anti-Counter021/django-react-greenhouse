@@ -8,9 +8,9 @@ from rest_framework.permissions import IsAdminUser
 
 schema_view = get_schema_view(
     openapi.Info(
-        title='Doctor',
+        title='Теплицы',
         default_version='v1',
-        description='Doctor App',
+        description='Теплицы',
         license=openapi.License(name='_Counter021_'),
     ),
     public=False,

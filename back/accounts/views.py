@@ -22,8 +22,7 @@ class RegisterView(APIView):
         attrs = request.data
 
         if User.objects.filter(username=attrs['username']).exists():
-            return Response(
-                {'error': 'Пожалуйста введите другое имя пользователя!'})
+            return Response({'error': 'Пожалуйста введите другое имя пользователя!'})
 
         if User.objects.filter(email=attrs['email']).exists():
             return Response({'error': 'Пожалуйста введите другую почту!'})

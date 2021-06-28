@@ -118,6 +118,10 @@ export default class Services {
         return await this.changeData(`cart/change-qty/${cartProductId}/${qty}`, token);
     }
 
+    makeOrder = async (data, token) => {
+        return await this.postData('orders/', data, token);
+    }
+
     /* Пользователь */
 
     userIsAuthenticated = async (token) => {

@@ -52,8 +52,9 @@ class Register extends Component {
                         <div className="register">
                             <form className="register__form" onSubmit={this.register}>
                                 <div className="register__form__group">
-                                    <label htmlFor="username">Имя пользователя<span
-                                        className="required">*</span></label>
+                                    <label htmlFor="username">
+                                        Имя пользователя<span className="required">*</span>
+                                    </label>
                                     <input
                                         required
                                         name="username"
