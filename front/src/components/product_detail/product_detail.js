@@ -87,7 +87,7 @@ class ProductDetail extends Component {
     addToCart = (productId) => {
         /* Добавление товара в корзину */
 
-        const {Services} = this.props;
+        const {Services, userIsAuthenticated} = this.props;
         const success = document.querySelector('.success');
         Services.addNewProductInCart(productId, GetTokenFromLocalStorage())
             .then(res => {
@@ -95,7 +95,11 @@ class ProductDetail extends Component {
                 success.style.display = 'block';
             })
             .catch(error => {
-                success.textContent = 'Товар уже в корзине!';
+                if (!userIsAuthenticated) {
+                    success.textContent = 'Необходимо авторизироваться!';
+                } else {
+                    success.textContent = 'Товар уже в корзине!';
+                }
                 success.style.display = 'block';
             });
     }
@@ -216,6 +220,7 @@ const mapStateToProps = (state) => {
         loading: state.loading,
         error: state.error,
         sliderItem: state.sliderItem,
+        userIsAuthenticated: state.userIsAuthenticated,
     };
 };
 

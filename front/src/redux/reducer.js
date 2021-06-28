@@ -19,6 +19,7 @@ const initialState = {
     ],
     sliderItem: 0,
     cart: {},
+    userIsAuthenticated: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -123,6 +124,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: true,
+            };
+        case 'USER_IS_AUTHENTICATED':
+            return {
+                ...state,
+                userIsAuthenticated: action.payload,
             };
         default:
             return state;

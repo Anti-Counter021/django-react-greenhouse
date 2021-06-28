@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 import WithServices from "../hoc/with_services";
-import {addNavbarElement} from "../../redux/action";
+import {addNavbarElement, setUserIsAuthenticated} from "../../redux/action";
 import GetTokenFromLocalStorage, {DeleteTokenFromLocalStorage} from "../../services/get_token_from_localstorage";
 
 import "./navbar.scss";
@@ -15,7 +15,7 @@ import "./navbar.scss";
 class Navbar extends Component {
 
     componentDidMount() {
-        const {Services, addNavbarElement, navbarLinks} = this.props;
+        const {Services, addNavbarElement, navbarLinks, setUserIsAuthenticated} = this.props;
         Services.userIsAuthenticated(GetTokenFromLocalStorage())
             .then(res => {
                 if (!res.is_authenticated) {
@@ -25,6 +25,7 @@ class Navbar extends Component {
                 } else if (res.is_authenticated && !navbarLinks.find(item => item.path === '/logout')) {
                     addNavbarElement({path: '/logout', body: 'Выход', id: 'logout'});
                 }
+                setUserIsAuthenticated(res.is_authenticated);
             })
             .catch(error => {
                 console.log(error);
@@ -76,6 +77,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     addNavbarElement,
+    setUserIsAuthenticated,
 };
 
 

@@ -123,6 +123,13 @@ const cartError = () => {
     };
 };
 
+const setUserIsAuthenticated = (isAuthenticated) => {
+    return {
+        type: 'USER_IS_AUTHENTICATED',
+        payload: isAuthenticated,
+    }
+}
+
 export {
     productsLoaded,
     productsError,
@@ -149,4 +156,6 @@ export {
     cartLoaded,
     cartError,
     cartRequested,
+
+    setUserIsAuthenticated,
 };

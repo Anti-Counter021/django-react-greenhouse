@@ -26,13 +26,17 @@ class Products extends Component {
     addToCart = (productId) => {
         /* Добавление товара в корзину */
 
-        const {Services} = this.props;
+        const {Services, userIsAuthenticated} = this.props;
         Services.addNewProductInCart(productId, GetTokenFromLocalStorage())
             .then(res => {
                 alert('Товар добавлен в корзину!');
             })
             .catch(error => {
-                alert('Товар уже в корзине!');
+                if (!userIsAuthenticated) {
+                    alert('Необходимо авторизироваться!');
+                } else {
+                    alert('Товар уже в корзине!');
+                }
             });
     }
 
@@ -81,6 +85,7 @@ const mapStateToProps = (state) => {
         products: state.products,
         loading: state.loading,
         error: state.error,
+        userIsAuthenticated: state.userIsAuthenticated,
     };
 };
 
