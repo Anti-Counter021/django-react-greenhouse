@@ -45,10 +45,12 @@ class CartAPIView(APIView):
         return Response(CartSerializer(get_cart(request.user)).data)
 
 
-class AddToCartAPIView(APIView):
-    """ Добавление товара в корзину """
+class ActionCartAPIView(APIView):
+    """ Действие с товарами в корзине """
 
     def post(self, request, *args, **kwargs):
+        """ Добавление товара в корзину """
+
         cart = get_cart(request.user)
         product = get_object_or_404(Product, id=kwargs['product_id'])
         cart_product, created = get_or_create_cart_product(request.user, cart, product)
@@ -60,22 +62,18 @@ class AddToCartAPIView(APIView):
             return Response({'detail': 'Товар добавлен в корзину', 'added': True})
         return Response({'detail': 'Товар уже в корзине', 'added': False}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class ChangeQTYAPIView(APIView):
-    """ Изменение количества товара в корзине """
-
     def put(self, request, *args, **kwargs):
+        """ Изменение количества товара в корзине """
+
         cart_product = get_object_or_404(CartProduct, id=kwargs['cart_product_id'])
         cart_product.qty = int(kwargs['qty'])
         cart_product.save()
         recalculate_cart(cart_product.cart)
         return Response({'detail': 'Количество товара успешно изменено'})
 
-
-class RemoveFromCart(APIView):
-    """ Удаление товара из корзины """
-
     def delete(self, request, *args, **kwargs):
+        """ Удаление товара из корзины """
+
         cart = get_cart(request.user)
         cart_product = get_object_or_404(CartProduct, id=kwargs['cart_product_id'])
         cart.products.remove(cart_product)
