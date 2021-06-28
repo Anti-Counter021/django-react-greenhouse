@@ -9,6 +9,9 @@ import GetTokenFromLocalStorage, {DeleteTokenFromLocalStorage} from "../../servi
 
 import "./navbar.scss";
 
+
+/* Навигация */
+
 class Navbar extends Component {
 
     componentDidMount() {
@@ -30,6 +33,7 @@ class Navbar extends Component {
     }
 
     render() {
+
         const {active, navbarLinks} = this.props;
 
         return (
@@ -38,8 +42,9 @@ class Navbar extends Component {
                     {
                         navbarLinks.map(({path, body, id}, index) => (
                             <div key={index} className="nav__item">
-                                <Link to={path}
-                                      className={"nav__link" + (active === id ? ' active' : '')}>{body}</Link>
+                                <Link to={path} className={"nav__link" + (active === id ? ' active' : '')}>
+                                    {body}
+                                </Link>
                             </div>
                         ))
                     }
@@ -49,14 +54,16 @@ class Navbar extends Component {
                     {
                         navbarLinks.map(({path, body, id}, index) => (
                             <div key={index} className="nav__item">
-                                <Link to={path}
-                                      className={"nav__link" + (active === id ? ' active' : '')}>{body}</Link>
+                                <Link to={path} className={"nav__link" + (active === id ? ' active' : '')}>
+                                    {body}
+                                </Link>
                             </div>
                         ))
                     }
                 </div>
             </nav>
         );
+
     }
 
 }

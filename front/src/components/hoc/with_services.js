@@ -2,6 +2,9 @@ import React from "react";
 
 import ServicesContext from "../services_context/services_context";
 
+
+/* Доступ к бэку только, где нужно */
+
 const WithServices = () => (Wrapped) => {
 
     return (props) => {

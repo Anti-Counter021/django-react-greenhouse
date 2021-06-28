@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 import Error from "../error/error";
 import host from "../../services/host";
@@ -9,8 +10,9 @@ import WithServices from "../hoc/with_services";
 import {productNewLoaded, productNewError, productNewRequested} from "../../redux/action";
 
 import "./new.scss"
-import {Link} from "react-router-dom";
 
+
+/* Блок с новинкой */
 
 class New extends Component {
 

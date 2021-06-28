@@ -17,6 +17,8 @@ import {
 import "./categories.scss";
 
 
+/* Категории */
+
 class Categories extends Component {
 
     componentDidMount() {
@@ -27,12 +29,15 @@ class Categories extends Component {
     }
 
     getProducts = (id) => {
+        /* Товары этой категории */
+
         const {categories, productsRequested, productsLoaded} = this.props;
         productsRequested();
         productsLoaded(categories.find(item => item.id === id).products);
     }
 
     render() {
+
         const {categories, Services} = this.props;
 
         return (
@@ -44,8 +49,13 @@ class Categories extends Component {
                         <ul className="categories__phone">
                             {
                                 categories.map(({name, id, products_count, slug}) => (
-                                    <li className="categories__phone__item" key={id} onClick={() => this.getProducts(id)}>
-                                        <Link style={{color: '#fff'}} to={`/categories/${slug}`}>{name} <span className="categories__item__count">{products_count}</span></Link>
+                                    <li
+                                        className="categories__phone__item"
+                                        key={id}
+                                        onClick={() => this.getProducts(id)}>
+                                            <Link style={{color: '#fff'}} to={`/categories/${slug}`}>
+                                                {name} <span className="categories__item__count">{products_count}</span>
+                                            </Link>
                                     </li>
                                 ))
                             }
@@ -55,7 +65,9 @@ class Categories extends Component {
                                 {
                                     categories.map(({name, id, products_count, slug}) => (
                                         <div className="categories__item" key={id} onClick={() => this.getProducts(id)}>
-                                            <Link style={{color: '#fff'}} to={`/categories/${slug}`}>{name} <span className="categories__item__count">{products_count}</span></Link>
+                                            <Link style={{color: '#fff'}} to={`/categories/${slug}`}>
+                                                {name} <span className="categories__item__count">{products_count}</span>
+                                            </Link>
                                         </div>
                                     ))
                                 }

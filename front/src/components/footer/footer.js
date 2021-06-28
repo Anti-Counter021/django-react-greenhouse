@@ -2,6 +2,9 @@ import React from "react";
 
 import "./footer.scss";
 
+
+/* Подвал (футер) */
+
 const Footer = () => {
 
     return (

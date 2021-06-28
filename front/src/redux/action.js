@@ -1,3 +1,5 @@
+/* Действия */
+
 const productsLoaded = (newProducts) => {
     return {
         type: 'PRODUCTS_LOADED',

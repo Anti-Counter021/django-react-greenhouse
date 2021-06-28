@@ -7,9 +7,12 @@ import Products from "../products/products";
 import WithServices from "../hoc/with_services";
 
 
+/* Главная страница */
+
 class Home extends Component {
 
     render() {
+
         const {Services} = this.props;
 
         return (
@@ -25,6 +28,7 @@ class Home extends Component {
                 </section>
             </>
         );
+
     }
 
 }

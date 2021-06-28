@@ -1,12 +1,18 @@
 import React, {Component} from "react";
 
 import * as THREE from "three";
-import Model from "./scene.glb";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
+
+import Model from "./scene.glb";
+
+
+/* 3d Модель теплицы */
 
 export default class Model3D extends Component {
 
     componentDidMount() {
+        /* Загрузка модели */
+
         let scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.y = 3;
@@ -41,6 +47,8 @@ export default class Model3D extends Component {
         });
 
         function animate() {
+            /* Анимация */
+
             requestAnimationFrame(animate);
 
             if (obj) {
@@ -53,6 +61,7 @@ export default class Model3D extends Component {
     }
 
     render() {
+
         return (
             <section className="section__model">
                 <div className="container">
@@ -74,6 +83,7 @@ export default class Model3D extends Component {
                 </div>
             </section>
         );
+
     }
 
 }

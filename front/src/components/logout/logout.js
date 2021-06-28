@@ -7,6 +7,8 @@ import GetTokenFromLocalStorage, {DeleteTokenFromLocalStorage} from "../../servi
 import "./logout.scss";
 
 
+/* Выход */
+
 class Logout extends Component {
 
     componentDidMount() {
@@ -17,6 +19,8 @@ class Logout extends Component {
     }
 
     logout = () => {
+        /* Выход */
+
         const {Services} = this.props;
         Services.logoutUser(GetTokenFromLocalStorage())
             .then(() => {
@@ -35,9 +39,11 @@ class Logout extends Component {
                     <div className="container">
                         <div className="logout__header">Выход</div>
                         <div className="logout">
-                            <button style={{width: '25%'}}
-                                    className="logout__btn buttons buttons__success" onClick={this.logout}>
-                                Выйти
+                            <button
+                                style={{width: '25%'}}
+                                className="logout__btn buttons buttons__success"
+                                onClick={this.logout}>
+                                    Выйти
                             </button>
                         </div>
                     </div>

@@ -3,6 +3,8 @@ import React, {Component} from "react";
 import Error from "../error/error";
 
 
+/* Ошибка redux-a */
+
 export default class ErrorBoundary extends Component {
 
     state = {

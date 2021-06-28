@@ -1,8 +1,14 @@
+/* Запросы на сервер */
+
+import host from "./host";
+
 export default class Services {
 
-    _url = 'http://localhost:8000/api/'
+    _url = `${host}/api/`
 
     async getData(url, token='') {
+        /* GET запросы */
+
         const token_auth = token ? {'Authorization': `Token ${token}`} : {};
         const res = await fetch(this._url + url, {
             method: 'GET',
@@ -19,6 +25,8 @@ export default class Services {
     }
 
     async postData(url, data, token='') {
+        /* POST запросы */
+
         const token_auth = token ? {'Authorization': `Token ${token}`} : {};
         const res = await fetch(this._url + url, {
             method: 'POST',
@@ -37,7 +45,9 @@ export default class Services {
         return await res.json();
     }
 
-    async deleteData(url, token='') {
+    async deleteData(url, token = '') {
+        /* DELETE запросы */
+
         const token_auth = token ? {'Authorization': `Token ${token}`} : {};
         const res = await fetch(this._url + url, {
             method: 'DELETE',
@@ -55,6 +65,7 @@ export default class Services {
     }
 
     async changeData(url, token='') {
+        /* PUT запросы */
         const token_auth = token ? {'Authorization': `Token ${token}`} : {};
         const res = await fetch(this._url + url, {
             method: 'PUT',
@@ -70,6 +81,8 @@ export default class Services {
 
         return await res.json();
     }
+
+    /* GET */
 
     getProducts = async () => {
         return await this.getData('products/');
@@ -87,6 +100,8 @@ export default class Services {
         return await this.getData(`products/${slug}`)
     }
 
+    /* Корзина */
+
     getUserCart = async (token) => {
         return await this.getData('cart', token);
     }
@@ -102,6 +117,8 @@ export default class Services {
     changeProductQTYFromCart = async (cartProductId, qty, token) => {
         return await this.changeData(`cart/change-qty/${cartProductId}/${qty}`, token);
     }
+
+    /* Пользователь */
 
     userIsAuthenticated = async (token) => {
         return await this.getData('auth/user', token);

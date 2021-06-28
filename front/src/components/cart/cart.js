@@ -13,10 +13,15 @@ import {cartRequested, cartError, cartLoaded} from "../../redux/action";
 import "./cart.scss";
 
 
+/* Корзина */
+
 class Cart extends Component {
 
     loadCart = () => {
+        /* Загрузка корзины */
+
         const {Services, cartLoaded, cartRequested, cartError} = this.props;
+
         cartRequested();
         Services.getUserCart(GetTokenFromLocalStorage()).then(data => cartLoaded(data)).catch(error => cartError());
     }
@@ -26,8 +31,11 @@ class Cart extends Component {
     }
 
     removeFromCart = (cartProductId) => {
+        /* Удаление товара из корзины */
+
         const {Services} = this.props;
         const success = document.querySelector('.success');
+
         Services.deleteProductFromCart(cartProductId, GetTokenFromLocalStorage())
             .then(res => {
                 success.textContent = res.detail;
@@ -38,13 +46,16 @@ class Cart extends Component {
     }
 
     changeQTYFromCart = (e, cartProductId) => {
+        /* Изменение количества товара в корзине */
+
         const {Services} = this.props;
         const success = document.querySelector('.success');
+
         Services.changeProductQTYFromCart(cartProductId, e.target.value, GetTokenFromLocalStorage())
             .then(res => {
                 success.textContent = res.detail;
                 success.style.display = 'block';
-                setTimeout(() => success.style.display = 'none', 1000);
+                setTimeout(() => success.style.display = 'none', 3000);
                 document.querySelector(`#cart_product_${cartProductId}`).textContent = res.final_price + ' руб.';
                 document.querySelector('#cart__total__price').textContent = res.cart_price + ' руб.';
             })
@@ -61,7 +72,12 @@ class Cart extends Component {
         }
 
         if (loading) {
-            return <Spinner/>
+            return (
+                <>
+                    <Navbar active='cart'/>
+                    <Spinner/>
+                </>
+            )
         }
 
         if (error) {
@@ -94,16 +110,31 @@ class Cart extends Component {
                                                 <tr key={id} className="cart__table__body">
                                                     <td className="cart__table__title">{title}</td>
                                                     <td className="cart__table__qty">
-                                                        <input onChange={(e) => this.changeQTYFromCart(e, id)} className="cart__table__qty__input form-control" type="number" defaultValue={qty} min="1"/>
+                                                        <input onChange={(e) => this.changeQTYFromCart(e, id)}
+                                                               className="cart__table__qty__input"
+                                                               type="number"
+                                                               defaultValue={qty}
+                                                               min="1"
+                                                        />
                                                     </td>
-                                                    <td className="cart__table__image"><img className="cart__table__image__content"
-                                                                                            src={host + image}
-                                                                                            alt=""/></td>
+
+                                                    <td className="cart__table__image">
+                                                        <img className="cart__table__image__content" src={host + image}
+                                                             alt={title}/></td>
                                                     <td className="cart__table__price">{price} руб.</td>
-                                                    <td id={"cart_product_" + id} className="cart__table__price">{final_price} руб.</td>
-                                                    <td>
-                                                        <button onClick={() => this.removeFromCart(id)} className="buttons buttons__success">Удалить из корзины</button>
+
+                                                    <td id={"cart_product_" + id} className="cart__table__price">
+                                                        {final_price} руб.
                                                     </td>
+
+                                                    <td>
+                                                        <button
+                                                            onClick={() => this.removeFromCart(id)}
+                                                            className="buttons buttons__success">
+                                                                Удалить из корзины
+                                                        </button>
+                                                    </td>
+
                                                 </tr>
                                                 ))
                                             ): null
@@ -118,7 +149,13 @@ class Cart extends Component {
                                     </div>
                                 </div>
                             </>
-                        ) : (!for_anonymous_user ? (<div className="for_anonymous_user_or_not_products">Корзина пуста</div>) : (<div className="for_anonymous_user_or_not_products">Для покупок необходимо <Link to="/login">авторизироваться</Link></div>))}
+                        ) : (!for_anonymous_user ? (
+                            <div className="for_anonymous_user_or_not_products">Корзина пуста</div>
+                        ) : (
+                            <div className="for_anonymous_user_or_not_products">
+                                Для покупок необходимо <Link to="/login">авторизироваться</Link>
+                            </div>
+                        ))}
                     </div>
                 </section>
             </>

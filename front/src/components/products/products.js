@@ -13,6 +13,8 @@ import {productsLoaded, productsRequested, productsError} from "../../redux/acti
 import "./card.scss"
 
 
+/* Карточки товаров */
+
 class Products extends Component {
 
     componentDidMount() {
@@ -22,13 +24,16 @@ class Products extends Component {
     }
 
     addToCart = (productId) => {
+        /* Добавление товара в корзину */
+
         const {Services} = this.props;
         Services.addNewProductInCart(productId, GetTokenFromLocalStorage())
             .then(res => {
-                alert('Товар добавлен в корзину!')
-            }).catch(error => {
-                alert('Товар уже в корзине!')
-        });
+                alert('Товар добавлен в корзину!');
+            })
+            .catch(error => {
+                alert('Товар уже в корзине!');
+            });
     }
 
     render() {
@@ -50,12 +55,16 @@ class Products extends Component {
                         products.map(({title, id, image, price, slug}) => (
                             <div className="card" key={id}>
                                 <div className="card__title">{title}</div>
-                                <Link to={`/products/${slug}`}><img className="card__image" src={host + image} alt={title}/></Link>
+                                <Link to={`/products/${slug}`}>
+                                    <img className="card__image" src={host + image} alt={title}/>
+                                </Link>
                                 <div className="card__content">
                                     <div className="card__price">Цена: {price} руб.</div>
                                 </div>
                                 <div className="products__action">
-                                    <button className="buttons buttons__success" onClick={() => this.addToCart(id)}>Добавить в корзину</button>
+                                    <button className="buttons buttons__success" onClick={() => this.addToCart(id)}>
+                                        Добавить в корзину
+                                    </button>
                                 </div>
                             </div>
                         ))

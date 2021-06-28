@@ -1,5 +1,8 @@
 import React from "react";
 
+/* Состояние */
+
+// Начальное состояние
 const initialState = {
     error: false,
     loading: true,

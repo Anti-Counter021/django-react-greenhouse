@@ -9,6 +9,8 @@ import GetTokenFromLocalStorage, {SetTokenToLocalStorage} from "../../services/g
 import "./login.scss";
 
 
+/* Авторизация */
+
 class Login extends Component {
 
     componentDidMount() {
@@ -19,6 +21,8 @@ class Login extends Component {
     }
 
     login = (e) => {
+        /* Авторизация */
+
         e.preventDefault();
         const {Services} = this.props;
         const data = Object.fromEntries(new FormData(e.target).entries());
@@ -35,31 +39,49 @@ class Login extends Component {
                 <section className="login__section">
                     <div className="container">
                         <div className="login__header">Авторизация</div>
-                        <div style={{display: 'none'}} className="error">Неправильное имя пользователя или пароль!</div>
+                        <div style={{display: 'none'}} className="error">
+                            Неправильное имя пользователя или пароль!
+                        </div>
                         <div className="login">
                             <form className="login__form" onSubmit={this.login}>
                                 <div className="login__form__group">
-                                    <label htmlFor="username">Имя пользователя<span
-                                        className="required">*</span></label>
-                                    <input required name="username" className="login__form__input" id="username" type="text"
-                                           placeholder="Имя пользователя"/>
+                                    <label htmlFor="username">
+                                        Имя пользователя<span className="required">*</span>
+                                    </label>
+                                    <input
+                                        required
+                                        name="username"
+                                        className="login__form__input"
+                                        id="username"
+                                        type="text"
+                                           placeholder="Имя пользователя"
+                                    />
                                 </div>
 
                                 <div className="login__form__group">
-                                    <label htmlFor="password">Пароль<span className="required">*</span></label>
-                                    <input required name="password" className="login__form__input" id="password" type="password"
-                                           placeholder="Пароль"/>
+                                    <label htmlFor="password">
+                                        Пароль<span className="required">*</span>
+                                    </label>
+                                    <input
+                                        required
+                                        name="password"
+                                        className="login__form__input"
+                                        id="password"
+                                        type="password"
+                                        placeholder="Пароль"
+                                    />
                                 </div>
 
-                                <button style={{width: '25%'}} className="buttons buttons__success login__form__btn"
-                                        type="submit">
-                                    Авторизоваться
+                                <button
+                                    style={{width: '25%'}}
+                                    className="buttons buttons__success login__form__btn"
+                                    type="submit">
+                                        Авторизоваться
                                 </button>
 
                             </form>
                             <Link to="/register">
-                                <button style={{width: '25%'}} className="buttons buttons__success"
-                                        type="submit">
+                                <button style={{width: '25%'}} className="buttons buttons__success" type="submit">
                                     Зарегистрироваться
                                 </button>
                             </Link>
