@@ -1,17 +1,17 @@
 from django.shortcuts import get_object_or_404
 
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
 
 from .models import Category, Product, CartProduct
 from .serializers import CustomCategorySerializer, ProductSerializer, CartSerializer
 from .cart import get_cart, get_or_create_cart_product, recalculate_cart
 
 
-class CategoryAPIView(ModelViewSet):
+class CategoryAPIView(ListAPIView):
     """ Категории """
 
     queryset = Category.objects

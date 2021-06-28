@@ -1,6 +1,4 @@
-from django.urls import path, include
-
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
 from .views import (
     CategoryAPIView,
@@ -11,12 +9,9 @@ from .views import (
     ActionCartAPIView,
 )
 
-router = DefaultRouter()
-router.register(r'categories', CategoryAPIView)
-
 app_name = 'shop'
 urlpatterns = [
-    path('', include(router.urls)),
+    path('categories/', CategoryAPIView.as_view(), name='categories'),
     path('new-product', NewProductAPIView.as_view(), name='new'),
     path('products/', ProductAPIView.as_view(), name='products'),
     path('cart/change-qty/<int:cart_product_id>/<int:qty>', ActionCartAPIView.as_view(), name='change_qty_from_cart'),
