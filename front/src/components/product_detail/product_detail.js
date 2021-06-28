@@ -15,6 +15,7 @@ import {
     setNextSliderItem,
     setPrevSliderItem
 } from "../../redux/action";
+import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
 
 import "./product_detail.scss";
 
@@ -72,10 +73,23 @@ class ProductDetail extends Component {
         this.activeSlide(slideIndex);
     }
 
+    addToCart = (productId) => {
+        const {Services} = this.props;
+        const success = document.querySelector('.success');
+        Services.addNewProductInCart(productId, GetTokenFromLocalStorage())
+            .then(res => {
+                success.textContent = 'Товар добавлен в корзину!';
+                success.style.display = 'block';
+            }).catch(error => {
+                success.textContent = 'Товар уже в корзине!';
+                success.style.display = 'block';
+        });
+    }
+
     render() {
 
         const {
-            productDetail: {title, image, description, price, additional_images, count_images},
+            productDetail: {title, image, description, price, additional_images, count_images, id},
             loading,
             error,
             sliderItem,
@@ -100,6 +114,7 @@ class ProductDetail extends Component {
                 <section className="product__section">
                     <div className="container">
                         <div className="header">{title}</div>
+                        <div className="success" style={{display: 'none'}}>Товар добавлен в корзину!</div>
                         <div className="section">
                             <div className="slider__nav">
                                 {additional_images && additional_images.length ? (
@@ -125,7 +140,7 @@ class ProductDetail extends Component {
                                         className="product__price__rub">{price}</span> руб.</p>
                                 </div>
                                 <div className="product__action">
-                                    <button className="buttons buttons__success">Добавить в корзину</button>
+                                    <button className="buttons buttons__success" onClick={() => this.addToCart(id)}>Добавить в корзину</button>
                                 </div>
                                 {
                                     features.length ? (

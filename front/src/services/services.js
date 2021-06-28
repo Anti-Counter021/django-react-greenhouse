@@ -8,7 +8,7 @@ export default class Services {
             method: 'GET',
             headers: {
                 ...token_auth,
-            }
+            },
         });
 
         if (!res.ok) {
@@ -37,6 +37,23 @@ export default class Services {
         return await res.json();
     }
 
+    async deleteData(url, token='') {
+        const token_auth = token ? {'Authorization': `Token ${token}`} : {};
+        const res = await fetch(this._url + url, {
+            method: 'DELETE',
+            headers: {
+                ...token_auth,
+            },
+        });
+
+        if (!res.ok) {
+            console.log(res)
+            throw new Error(`Ошибка ${url}, статус = ${res.status}`);
+        }
+
+        return await res.json();
+    }
+
     getProducts = async () => {
         return await this.getData('products/');
     }
@@ -55,6 +72,14 @@ export default class Services {
 
     getUserCart = async (token) => {
         return await this.getData('cart', token);
+    }
+
+    addNewProductInCart = async (productId, token) => {
+        return await this.postData(`cart/add/${productId}`, '', token);
+    }
+
+    deleteProductFromCart = async (cartProductId, token) => {
+        return await this.deleteData(`cart/remove/${cartProductId}`, token);
     }
 
     userIsAuthenticated = async (token) => {

@@ -15,10 +15,26 @@ import "./cart.scss";
 
 class Cart extends Component {
 
-    componentDidMount() {
+    loadCart = () => {
         const {Services, cartLoaded, cartRequested, cartError} = this.props;
         cartRequested();
         Services.getUserCart(GetTokenFromLocalStorage()).then(data => cartLoaded(data)).catch(error => cartError());
+    }
+
+    componentDidMount() {
+        this.loadCart();
+    }
+
+    removeFromCart = (cartProductId) => {
+        const {Services} = this.props;
+        const success = document.querySelector('.success');
+        Services.deleteProductFromCart(cartProductId, GetTokenFromLocalStorage())
+            .then(res => {
+                success.textContent = res.detail;
+                success.style.display = 'block';
+                this.loadCart();
+            })
+            .catch(error => document.querySelector('.error').style.display = 'block');
     }
 
     render() {
@@ -34,11 +50,17 @@ class Cart extends Component {
             return <Spinner/>
         }
 
+        if (error) {
+            document.querySelector('.error').style.display = 'block';
+        }
+
         return (
             <>
                 <Navbar active='cart'/>
                 <section className="cart">
                     <div className="container">
+                        <div style={{display: 'none'}} className="error">Произошла ошибка...</div>
+                        <div style={{display: 'none'}} className="success">Товар успешно удалён</div>
                         {!for_anonymous_user && products.length ? (
                             <>
                                 <table className="table">
@@ -65,7 +87,7 @@ class Cart extends Component {
                                                     <td className="cart__table__price">{price} руб.</td>
                                                     <td className="cart__table__price">{final_price} руб.</td>
                                                     <td>
-                                                        <button className="buttons buttons__success">Удалить из корзины</button>
+                                                        <button onClick={() => this.removeFromCart(id)} className="buttons buttons__success">Удалить из корзины</button>
                                                     </td>
                                                 </tr>
                                                 ))

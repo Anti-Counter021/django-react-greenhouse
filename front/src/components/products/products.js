@@ -6,6 +6,8 @@ import {Link} from "react-router-dom";
 import Error from "../error/error";
 import host from "../../services/host";
 import Spinner from "../spinner/spinner";
+import WithServices from "../hoc/with_services";
+import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
 import {productsLoaded, productsRequested, productsError} from "../../redux/action";
 
 import "./card.scss"
@@ -17,6 +19,16 @@ class Products extends Component {
         const {productsLoaded, productsRequested, productsError, getProducts} = this.props;
         productsRequested();
         getProducts().then(products => productsLoaded(products)).catch(error => productsError);
+    }
+
+    addToCart = (productId) => {
+        const {Services} = this.props;
+        Services.addNewProductInCart(productId, GetTokenFromLocalStorage())
+            .then(res => {
+                alert('Товар добавлен в корзину!')
+            }).catch(error => {
+                alert('Товар уже в корзине!')
+        });
     }
 
     render() {
@@ -43,7 +55,7 @@ class Products extends Component {
                                     <div className="card__price">Цена: {price} руб.</div>
                                 </div>
                                 <div className="products__action">
-                                    <button className="buttons buttons__success">Добавить в корзину</button>
+                                    <button className="buttons buttons__success" onClick={() => this.addToCart(id)}>Добавить в корзину</button>
                                 </div>
                             </div>
                         ))
@@ -69,4 +81,4 @@ const mapDispatchToProps = {
     productsError,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Products);
+export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Products));
