@@ -4,20 +4,21 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 import WithServices from "../hoc/with_services";
-import {addNavbarElement, setUserIsAuthenticated} from "../../redux/action";
 import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
+import {addNavbarElement, setUserIsAuthenticated, setCartCount} from "../../redux/action";
 
 import "./navbar.scss";
 
 
 /* Навигация */
 
-const Navbar = ({Services, addNavbarElement, navbarLinks, setUserIsAuthenticated, userIsAuthenticated, active}) => {
+const Navbar = ({Services, addNavbarElement, navbarLinks, setUserIsAuthenticated, userIsAuthenticated, active, setCartCount}) => {
 
     useEffect(() => {
         Services.userIsAuthenticated(GetTokenFromLocalStorage())
             .then(res => {
                 setUserIsAuthenticated(res.is_authenticated);
+                setCartCount(res.cart_count);
             })
             .catch(error => {
                 console.log(error);
@@ -72,6 +73,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     addNavbarElement,
     setUserIsAuthenticated,
+    setCartCount,
 };
 
 

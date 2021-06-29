@@ -8,7 +8,7 @@ import host from "../../services/host";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
 import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
-import {productsLoaded, productsRequested, productsError} from "../../redux/action";
+import {productsLoaded, productsRequested, productsError, setCartCount} from "../../redux/action";
 
 import "./card.scss"
 
@@ -26,10 +26,11 @@ class Products extends Component {
     addToCart = (productId) => {
         /* Добавление товара в корзину */
 
-        const {Services, userIsAuthenticated} = this.props;
+        const {Services, userIsAuthenticated, setCartCount, cartCount} = this.props;
         Services.addNewProductInCart(productId, GetTokenFromLocalStorage())
             .then(res => {
                 alert('Товар добавлен в корзину!');
+                setCartCount(cartCount + 1);
             })
             .catch(error => {
                 if (!userIsAuthenticated) {
@@ -85,6 +86,7 @@ const mapStateToProps = (state) => {
         products: state.products,
         loading: state.loading,
         error: state.error,
+        cartCount: state.cartCount,
         userIsAuthenticated: state.userIsAuthenticated,
     };
 };
@@ -93,6 +95,7 @@ const mapDispatchToProps = {
     productsLoaded,
     productsRequested,
     productsError,
+    setCartCount,
 };
 
 export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Products));

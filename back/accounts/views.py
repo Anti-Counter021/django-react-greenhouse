@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 
 from shop.serializers import OrderSerializer
 from shop.models import Order
+from shop.cart import get_cart
 from .models import User
 
 
@@ -13,8 +14,8 @@ class UserIsAuthenticated(APIView):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return Response({'is_authenticated': True})
-        return Response({'is_authenticated': False})
+            return Response({'is_authenticated': True, 'cart_count': get_cart(request.user).total_products})
+        return Response({'is_authenticated': False, 'cart_count': 0})
 
 
 class RegisterAPIView(APIView):

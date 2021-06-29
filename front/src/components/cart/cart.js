@@ -7,8 +7,8 @@ import Navbar from "../navbar/navbar";
 import host from "../../services/host";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
-import {cartRequested, cartError, cartLoaded} from "../../redux/action";
 import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
+import {cartRequested, cartError, cartLoaded, setCartCount} from "../../redux/action";
 
 import "./cart.scss";
 
@@ -33,7 +33,7 @@ class Cart extends Component {
     removeFromCart = (cartProductId) => {
         /* Удаление товара из корзины */
 
-        const {Services} = this.props;
+        const {Services, setCartCount, cartCount} = this.props;
         const success = document.querySelector('.success');
 
         Services.deleteProductFromCart(cartProductId, GetTokenFromLocalStorage())
@@ -41,6 +41,7 @@ class Cart extends Component {
                 success.textContent = res.detail;
                 success.style.display = 'block';
                 setTimeout(() => this.loadCart(), 1500);
+                setCartCount(cartCount - 1);
             })
             .catch(error => document.querySelector('.error').style.display = 'block');
     }
@@ -170,6 +171,7 @@ class Cart extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        cartCount: state.cartCount,
         cart: state.cart,
         error: state.error,
         loading: state.loading,
@@ -180,6 +182,7 @@ const mapDispatchToProps = {
     cartLoaded,
     cartRequested,
     cartError,
+    setCartCount,
 };
 
 export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Cart));

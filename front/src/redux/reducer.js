@@ -1,5 +1,7 @@
 import React from "react";
 
+import CartNavbar from "../components/cart_navbar/cart_navbar";
+
 /* Состояние */
 
 // Начальное состояние
@@ -15,7 +17,7 @@ const initialState = {
         {path: '/categories', body: 'Категории', id: 'categories'},
         {path: '/reviews', body: 'Отзывы', id: 'reviews'},
         {path: '#', body: 'Контакты', id: 'contacts'},
-        {path: '/cart', body: <i className="fa fa-cart-arrow-down" aria-hidden="true"/>, id: 'cart'},
+        {path: '/cart', body: <><i className="fa fa-cart-arrow-down" aria-hidden="true"/> <CartNavbar/></>, id: 'cart'},
     ],
     sliderItem: 0,
     cart: {},
@@ -23,6 +25,7 @@ const initialState = {
     orders: [],
     date: new Date(),
     reviews: [],
+    cartCount: 0,
 };
 
 const reducer = (state = initialState, action) => {
@@ -169,6 +172,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: true,
+            };
+        case 'CART_COUNT':
+            return {
+                ...state,
+                cartCount: action.payload,
             };
         default:
             return state;

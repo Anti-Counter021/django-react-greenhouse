@@ -13,7 +13,8 @@ import {
     productDetailRequested,
     setStartSliderItem,
     setNextSliderItem,
-    setPrevSliderItem
+    setPrevSliderItem,
+    setCartCount,
 } from "../../redux/action";
 import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
 
@@ -87,13 +88,14 @@ class ProductDetail extends Component {
     addToCart = (productId) => {
         /* Добавление товара в корзину */
 
-        const {Services, userIsAuthenticated} = this.props;
+        const {Services, userIsAuthenticated, setCartCount, cartCount} = this.props;
         const success = document.querySelector('.success');
         Services.addNewProductInCart(productId, GetTokenFromLocalStorage())
             .then(res => {
                 success.textContent = 'Товар добавлен в корзину!';
                 success.style.display = 'block';
                 setTimeout(() => success.style.display = 'none', 1500);
+                setCartCount(cartCount + 1);
             })
             .catch(error => {
                 if (!userIsAuthenticated) {
@@ -218,6 +220,7 @@ class ProductDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        cartCount: state.cartCount,
         productDetail: state.productDetail,
         loading: state.loading,
         error: state.error,
@@ -233,6 +236,7 @@ const mapDispatchToProps = {
     setStartSliderItem,
     setNextSliderItem,
     setPrevSliderItem,
+    setCartCount,
 };
 
 export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(ProductDetail));

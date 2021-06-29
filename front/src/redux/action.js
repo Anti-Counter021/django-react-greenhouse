@@ -175,6 +175,13 @@ const reviewsError = () => {
     };
 };
 
+const setCartCount = (count) => {
+    return {
+        type: 'CART_COUNT',
+        payload: count,
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -201,6 +208,7 @@ export {
     cartLoaded,
     cartError,
     cartRequested,
+    setCartCount,
 
     setUserIsAuthenticated,
 
