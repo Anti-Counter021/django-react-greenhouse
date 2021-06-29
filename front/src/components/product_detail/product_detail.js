@@ -93,6 +93,7 @@ class ProductDetail extends Component {
             .then(res => {
                 success.textContent = 'Товар добавлен в корзину!';
                 success.style.display = 'block';
+                setTimeout(() => success.style.display = 'none', 1500);
             })
             .catch(error => {
                 if (!userIsAuthenticated) {
@@ -101,6 +102,7 @@ class ProductDetail extends Component {
                     success.textContent = 'Товар уже в корзине!';
                 }
                 success.style.display = 'block';
+                setTimeout(() => success.style.display = 'none', 1500);
             });
     }
 
