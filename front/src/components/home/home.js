@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 
 import New from "../new/new";
 import Navbar from "../navbar/navbar";
@@ -9,28 +9,22 @@ import WithServices from "../hoc/with_services";
 
 /* Главная страница */
 
-class Home extends Component {
+const Home = ({Services}) => {
 
-    render() {
+    return (
+        <>
+            <Navbar active="home"/>
+            <Model3D/>
+            <New/>
+            <section className="products">
+                <div className="container">
+                    <div className="header">Наши товары</div>
+                    <Products host='' getProducts={Services.getProducts}/>
+                </div>
+            </section>
+        </>
+    );
 
-        const {Services} = this.props;
-
-        return (
-            <>
-                <Navbar active="home"/>
-                <Model3D/>
-                <New/>
-                <section className="products">
-                    <div className="container">
-                        <div className="header">Наши товары</div>
-                        <Products host='' getProducts={Services.getProducts}/>
-                    </div>
-                </section>
-            </>
-        );
-
-    }
-
-}
+};
 
 export default WithServices()(Home);
