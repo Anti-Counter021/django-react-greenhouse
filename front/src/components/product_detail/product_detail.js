@@ -15,7 +15,7 @@ import {
     setNextSliderItem,
     setPrevSliderItem
 } from "../../redux/action";
-import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
+import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
 
 import "./product_detail.scss";
 

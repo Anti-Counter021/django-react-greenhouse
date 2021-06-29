@@ -8,7 +8,7 @@ import host from "../../services/host";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
 import {cartRequested, cartError, cartLoaded} from "../../redux/action";
-import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
+import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
 
 import "./cart.scss";
 

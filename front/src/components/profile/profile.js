@@ -8,7 +8,7 @@ import Navbar from "../navbar/navbar";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
 import {ordersRequested, ordersError, ordersLoaded} from "../../redux/action";
-import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
+import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
 
 import "./profile.scss";
 

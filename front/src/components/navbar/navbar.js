@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 import WithServices from "../hoc/with_services";
 import {addNavbarElement, setUserIsAuthenticated} from "../../redux/action";
-import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
+import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
 
 import "./navbar.scss";
 
