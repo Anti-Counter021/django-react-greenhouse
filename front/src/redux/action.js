@@ -156,6 +156,25 @@ const orderDate = (date) => {
     };
 };
 
+const reviewsLoaded = (newReviews) => {
+    return {
+        type: 'REVIEWS_LOADED',
+        payload: newReviews,
+    };
+};
+
+const reviewsRequested = () => {
+    return {
+        type: 'REVIEWS_REQUESTED',
+    };
+};
+
+const reviewsError = () => {
+    return {
+        type: 'REVIEWS_ERROR',
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -190,4 +209,8 @@ export {
     ordersError,
 
     orderDate,
+
+    reviewsRequested,
+    reviewsError,
+    reviewsLoaded,
 };

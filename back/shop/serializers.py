@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import Category, Product, ProductFeature, AdditionalImageProduct, CartProduct, Cart, Order
+from .models import Category, Product, ProductFeature, AdditionalImageProduct, CartProduct, Cart, Order, Review
 
 
 class AdditionalImageProductSerializer(ModelSerializer):
@@ -110,3 +110,17 @@ class OrderSerializer(ModelSerializer):
     class Meta:
         model = Order
         exclude = ('user',)
+
+
+class ReviewSerializer(ModelSerializer):
+    """ Отзывы """
+
+    user = SerializerMethodField()
+
+    @staticmethod
+    def get_user(obj):
+        return obj.user.username
+
+    class Meta:
+        model = Review
+        fields = '__all__'

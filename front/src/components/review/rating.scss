@@ -1,0 +1,30 @@
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 0 auto;
+
+    &__item {
+        color: #dcdcdc;
+        font-size: 100px;
+        cursor: pointer;
+        transition: .2s;
+
+        &:hover,
+        &:hover ~ & {
+            color: #989898;
+        }
+    }
+
+    &[data-total-value="1"] &__item:nth-child(n + 5),
+    &[data-total-value="2"] &__item:nth-child(n + 4),
+    &[data-total-value="3"] &__item:nth-child(n + 3),
+    &[data-total-value="4"] &__item:nth-child(n + 2),
+    &[data-total-value="5"] &__item:nth-child(n + 1) {
+        color: #FFA500;
+    }
+}
+
+
+.star {
+    font-size: 80px;
+}

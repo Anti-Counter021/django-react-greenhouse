@@ -20,6 +20,10 @@
 
 @media (max-width: 770px) {
 
+    .reviews__form__input {
+        width: 400px;
+    }
+
     .password__help {
         margin-left: 30%;
     }
@@ -64,6 +68,10 @@
 }
 
 @media (max-width: 550px) {
+
+    .reviews__form__input {
+        width: 330px;
+    }
 
     .password__help {
         margin-left: 20%;
@@ -113,7 +121,7 @@
     }
 
     .star {
-        font-size: 40px;
+        font-size: 60px;
     }
 
     .cart, .order, .profile {

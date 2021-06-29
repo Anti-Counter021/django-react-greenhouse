@@ -8,11 +8,15 @@ from .views import (
     CartAPIView,
     ActionCartAPIView,
     OrderAPIView,
+    ReviewAPIView,
+    CreateReviewAPIView,
 )
 
 app_name = 'shop'
 urlpatterns = [
     path('categories/', CategoryAPIView.as_view(), name='categories'),
+    path('reviews/add', CreateReviewAPIView.as_view(), name='create_review'),
+    path('reviews/', ReviewAPIView.as_view(), name='reviews'),
     path('orders/', OrderAPIView.as_view(), name='orders'),
     path('new-product', NewProductAPIView.as_view(), name='new'),
     path('products/', ProductAPIView.as_view(), name='products'),

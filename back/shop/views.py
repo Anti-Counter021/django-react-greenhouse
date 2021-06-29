@@ -9,9 +9,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .cart import get_cart, get_or_create_cart_product, recalculate_cart
-from .models import Category, Product, CartProduct, Order
+from .models import Category, Product, CartProduct, Order, Review
 from .send_mail import send_manager_about_new_order
-from .serializers import CustomCategorySerializer, ProductSerializer, CartSerializer
+from .serializers import CustomCategorySerializer, ProductSerializer, CartSerializer, ReviewSerializer
 
 
 class CategoryAPIView(ListAPIView):
@@ -114,3 +114,19 @@ class OrderAPIView(APIView):
         request.user.save()
         send_manager_about_new_order(order)
         return Response({'detail': 'Заказ создан успешно. Ждите ответа'})
+
+
+class ReviewAPIView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        return Response(ReviewSerializer(Review.objects.all(), many=True).data)
+
+
+class CreateReviewAPIView(APIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        attrs = request.data
+        Review.objects.create(user=request.user, appraisal=attrs['appraisal'], comment=attrs['comment'])
+        return Response({'detail': 'Спасибо за отзыв!'})

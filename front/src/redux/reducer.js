@@ -13,7 +13,7 @@ const initialState = {
     navbarLinks: [
         {path: '/', body: 'Главная', id: 'home'},
         {path: '/categories', body: 'Категории', id: 'categories'},
-        {path: '#', body: 'Отзывы', id: 'reviews'},
+        {path: '/reviews', body: 'Отзывы', id: 'reviews'},
         {path: '#', body: 'Контакты', id: 'contacts'},
         {path: '/cart', body: <i className="fa fa-cart-arrow-down" aria-hidden="true"/>, id: 'cart'},
     ],
@@ -22,6 +22,7 @@ const initialState = {
     userIsAuthenticated: false,
     orders: [],
     date: new Date(),
+    reviews: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -152,6 +153,22 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 date: action.payload,
+            };
+        case 'REVIEWS_LOADED':
+            return {
+                ...state,
+                reviews: action.payload,
+                loading: false,
+            };
+        case 'REVIEWS_REQUESTED':
+            return {
+                ...state,
+                loading: true,
+            };
+        case 'REVIEWS_ERROR':
+            return {
+                ...state,
+                error: true,
             };
         default:
             return state;

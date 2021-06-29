@@ -1,0 +1,52 @@
+@import "rating";
+
+.reviews {
+
+    input[placeholder] {
+        text-align: center;
+    }
+
+    &__form {
+        &__input {
+            border: 1px solid black;
+            border-radius: 7px;
+            display: block;
+            height: 50px;
+            width: 500px;
+        }
+    }
+
+    &__body {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        padding: 15px;
+        border-radius: 20px;
+        margin-bottom: 15px;
+    }
+
+    &__author {
+        font-size: 25px;
+
+        &__username {
+            font-weight: bold;
+        }
+    }
+
+    &__content {
+        margin-top: 10px;
+        font-size: 20px;
+        width: 100%;
+
+        display: flex;
+    }
+
+    &__text {
+        margin: auto;
+    }
+}
+
+
+.user__icon {
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 5px;
+}

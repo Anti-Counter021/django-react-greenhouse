@@ -43,6 +43,16 @@ export default class Services {
         return await this.httpRequest('GET', `products/${slug}`)
     }
 
+    /* Отзывы */
+
+    getReviews = async () => {
+        return await this.httpRequest('GET', 'reviews/');
+    }
+
+    postReview = async (data, token) => {
+        return await this.httpRequest('POST', 'reviews/add', token, data);
+    }
+
     /* Корзина */
 
     getUserCart = async (token) => {

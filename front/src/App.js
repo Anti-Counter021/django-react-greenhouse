@@ -4,6 +4,7 @@ import Cart from "./components/cart/cart";
 import Home from "./components/home/home";
 import Login from "./components/login/login";
 import Order from "./components/order/order";
+import Review from "./components/review/review";
 import Logout from "./components/logout/logout";
 import Footer from "./components/footer/footer";
 import Profile from "./components/profile/profile";
@@ -28,6 +29,7 @@ function App() {
                     }
                 }/>
                 <Route exact path='/categories' component={Categories}/>
+                <Route exact path='/reviews' component={Review}/>
                 <Route exact path='/cart' component={Cart}/>
                 <Route exact path='/profile' component={Profile}/>
                 <Route exact path='/login' component={Login}/>

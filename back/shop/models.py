@@ -142,3 +142,30 @@ class Order(models.Model):
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
         ordering = ['-created_at']
+
+
+class Review(models.Model):
+    """ Отзывы """
+
+    APPRAISAL_CHOICES = (
+        (1, 'Очень плохо'),
+        (2, 'Плохо'),
+        (3, 'Нормально'),
+        (4, 'Хорошо'),
+        (5, 'Великолепно!'),
+    )
+
+    user = models.ForeignKey(
+        'accounts.User', verbose_name='Пользователь', on_delete=models.CASCADE, related_name='appraisal'
+    )
+    appraisal = models.PositiveIntegerField(verbose_name='Оценка', choices=APPRAISAL_CHOICES)
+    comment = models.CharField(max_length=200, verbose_name='Комментарий')
+    created_at = models.DateTimeField(auto_now=True, verbose_name='Дата создания отзыва')
+
+    def __str__(self):
+        return f'{self.id} - {self.user}'
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+        ordering = ['-created_at']
