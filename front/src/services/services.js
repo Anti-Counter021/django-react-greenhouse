@@ -6,76 +6,19 @@ export default class Services {
 
     _url = `${host}/api/`
 
-    async getData(url, token='') {
-        /* GET запросы */
-
+    async httpRequest(method, url, token='', data='') {
         const token_auth = token ? {'Authorization': `Token ${token}`} : {};
+        const body_data = data ? {body: JSON.stringify(data)} : {};
         const res = await fetch(this._url + url, {
-            method: 'GET',
-            headers: {
-                ...token_auth,
-            },
-        });
-
-        if (!res.ok) {
-            throw new Error(`Ошибка ${url}, статус = ${res.status}`);
-        }
-
-        return await res.json();
-    }
-
-    async postData(url, data, token='') {
-        /* POST запросы */
-
-        const token_auth = token ? {'Authorization': `Token ${token}`} : {};
-        const res = await fetch(this._url + url, {
-            method: 'POST',
+            method: method,
             headers: {
                 'Content-type': 'application/json',
                 ...token_auth,
             },
-            body: JSON.stringify(data),
+            ...body_data,
         });
 
         if (!res.ok) {
-            console.log(res)
-            throw new Error(`Ошибка ${url}, статус = ${res.status}`);
-        }
-
-        return await res.json();
-    }
-
-    async deleteData(url, token = '') {
-        /* DELETE запросы */
-
-        const token_auth = token ? {'Authorization': `Token ${token}`} : {};
-        const res = await fetch(this._url + url, {
-            method: 'DELETE',
-            headers: {
-                ...token_auth,
-            },
-        });
-
-        if (!res.ok) {
-            console.log(res)
-            throw new Error(`Ошибка ${url}, статус = ${res.status}`);
-        }
-
-        return await res.json();
-    }
-
-    async changeData(url, token='') {
-        /* PUT запросы */
-        const token_auth = token ? {'Authorization': `Token ${token}`} : {};
-        const res = await fetch(this._url + url, {
-            method: 'PUT',
-            headers: {
-                ...token_auth,
-            },
-        });
-
-        if (!res.ok) {
-            console.log(res)
             throw new Error(`Ошибка ${url}, статус = ${res.status}`);
         }
 
@@ -85,59 +28,63 @@ export default class Services {
     /* GET */
 
     getProducts = async () => {
-        return await this.getData('products/');
+        return await this.httpRequest('GET', 'products/');
     }
 
     getNewProduct = async () => {
-        return await this.getData('new-product');
+        return await this.httpRequest('GET', 'new-product');
     }
 
     getCategoryProducts = async () => {
-        return await this.getData('categories');
+        return await this.httpRequest('GET', 'categories');
     }
 
     getProductDetail = async (slug) => {
-        return await this.getData(`products/${slug}`)
+        return await this.httpRequest('GET', `products/${slug}`)
     }
 
     /* Корзина */
 
     getUserCart = async (token) => {
-        return await this.getData('cart', token);
+        return await this.httpRequest('GET', 'cart', token);
     }
 
     addNewProductInCart = async (productId, token) => {
-        return await this.postData(`cart/add/${productId}`, '', token);
+        return await this.httpRequest('POST',`cart/add/${productId}`, token);
     }
 
     deleteProductFromCart = async (cartProductId, token) => {
-        return await this.deleteData(`cart/remove/${cartProductId}`, token);
+        return await this.httpRequest('DELETE', `cart/remove/${cartProductId}`, token);
     }
 
     changeProductQTYFromCart = async (cartProductId, qty, token) => {
-        return await this.changeData(`cart/change-qty/${cartProductId}/${qty}`, token);
+        return await this.httpRequest('PUT', `cart/change-qty/${cartProductId}/${qty}`, token);
     }
 
     makeOrder = async (data, token) => {
-        return await this.postData('orders/', data, token);
+        return await this.httpRequest('POST', 'orders/', token, data);
     }
 
     /* Пользователь */
 
     userIsAuthenticated = async (token) => {
-        return await this.getData('auth/user', token);
+        return await this.httpRequest('GET', 'auth/user', token);
+    }
+
+    getUserProfile = async (token) => {
+        return await this.httpRequest('GET', 'auth/profile', token);
     }
 
     logoutUser = async (token) => {
-        return await this.getData('auth/logout', token);
+        return await this.httpRequest('GET', 'auth/logout', token);
     }
 
     loginUser = async (data) => {
-        return await this.postData('auth/token', data);
+        return await this.httpRequest('POST', 'auth/token', '', data);
     }
 
     registerUser = async (data) => {
-        return await this.postData('auth/register', data);
+        return await this.httpRequest('POST', 'auth/register', '', data);
     }
 
 }
