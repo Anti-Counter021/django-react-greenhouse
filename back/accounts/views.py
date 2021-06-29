@@ -3,6 +3,8 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from shop.serializers import OrderSerializer
+from shop.models import Order
 from .models import User
 
 
@@ -15,7 +17,7 @@ class UserIsAuthenticated(APIView):
         return Response({'is_authenticated': False})
 
 
-class RegisterView(APIView):
+class RegisterAPIView(APIView):
     """ Регистрация """
 
     def post(self, request, *args, **kwargs):
@@ -45,9 +47,16 @@ class RegisterView(APIView):
         return Response({'success': True})
 
 
-class LogoutView(APIView):
+class LogoutAPIView(APIView):
     """ Выход """
 
     def get(self, request, *args, **kwargs):
         request.user.auth_token.delete()
         return Response({'success': True})
+
+
+class UserProfileAPIView(APIView):
+    """ Профиль """
+
+    def get(self, request, *args, **kwargs):
+        return Response(OrderSerializer(Order.objects.filter(user=request.user), many=True).data)

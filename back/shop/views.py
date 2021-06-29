@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
@@ -97,10 +99,14 @@ class OrderAPIView(APIView):
     def post(self, request, *args, **kwargs):
         attrs = request.data
         cart = get_cart(request.user)
+        order_date = datetime.strptime(attrs['order_date'], '%d/%m/%Y').date()
+        if order_date < datetime.today().date():
+            return Response({'detail': 'Желаемая дата получения не может быть прошедшей!', 'error': 400})
         order = Order.objects.create(
             user=request.user, cart=cart, first_name=attrs['first_name'],
             last_name=attrs['last_name'], phone=attrs['phone'], address=attrs['address'],
-            buying_type=attrs['buying_type'], comment=attrs['comment']
+            buying_type=attrs['buying_type'], comment=attrs['comment'],
+            order_date=order_date,
         )
         cart.in_order = True
         cart.save()

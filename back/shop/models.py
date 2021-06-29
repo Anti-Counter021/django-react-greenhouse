@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 from .utils import get_timestamp_path
@@ -131,7 +133,7 @@ class Order(models.Model):
     )
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата оформления заказа')
-    order_date = models.DateTimeField(verbose_name='Дата для получения заказа', auto_now_add=True, db_index=True)
+    order_date = models.DateField(verbose_name='Дата для получения заказа', default=datetime.utcnow(), db_index=True)
 
     def __str__(self):
         return f'{self.id}'
