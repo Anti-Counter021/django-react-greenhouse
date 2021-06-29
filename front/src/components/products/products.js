@@ -10,7 +10,7 @@ import WithServices from "../hoc/with_services";
 import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
 import {productsLoaded, productsRequested, productsError, setCartCount} from "../../redux/action";
 
-import "./card.scss"
+import "./card.scss";
 
 
 /* Карточки товаров */
