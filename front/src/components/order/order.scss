@@ -57,7 +57,7 @@
     &__form {
         text-align: center;
 
-        input, select {
+        input, select{
             display: block;
             margin: auto;
             height: 30px;
@@ -69,7 +69,7 @@
             margin: 10px;
         }
 
-        input[placeholder], select {
+        input[placeholder], select, #order_date {
             text-align: center;
         }
 

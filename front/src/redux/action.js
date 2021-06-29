@@ -130,6 +130,32 @@ const setUserIsAuthenticated = (isAuthenticated) => {
     };
 };
 
+const ordersLoaded = (newOrders) => {
+    return {
+        type: 'ORDER_LOADED',
+        payload: newOrders,
+    };
+};
+
+const ordersRequested = () => {
+    return {
+        type: 'ORDER_REQUESTED',
+    };
+};
+
+const ordersError = () => {
+    return {
+        type: 'ORDER_ERROR',
+    };
+};
+
+const orderDate = (date) => {
+    return {
+        type: 'ORDER_DATE',
+        payload: date,
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -158,4 +184,10 @@ export {
     cartRequested,
 
     setUserIsAuthenticated,
+
+    ordersRequested,
+    ordersLoaded,
+    ordersError,
+
+    orderDate,
 };

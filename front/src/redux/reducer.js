@@ -20,6 +20,8 @@ const initialState = {
     sliderItem: 0,
     cart: {},
     userIsAuthenticated: false,
+    orders: [],
+    date: new Date(),
 };
 
 const reducer = (state = initialState, action) => {
@@ -129,6 +131,27 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 userIsAuthenticated: action.payload,
+            };
+        case 'ORDER_LOADED':
+            return {
+                ...state,
+                orders: action.payload,
+                loading: false,
+            };
+        case 'ORDER_REQUESTED':
+            return {
+                ...state,
+                loading: true,
+            };
+        case 'ORDER_ERROR':
+            return {
+                ...state,
+                error: true,
+            };
+        case 'ORDER_DATE':
+            return {
+                ...state,
+                date: action.payload,
             };
         default:
             return state;

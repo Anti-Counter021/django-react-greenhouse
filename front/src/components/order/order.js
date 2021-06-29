@@ -2,12 +2,13 @@ import React, {Component} from "react";
 
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import DatePicker from "react-datepicker";
 
 import Navbar from "../navbar/navbar";
 import host from "../../services/host";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
-import {cartError, cartLoaded, cartRequested} from "../../redux/action";
+import {cartError, cartLoaded, cartRequested, orderDate} from "../../redux/action";
 import GetTokenFromLocalStorage from "../../services/get_token_from_localstorage";
 
 import "./order.scss";
@@ -24,7 +25,7 @@ class Order extends Component {
 
     createOrder = (e) => {
         e.preventDefault();
-        document.querySelector('.order__form__btn').style.display = 'none';
+        document.querySelector('.order__form__btn').style.opacity = '0';
 
         const {Services} = this.props;
         const data = Object.fromEntries(new FormData(e.target).entries());
@@ -32,18 +33,22 @@ class Order extends Component {
         Services.makeOrder(data, GetTokenFromLocalStorage())
             .then(res => {
                 alert(res.detail);
-                window.location.href = '/';
+                if (!res.error) {
+                    window.location.href = '/';
+                }
+
+                document.querySelector('.order__form__btn').style.opacity = '1';
             })
             .catch(error => {
                 alert('Произошла ошибка...');
                 console.log(error);
-                document.querySelector('.order__form__btn').style.display = 'block';
+                document.querySelector('.order__form__btn').style.opacity = '1';
             });
     }
 
     render() {
 
-        const {loading, error, cart: {for_anonymous_user, final_price}} = this.props;
+        const {orderDate, date, loading, error, cart: {for_anonymous_user, final_price}} = this.props;
         let {products} = this.props.cart;
 
         if (!products) {
@@ -90,8 +95,10 @@ class Order extends Component {
                                                     </td>
 
                                                     <td className="order__table__image">
-                                                        <img className="order__table__image__content" src={host + image}
-                                                             alt={title}/></td>
+                                                        <img
+                                                            className="order__table__image__content"
+                                                            src={host + image}
+                                                            alt={title}/></td>
                                                     <td className="order__table__price">{price} руб.</td>
 
                                                     <td id={"order_product_" + id} className="order__table__price">
@@ -155,7 +162,7 @@ class Order extends Component {
 
                                     <div className="order__form__group">
                                         <label htmlFor="address">
-                                            Адрес <span className="required">*</span>
+                                            Адрес<span className="required">*</span>
                                         </label>
                                         <input
                                             required
@@ -180,6 +187,21 @@ class Order extends Component {
                                             <option>Доставка</option>
                                         </select>
                                     </div>
+
+                                    <div className="order__form__group">
+                                        <label htmlFor="order_date">
+                                            Желаемая дата получения заказа<span className="required">*</span>
+                                        </label>
+                                    </div>
+                                    <DatePicker
+                                        selected={date}
+                                        name="order_date"
+                                        id="order_date"
+                                        dateFormat="dd/MM/yyyy"
+                                        className="order__form__input"
+                                        placeholder="Желаемая дата получения заказа"
+                                        onChange={(e) => orderDate(e)}
+                                    />
 
                                     <div className="order__form__group">
                                         <label htmlFor="comment">
@@ -227,6 +249,7 @@ const mapStateToProps = (state) => {
         cart: state.cart,
         error: state.error,
         loading: state.loading,
+        date: state.date,
     };
 };
 
@@ -234,6 +257,7 @@ const mapDispatchToProps = {
     cartLoaded,
     cartRequested,
     cartError,
+    orderDate,
 };
 
 export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Order));
