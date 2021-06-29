@@ -27,6 +27,7 @@ const Navbar = ({Services, addNavbarElement, navbarLinks, setUserIsAuthenticated
                 addNavbarElement({path: '/login', body: 'Вход / Регистрация', id: 'login'});
             }
         } else if (!navbarLinks.find(item => item.path === '/logout')) {
+            addNavbarElement({path: '/profile', body: 'Профиль', id: 'profile'});
             addNavbarElement({path: '/logout', body: 'Выход', id: 'logout'});
         }
     });

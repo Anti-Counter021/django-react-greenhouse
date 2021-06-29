@@ -1,0 +1,52 @@
+.profile {
+
+    &__table {
+        &__header {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        &__price {
+            font-weight: bold;
+        }
+
+        &__body {
+            font-size: 17px;
+            align-content: center;
+        }
+
+        &__title {
+            font-weight: bold;
+            text-align: center;
+        }
+    }
+
+    &__total {
+        margin: 50px;
+        font-size: 20px;
+        display: flex;
+        justify-content: right;
+
+        &__label {
+            margin: auto;
+        }
+
+        &__price {
+            margin: auto;
+            font-weight: bold;
+        }
+    }
+}
+
+.profile {
+
+    text-align: center;
+    margin: auto;
+    font-size: 17px;
+
+    &__header {
+        margin: 50px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+}

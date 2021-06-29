@@ -6,6 +6,7 @@ import Login from "./components/login/login";
 import Order from "./components/order/order";
 import Logout from "./components/logout/logout";
 import Footer from "./components/footer/footer";
+import Profile from "./components/profile/profile";
 import Register from "./components/register/register";
 import Categories from "./components/categories/categories";
 import ProductDetail from "./components/product_detail/product_detail";
@@ -28,6 +29,7 @@ function App() {
                 }/>
                 <Route exact path='/categories' component={Categories}/>
                 <Route exact path='/cart' component={Cart}/>
+                <Route exact path='/profile' component={Profile}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/logout' component={Logout}/>
                 <Route exact path='/register' component={Register}/>
