@@ -189,6 +189,14 @@ const setCartCount = (count) => {
     };
 };
 
+const filterReviews = (name, value) => {
+    return {
+        type: 'FILTER_REVIEWS',
+        name,
+        value,
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -229,4 +237,6 @@ export {
     reviewsRequested,
     reviewsError,
     reviewsLoaded,
+
+    filterReviews,
 };

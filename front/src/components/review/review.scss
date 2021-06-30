@@ -16,6 +16,27 @@
         }
     }
 
+    &__filter__input {
+        border: 1px solid black;
+        border-radius: 7px;
+        display: block;
+        font-size: 17px;
+        margin: 10px;
+    }
+
+    .filters {
+        &__form {
+            display: flex;
+            justify-content: center;
+        }
+
+        &__header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 17px;
+        }
+    }
+
     &__body {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         padding: 15px;
@@ -49,4 +70,9 @@
     border: 1px solid black;
     border-radius: 20px;
     padding: 5px;
+}
+
+.pagination__btn {
+    margin: 15px;
+    display: flex;
 }

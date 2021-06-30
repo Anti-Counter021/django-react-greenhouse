@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django_cleanup',
     'corsheaders',
     'drf_yasg',
+    'django_filters',
 
     'accounts',
     'shop',
@@ -153,6 +154,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
 
 

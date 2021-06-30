@@ -45,8 +45,8 @@ export default class Services {
 
     /* Отзывы */
 
-    getReviews = async () => {
-        return await this.httpRequest('GET', 'reviews/');
+    getReviews = async (page, filter) => {
+        return await this.httpRequest('GET', `reviews/?${filter}&page=${page}`);
     }
 
     postReview = async (data, token) => {

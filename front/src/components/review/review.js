@@ -8,7 +8,7 @@ import Navbar from "../navbar/navbar";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
 import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
-import {reviewsRequested, reviewsLoaded, reviewsError} from "../../redux/action";
+import {reviewsRequested, reviewsLoaded, reviewsError, filterReviews} from "../../redux/action";
 
 import "./review.scss";
 
@@ -17,16 +17,24 @@ import "./review.scss";
 
 class Review extends Component {
 
-    loadingReviews = () => {
-        const {Services, reviewsRequested, reviewsLoaded, reviewsError} = this.props;
-        reviewsRequested();
-        Services.getReviews()
+    loadingReviews = (page=1) => {
+        const {Services, reviewsLoaded, reviewsError, filter} = this.props;
+        Services.getReviews(page, `appraisal_min=${filter.minAppraisal}&appraisal_max=${filter.maxAppraisal}`)
             .then(res => reviewsLoaded(res))
             .catch(error => reviewsError());
     }
 
     componentDidMount() {
+        this.props.reviewsRequested();
         this.loadingReviews();
+    }
+
+    nextOrPrevPage = (numPage) => {
+        let page = numPage.split('=').pop();
+        if (isNaN(+page) || !(numPage.includes('&page='))) {
+            page = 1;
+        }
+        this.loadingReviews(page);
     }
 
     ratingItem = (e) => {
@@ -36,7 +44,7 @@ class Review extends Component {
     }
 
     postReview = (e) => {
-        const {Services} = this.props;
+        const {Services, reviewsRequested} = this.props;
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
         const star = document.querySelector('#form__rating').getAttribute('data-total-value');
@@ -44,14 +52,30 @@ class Review extends Component {
         Services.postReview(data, GetTokenFromLocalStorage())
             .then(res => {
                 alert(res.detail);
+                reviewsRequested();
                 this.loadingReviews();
             })
             .catch(error => alert('Просим прощения, произошла ошибка'));
     }
 
+    setFilter = async (name, value) => {
+        const {filterReviews} = this.props;
+        await filterReviews(name, value);
+        await this.loadingReviews();
+    }
+
     render() {
 
-        const {reviews, error, loading, userIsAuthenticated} = this.props;
+        const {reviews: {results, next, previous}, error, loading, userIsAuthenticated} = this.props;
+
+        const paginationBtn = (text, paginationParam) =>
+        {
+            return (
+                <button onClick={() => this.nextOrPrevPage(paginationParam)} className="buttons buttons__success">
+                    {text}
+                </button>
+            );
+        };
 
         if (loading) {
             return (
@@ -79,7 +103,9 @@ class Review extends Component {
                                         name="comment"
                                         className="reviews__form__input"
                                         type="text"
-                                        placeholder="Комментарий к отзыву"/>
+                                        placeholder="Комментарий к отзыву"
+                                        maxLength="200"
+                                    />
                                     <div id="form__rating" className="rating" data-total-value="0">
                                         <div onClick={this.ratingItem} className="rating__item" data-item-value="5">
                                             <span className="star">★</span>
@@ -101,8 +127,31 @@ class Review extends Component {
                                 </form>
                             ) : null
                         }
+                        <div className="filters">
+                            <h1 className="filters__header">Фильтрация отзывов</h1>
+                            <form className="filters__form">
+                                <input
+                                    onChange={(event => this.setFilter(event.target.name, event.target.value))}
+                                    name="minAppraisal"
+                                    type="number"
+                                    className="reviews__filter__input"
+                                    placeholder="От"
+                                    min="1"
+                                    max="4"
+                                />
+                                <input
+                                    onChange={(event => this.setFilter(event.target.name, event.target.value))}
+                                    name="maxAppraisal"
+                                    type="number"
+                                    className="reviews__filter__input"
+                                    placeholder="До"
+                                    min="2"
+                                    max="5"
+                                />
+                            </form>
+                        </div>
                         {
-                            reviews.map(({appraisal, id, user, comment, created_at}) => (
+                            results.map(({appraisal, id, user, comment, created_at}) => (
                                 <div key={id} className="reviews__body">
                                     <div className="reviews__author">
                                         <i className="user__icon fa fa-user" aria-hidden="true"/>
@@ -133,6 +182,14 @@ class Review extends Component {
                                 </div>
                             ))
                         }
+                        <div className="pagination__btn">
+                            {
+                                previous ? paginationBtn('Показать предыдущие', previous) : null
+                            }
+                            {
+                                next ? paginationBtn('Загрузить ещё', next) : null
+                            }
+                        </div>
                     </div>
                 </section>
             </>
@@ -148,6 +205,7 @@ const mapStateToProps = (state) => {
         loading: state.loading,
         error: state.error,
         userIsAuthenticated: state.userIsAuthenticated,
+        filter: state.filtersReviews,
     };
 };
 
@@ -155,6 +213,7 @@ const mapDispatchToProps = {
     reviewsRequested,
     reviewsLoaded,
     reviewsError,
+    filterReviews,
 };
 
 export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Review));

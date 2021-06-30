@@ -26,6 +26,10 @@ const initialState = {
     date: new Date(),
     reviews: [],
     cartCount: 0,
+    filtersReviews: {
+        minAppraisal: '1',
+        maxAppraisal: '5',
+    },
 };
 
 const reducer = (state = initialState, action) => {
@@ -187,6 +191,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 cartCount: action.payload,
+            };
+        case 'FILTER_REVIEWS':
+            return {
+                ...state,
+                filtersReviews: {...state.filtersReviews, ...{[action.name]: action.value}},
             };
         default:
             return state;

@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.shortcuts import get_object_or_404
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
@@ -12,6 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ViewSet
 
 from .cart import get_cart, get_or_create_cart_product, recalculate_cart
+from .filters import ReviewFilter
 from .models import Category, Product, CartProduct, Order, Review
 from .pagination import PaginationAPIView
 from .send_mail import send_manager_about_new_order
@@ -119,8 +122,11 @@ class OrderAPIView(APIView):
 
 class ReviewAPIView(ListAPIView):
 
-    queryset = Review.objects
+    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    pagination_class = PaginationAPIView
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ReviewFilter
 
 
 class CreateReviewAPIView(APIView):
