@@ -148,6 +148,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 MANAGERS = [
     (os.environ.get('USERNAME_MANAGER_1'), os.environ.get('EMAIL_MANAGER_1')),
 ]
+
 ADMINS = [
     (os.environ.get('USERNAME_MANAGER_1'), os.environ.get('EMAIL_MANAGER_1')),
 ]
@@ -215,4 +216,5 @@ LOGGING = {
 }
 
 
+# CORS
 CORS_ORIGIN_ALLOW_ALL = True
