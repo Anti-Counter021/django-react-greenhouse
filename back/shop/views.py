@@ -86,6 +86,10 @@ class CartAPIView(ViewSet):
         if request.user.is_anonymous:
             return Response({'error': 'Необходимо авторизироваться!'}, status=status.HTTP_403_FORBIDDEN)
         cart_product = get_object_or_404(CartProduct, id=kwargs['cart_product_id'])
+        if cart_product.user != request.user:
+            return Response(
+                {'error': 'Вы не имеете права изменять что-то не в своей корзине!'}, status=status.HTTP_403_FORBIDDEN
+            )
         cart_product.qty = int(kwargs['qty'])
         cart_product.save()
         recalculate_cart(cart_product.cart)
@@ -102,6 +106,10 @@ class CartAPIView(ViewSet):
             return Response({'error': 'Необходимо авторизироваться!'}, status=status.HTTP_403_FORBIDDEN)
         cart = get_cart(request.user)
         cart_product = get_object_or_404(CartProduct, id=kwargs['cart_product_id'])
+        if cart_product.user != request.user:
+            return Response(
+                {'error': 'Вы не имеете права удалять что-то не в своей корзине!'}, status=status.HTTP_403_FORBIDDEN
+            )
         cart.products.remove(cart_product)
         cart_product.delete()
         recalculate_cart(cart)
