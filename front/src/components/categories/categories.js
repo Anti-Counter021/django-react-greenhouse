@@ -33,7 +33,7 @@ class Categories extends Component {
 
         const {categories, productsRequested, productsLoaded} = this.props;
         productsRequested();
-        productsLoaded(categories.find(item => item.id === id).products);
+        productsLoaded({results: categories.find(item => item.id === id).products});
     }
 
     render() {

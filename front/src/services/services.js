@@ -27,8 +27,8 @@ export default class Services {
 
     /* GET */
 
-    getProducts = async () => {
-        return await this.httpRequest('GET', 'products/');
+    getProducts = async (page) => {
+        return await this.httpRequest('GET', `products/?page=${page}`);
     }
 
     getNewProduct = async () => {

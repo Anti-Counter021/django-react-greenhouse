@@ -8,7 +8,7 @@ import CartNavbar from "../components/cart_navbar/cart_navbar";
 const initialState = {
     error: false,
     loading: true,
-    products: [],
+    products: {},
     newProduct: {},
     categories: [],
     productDetail: {},
@@ -34,6 +34,16 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 products: action.payload,
+                loading: false,
+            };
+        case 'PRODUCTS_NEXT_LOADED':
+            return {
+                ...state,
+                products: {
+                    ...state.products,
+                    results: [...state.products.results, ...action.payload.results],
+                    next: action.payload.next,
+                },
                 loading: false,
             };
         case 'PRODUCTS_REQUESTED':

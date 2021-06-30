@@ -151,7 +151,7 @@ class ProductDetail extends Component {
 
                                         <img
                                             onClick={() => this.nextSlide(count_images)}
-                                            src={host + image} alt={title}
+                                            src={image} alt={title}
                                             className="slider__image"
                                         />
 
@@ -169,7 +169,7 @@ class ProductDetail extends Component {
 
                                         <i className="arrow arrow__right" onClick={() => this.nextSlide(count_images)}/>
                                     </>
-                                ) : <img src={host + image} alt={title} className="slider__image"/>}
+                                ) : <img src={image} alt={title} className="slider__image"/>}
                             </div>
                             <div className="section__body">
                                 <div className="section__content">

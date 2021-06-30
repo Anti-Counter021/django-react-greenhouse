@@ -13,6 +13,7 @@ from rest_framework.viewsets import GenericViewSet, ViewSet
 
 from .cart import get_cart, get_or_create_cart_product, recalculate_cart
 from .models import Category, Product, CartProduct, Order, Review
+from .pagination import PaginationAPIView
 from .send_mail import send_manager_about_new_order
 from .serializers import CustomCategorySerializer, ProductSerializer, CartSerializer, ReviewSerializer
 
@@ -27,8 +28,9 @@ class CategoryAPIView(ListModelMixin, GenericViewSet):
 class ProductAPIView(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     """ Товары """
 
-    queryset = Product.objects
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    pagination_class = PaginationAPIView
     lookup_field = 'slug'
 
 

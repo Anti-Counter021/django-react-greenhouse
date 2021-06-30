@@ -7,7 +7,7 @@ import Error from "../error/error";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
 import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
-import {productsLoaded, productsRequested, productsError, setCartCount} from "../../redux/action";
+import {productsLoaded, productsRequested, productsError, setCartCount, nexPageWithProductsLoaded} from "../../redux/action";
 
 import "./card.scss";
 
@@ -16,10 +16,18 @@ import "./card.scss";
 
 class Products extends Component {
 
+    loadProducts = (page=1) => {
+        const {productsLoaded, productsRequested, productsError, getProducts, nexPageWithProductsLoaded} = this.props;
+        if (page === 1) {
+            productsRequested();
+            getProducts(page).then(products => productsLoaded(products)).catch(error => productsError);
+        } else {
+            getProducts(page).then(products => nexPageWithProductsLoaded(products)).catch(error => productsError);
+        }
+    }
+
     componentDidMount() {
-        const {productsLoaded, productsRequested, productsError, getProducts} = this.props;
-        productsRequested();
-        getProducts().then(products => productsLoaded(products)).catch(error => productsError);
+        this.loadProducts();
     }
 
     addToCart = (productId) => {
@@ -40,9 +48,13 @@ class Products extends Component {
             });
     }
 
+    nextPage = (nextPage) => {
+        this.loadProducts(nextPage.split('=').pop());
+    }
+
     render() {
 
-        const {products, loading, error} = this.props;
+        const {products: {results, next}, loading, error, showButton} = this.props;
 
         if (loading) {
             return <Spinner/>
@@ -52,28 +64,43 @@ class Products extends Component {
             return <Error/>
         }
 
+        const nextBtn = (
+            <div className="products__btn">
+                <button onClick={() => this.nextPage(next)} className="buttons buttons__success">
+                    Загрузить ещё
+                </button>
+            </div>
+        );
+
         return (
             <>
                 <div className="products__body">
                     {
-                        products.map(({title, id, image, price, slug}) => (
-                            <div className="card" key={id}>
-                                <div className="card__title">{title}</div>
-                                <Link to={`/products/${slug}`}>
-                                    <img className="card__image" src={image} alt={title}/>
-                                </Link>
-                                <div className="card__content">
-                                    <div className="card__price">Цена: {price} руб.</div>
+                        results && results.length ? (
+                            results.map(({title, id, image, price, slug}) => (
+                                <div className="card" key={id}>
+                                    <div className="card__title">{title}</div>
+                                    <Link to={`/products/${slug}`}>
+                                        <img className="card__image" src={image} alt={title}/>
+                                    </Link>
+                                    <div className="card__content">
+                                        <div className="card__price">Цена: {price} руб.</div>
+                                    </div>
+                                    <div className="products__action">
+                                        <button className="buttons buttons__success" onClick={() => this.addToCart(id)}>
+                                            Добавить в корзину
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="products__action">
-                                    <button className="buttons buttons__success" onClick={() => this.addToCart(id)}>
-                                        Добавить в корзину
-                                    </button>
-                                </div>
-                            </div>
-                        ))
+                            ))
+                        ) : null
                     }
                 </div>
+                {
+                    next && showButton ? (
+                        nextBtn
+                    ) : null
+                }
             </>
         );
     }
@@ -95,6 +122,7 @@ const mapDispatchToProps = {
     productsRequested,
     productsError,
     setCartCount,
+    nexPageWithProductsLoaded,
 };
 
 export default WithServices()(connect(mapStateToProps, mapDispatchToProps)(Products));

@@ -5,6 +5,13 @@
         display: flex;
         justify-content: center;
     }
+
+    &__btn {
+        width: 25%;
+        text-align: center;
+        margin: auto;
+        font-size: 17px;
+    }
 }
 
 

@@ -7,6 +7,13 @@ const productsLoaded = (newProducts) => {
     };
 };
 
+const nexPageWithProductsLoaded = (newProducts) => {
+    return {
+        type: 'PRODUCTS_NEXT_LOADED',
+        payload: newProducts,
+    };
+};
+
 const productsRequested = () => {
     return {
         type: 'PRODUCTS_REQUESTED',
@@ -186,6 +193,7 @@ export {
     productsLoaded,
     productsError,
     productsRequested,
+    nexPageWithProductsLoaded,
 
     productNewLoaded,
     productNewError,

@@ -19,7 +19,7 @@ const Home = ({Services}) => {
             <section className="products">
                 <div className="container">
                     <div className="header">Наши товары</div>
-                    <Products host='' getProducts={Services.getProducts}/>
+                    <Products showButton getProducts={Services.getProducts}/>
                 </div>
             </section>
         </>
