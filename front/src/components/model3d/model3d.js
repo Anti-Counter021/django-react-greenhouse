@@ -20,10 +20,18 @@ export default class Model3D extends Component {
 
         let renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
         renderer.setClearColor(0x000000, 0);
-        renderer.setSize(500, 240)
+        if (window.innerWidth < 770 && window.innerWidth > 550) {
+            renderer.setSize(250, 120);
+        } else if (window.innerWidth < 550) {
+            renderer.setSize(250, 150);
+        } else {
+            renderer.setSize(500, 240);
+        }
 
-        if (window.innerWidth < 570) {
-            camera.position.z = 42;
+        if (window.innerWidth < 770 && window.innerWidth > 550) {
+            camera.position.z = 23;
+        } else if (window.innerWidth < 550) {
+            camera.position.z = 27;
         }
 
         renderer.domElement.setAttribute('id', 'Greenhouse3DObj');
