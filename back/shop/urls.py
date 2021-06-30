@@ -10,6 +10,7 @@ from .views import (
     OrderAPIView,
     ReviewAPIView,
     CreateReviewAPIView,
+    FeedbackCreateAPIView,
 )
 
 router = SimpleRouter()
@@ -19,6 +20,7 @@ router.register('cart', CartAPIView, basename='cart')
 app_name = 'shop'
 urlpatterns = [
     path('', include(router.urls)),
+    path('feedback', FeedbackCreateAPIView.as_view(), name='feedback'),
     path('categories/', CategoryAPIView.as_view({'get': 'list'}), name='categories'),
     path('reviews/add', CreateReviewAPIView.as_view(), name='create_review'),
     path('reviews/', ReviewAPIView.as_view(), name='reviews'),

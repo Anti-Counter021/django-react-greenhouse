@@ -1,6 +1,16 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import Category, Product, ProductFeature, AdditionalImageProduct, CartProduct, Cart, Order, Review
+from .models import (
+    Category,
+    Product,
+    ProductFeature,
+    AdditionalImageProduct,
+    CartProduct,
+    Cart,
+    Order,
+    Review,
+    Feedback,
+)
 
 
 class AdditionalImageProductSerializer(ModelSerializer):
@@ -124,3 +134,11 @@ class ReviewSerializer(ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
+
+
+class FeedbackSerializer(ModelSerializer):
+    """ Сообщение о багах """
+
+    class Meta:
+        model = Feedback
+        fields = ('text',)

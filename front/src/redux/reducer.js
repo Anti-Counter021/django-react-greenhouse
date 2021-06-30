@@ -16,7 +16,7 @@ const initialState = {
         {path: '/', body: 'Главная', id: 'home'},
         {path: '/categories', body: 'Категории', id: 'categories'},
         {path: '/reviews', body: 'Отзывы', id: 'reviews'},
-        {path: '#', body: 'Контакты', id: 'contacts'},
+        {path: '/contacts', body: 'Контакты', id: 'contacts'},
         {path: '/cart', body: <><i className="fa fa-cart-arrow-down" aria-hidden="true"/> <CartNavbar/></>, id: 'cart'},
     ],
     sliderItem: 0,

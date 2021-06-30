@@ -6,7 +6,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -15,10 +15,16 @@ from rest_framework.viewsets import GenericViewSet, ViewSet
 
 from .cart import get_cart, get_or_create_cart_product, recalculate_cart
 from .filters import ReviewFilter
-from .models import Category, Product, CartProduct, Order, Review
+from .models import Category, Product, CartProduct, Order, Review, Feedback
 from .pagination import PaginationAPIView
 from .send_mail import send_manager_about_new_order
-from .serializers import CustomCategorySerializer, ProductSerializer, CartSerializer, ReviewSerializer
+from .serializers import (
+    CustomCategorySerializer,
+    ProductSerializer,
+    CartSerializer,
+    ReviewSerializer,
+    FeedbackSerializer,
+)
 
 
 class CategoryAPIView(ListModelMixin, GenericViewSet):
@@ -125,6 +131,7 @@ class OrderAPIView(APIView):
 
 
 class ReviewAPIView(ListAPIView):
+    """ Отзывы """
 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -134,6 +141,7 @@ class ReviewAPIView(ListAPIView):
 
 
 class CreateReviewAPIView(APIView):
+    """ Создание отзыва """
 
     permission_classes = (IsAuthenticated,)
 
@@ -141,3 +149,10 @@ class CreateReviewAPIView(APIView):
         attrs = request.data
         Review.objects.create(user=request.user, appraisal=attrs['appraisal'], comment=attrs['comment'])
         return Response({'detail': 'Спасибо за отзыв!'})
+
+
+class FeedbackCreateAPIView(CreateAPIView):
+    """ Создание сообщения о багах """
+
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer

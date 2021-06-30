@@ -53,6 +53,11 @@ export default class Services {
         return await this.httpRequest('POST', 'reviews/add', token, data);
     }
 
+    /* Баги */
+    postFeedback = async (data) => {
+        return await this.httpRequest('POST', 'feedback', '', data);
+    }
+
     /* Корзина */
 
     getUserCart = async (token) => {

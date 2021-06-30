@@ -169,3 +169,27 @@ class Review(models.Model):
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
         ordering = ['appraisal', '-created_at']
+
+
+class Feedback(models.Model):
+    """ Сообщение о багах """
+
+    NEW = 'new'
+    FIX = 'fix'
+
+    STATUS_CHOICES = (
+        (NEW, 'Новый'),
+        (FIX, 'Исправлен'),
+    )
+
+    text = models.TextField(verbose_name='Описание проблемы')
+    status = models.CharField(max_length=30, verbose_name='Статус ошибки', choices=STATUS_CHOICES, default=NEW)
+    created_at = models.DateTimeField(auto_now=True, verbose_name='Дата поступления проблемы')
+
+    def __str__(self):
+        return f'{self.id} - {self.status}'
+
+    class Meta:
+        verbose_name = 'Ошибка'
+        verbose_name_plural = 'Ошибки'
+        ordering = ['-status', '-created_at']

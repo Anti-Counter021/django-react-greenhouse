@@ -9,10 +9,12 @@ import Logout from "./components/logout/logout";
 import Footer from "./components/footer/footer";
 import Profile from "./components/profile/profile";
 import Register from "./components/register/register";
+import Contacts from "./components/contacts/contacts";
 import Categories from "./components/categories/categories";
 import ProductDetail from "./components/product_detail/product_detail";
 
 import './App.scss';
+
 
 function App() {
     return (
@@ -29,6 +31,7 @@ function App() {
                     }
                 }/>
                 <Route exact path='/categories' component={Categories}/>
+                <Route exact path='/contacts' component={Contacts}/>
                 <Route exact path='/reviews' component={Review}/>
                 <Route exact path='/cart' component={Cart}/>
                 <Route exact path='/profile' component={Profile}/>
