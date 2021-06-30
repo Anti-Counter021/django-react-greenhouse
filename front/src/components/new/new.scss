@@ -6,7 +6,12 @@
         max-height: 280px;
     }
 
-    #section__new__price {
+    .section__new__price {
         font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .old_price_new {
+        margin-left: 10px;
     }
 }

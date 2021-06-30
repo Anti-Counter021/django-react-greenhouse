@@ -24,7 +24,11 @@ class New extends Component {
 
     render() {
 
-        const {newProduct: {image, title, id, description, price, slug}, loading, error} = this.props;
+        const {
+            newProduct: {image, title, id, description, price, slug, discount, price_with_discount},
+            loading,
+            error,
+        } = this.props;
 
         if (loading) {
             return <Spinner/>
@@ -48,7 +52,24 @@ class New extends Component {
                                 {description}
                             </div>
                             <div className="section__new__content">
-                                Цена: <span id="section__new__price">{price}</span> руб.
+                                Цена: <br/> {
+                                    !discount ? (
+                                        <>
+                                            <span className="section__new__price">{price}</span> руб.
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="old_price_new">
+                                                <del>{price} руб.</del>
+                                                <sup className="discount">-{discount}%</sup>
+                                            </div>
+
+                                            <br/>
+
+                                            <span className="section__new__price">{price_with_discount}</span> руб.
+                                        </>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>
