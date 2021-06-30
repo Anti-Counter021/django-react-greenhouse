@@ -41,13 +41,11 @@ class NewProductAPIView(APIView):
     """ Новый товар """
 
     def get(self, request, *args, **kwargs):
-        return Response(ProductSerializer(Product.objects.first()).data)
+        return Response(ProductSerializer(Product.objects.order_by('-id').first()).data)
 
 
 class CartAPIView(ViewSet):
     """ Действие с товарами в корзине """
-
-    permission_classes = (IsAuthenticated,)
 
     @action(methods=['get'], detail=False)
     def get(self, request, *args, **kwargs):
@@ -59,6 +57,8 @@ class CartAPIView(ViewSet):
     def add_to_cart(self, request, *args, **kwargs):
         """ Добавление товара в корзину """
 
+        if request.user.is_anonymous:
+            return Response({'error': 'Необходимо авторизироваться!'}, status=status.HTTP_403_FORBIDDEN)
         cart = get_cart(request.user)
         product = get_object_or_404(Product, id=kwargs['product_id'])
         cart_product, created = get_or_create_cart_product(request.user, cart, product)
@@ -74,6 +74,8 @@ class CartAPIView(ViewSet):
     def change_qty(self, request, *args, **kwargs):
         """ Изменение количества товара в корзине """
 
+        if request.user.is_anonymous:
+            return Response({'error': 'Необходимо авторизироваться!'}, status=status.HTTP_403_FORBIDDEN)
         cart_product = get_object_or_404(CartProduct, id=kwargs['cart_product_id'])
         cart_product.qty = int(kwargs['qty'])
         cart_product.save()
@@ -87,6 +89,8 @@ class CartAPIView(ViewSet):
     def delete_from_cart(self, request, *args, **kwargs):
         """ Удаление товара из корзины """
 
+        if request.user.is_anonymous:
+            return Response({'error': 'Необходимо авторизироваться!'}, status=status.HTTP_403_FORBIDDEN)
         cart = get_cart(request.user)
         cart_product = get_object_or_404(CartProduct, id=kwargs['cart_product_id'])
         cart.products.remove(cart_product)

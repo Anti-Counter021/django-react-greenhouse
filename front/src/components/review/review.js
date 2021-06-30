@@ -151,36 +151,38 @@ class Review extends Component {
                             </form>
                         </div>
                         {
-                            results.map(({appraisal, id, user, comment, created_at}) => (
-                                <div key={id} className="reviews__body">
-                                    <div className="reviews__author">
-                                        <i className="user__icon fa fa-user" aria-hidden="true"/>
-                                        <span className="reviews__author__username"> {user}</span>
-                                    </div>
-                                    <div className="reviews__content">
-                                        <div className="reviews__text">
-                                            {comment ? `${comment},` : null} Дата публикации {<Moment format="DD.MM.YYYY" date={created_at}/>}
+                            results && results.length ? (
+                                results.map(({appraisal, id, user, comment, created_at}) => (
+                                    <div key={id} className="reviews__body">
+                                        <div className="reviews__author">
+                                            <i className="user__icon fa fa-user" aria-hidden="true"/>
+                                            <span className="reviews__author__username"> {user}</span>
                                         </div>
-                                        <div className="rating" data-total-value={appraisal}>
-                                            <div className="rating__item" data-item-value="5">
-                                                <span className="star">★</span>
+                                        <div className="reviews__content">
+                                            <div className="reviews__text">
+                                                {comment ? `${comment},` : null} Дата публикации {<Moment format="DD.MM.YYYY" date={created_at}/>}
                                             </div>
-                                            <div className="rating__item" data-item-value="4">
-                                                <span className="star">★</span>
-                                            </div>
-                                            <div className="rating__item" data-item-value="3">
-                                                <span className="star">★</span>
-                                            </div>
-                                            <div className="rating__item" data-item-value="2">
-                                                <span className="star">★</span>
-                                            </div>
-                                            <div className="rating__item" data-item-value="1">
-                                                <span className="star">★</span>
+                                            <div className="rating" data-total-value={appraisal}>
+                                                <div className="rating__item" data-item-value="5">
+                                                    <span className="star">★</span>
+                                                </div>
+                                                <div className="rating__item" data-item-value="4">
+                                                    <span className="star">★</span>
+                                                </div>
+                                                <div className="rating__item" data-item-value="3">
+                                                    <span className="star">★</span>
+                                                </div>
+                                                <div className="rating__item" data-item-value="2">
+                                                    <span className="star">★</span>
+                                                </div>
+                                                <div className="rating__item" data-item-value="1">
+                                                    <span className="star">★</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             ))
+                            ) : null
                         }
                         <div className="pagination__btn">
                             {

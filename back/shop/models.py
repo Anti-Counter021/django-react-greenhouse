@@ -35,7 +35,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
-        ordering = ['-id', 'category']
+        ordering = ['category', 'price', '-id']
 
 
 class ProductFeature(models.Model):
@@ -168,4 +168,4 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
-        ordering = ['-created_at']
+        ordering = ['appraisal', '-created_at']

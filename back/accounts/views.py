@@ -1,6 +1,7 @@
 from django.contrib.auth.password_validation import validate_password
 
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -52,6 +53,8 @@ class RegisterAPIView(APIView):
 class LogoutAPIView(APIView):
     """ Выход """
 
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, *args, **kwargs):
         request.user.auth_token.delete()
         return Response({'success': True})
@@ -62,6 +65,7 @@ class UserProfileAPIView(ListAPIView):
 
     queryset = Order.objects
     serializer_class = OrderSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
