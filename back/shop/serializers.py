@@ -43,6 +43,11 @@ class ProductSerializer(ModelSerializer):
     features = SerializerMethodField()
     additional_images = SerializerMethodField()
     count_images = SerializerMethodField()
+    price_with_discount = SerializerMethodField()
+
+    @staticmethod
+    def get_price_with_discount(obj):
+        return obj.get_price_with_discount()
 
     @staticmethod
     def get_count_images(obj):

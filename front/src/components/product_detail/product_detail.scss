@@ -3,6 +3,10 @@
     text-align: center;
 }
 
+.old__price {
+    margin-left: 10px;
+}
+
 .product__table__content {
     font-size: 17px;
     text-align: center;
@@ -29,8 +33,9 @@
     font-size: 17px;
     margin: 10px 0;
 
-    &__rub {
+    &__rub{
         font-weight: bold;
+        margin-left: 10px;
     }
 }
 

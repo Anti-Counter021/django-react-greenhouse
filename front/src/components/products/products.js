@@ -77,14 +77,28 @@ class Products extends Component {
                 <div className="products__body">
                     {
                         results && results.length ? (
-                            results.map(({title, id, image, price, slug}) => (
+                            results.map(({title, id, image, price, slug, discount, price_with_discount}) => (
                                 <div className="card" key={id}>
                                     <div className="card__title">{title}</div>
                                     <Link to={`/products/${slug}`}>
                                         <img className="card__image" src={image} alt={title}/>
                                     </Link>
                                     <div className="card__content">
-                                        <div className="card__price">Цена: {price} руб.</div>
+                                        {
+                                            !discount ? (
+                                                <div className="card__price">Цена: {price} руб.</div>
+                                            ) : (
+                                                <>
+                                                    <div className="card__price">
+                                                        Цена: <del>{price} руб.</del>
+                                                        <sup className="discount">
+                                                            -{discount}%
+                                                        </sup>
+                                                    </div>
+                                                    <div className="card__price">Цена: {price_with_discount} руб.</div>
+                                                </>
+                                            )
+                                        }
                                     </div>
                                     <div className="products__action">
                                         <button className="buttons buttons__success" onClick={() => this.addToCart(id)}>

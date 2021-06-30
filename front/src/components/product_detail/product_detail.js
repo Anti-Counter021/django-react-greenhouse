@@ -111,7 +111,9 @@ class ProductDetail extends Component {
     render() {
 
         const {
-            productDetail: {title, image, description, price, additional_images, count_images, id},
+            productDetail: {
+                title, image, description, price, additional_images, count_images, id, discount, price_with_discount
+            },
             loading,
             error,
             sliderItem,
@@ -176,7 +178,26 @@ class ProductDetail extends Component {
                                     Описание: <p style={{margin: '10px 0 0 15px'}}>{description}</p>
 
                                     <p className="product__price">
-                                        Цена: <span className="product__price__rub">{price}</span> руб.
+                                        Цена: <br/> {
+                                            !discount ? (
+                                                <>
+                                                    <span className="product__price__rub">{price}</span> руб.
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div className="old__price">
+                                                        <del> {price} руб.</del>
+                                                        <sup className="discount">-{discount}%</sup>
+                                                    </div>
+
+                                                    <br/>
+
+                                                    <span className="product__price__rub">
+                                                        {price_with_discount}
+                                                    </span> руб.
+                                                </>
+                                            )
+                                        }
                                     </p>
                                 </div>
                                 <div className="product__action">

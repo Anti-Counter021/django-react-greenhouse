@@ -69,7 +69,10 @@ class CartAPIView(ViewSet):
         product = get_object_or_404(Product, id=kwargs['product_id'])
         cart_product, created = get_or_create_cart_product(request.user, cart, product)
         if created:
-            cart_product.price = product.price
+            if not product.discount:
+                cart_product.price = product.price
+            else:
+                cart_product.price = product.get_price_with_discount()
             cart_product.save()
             cart.products.add(cart_product)
             recalculate_cart(cart)

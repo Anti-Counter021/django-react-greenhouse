@@ -28,9 +28,13 @@ class Product(models.Model):
     image = models.ImageField(verbose_name='Главное изображение', upload_to=get_timestamp_path)
     description = models.TextField(verbose_name='Описание')
     price = models.PositiveIntegerField(verbose_name='Цена', default=0)
+    discount = models.PositiveIntegerField(verbose_name='Скидка', default=0)
 
     def __str__(self):
         return f'{self.title}'
+
+    def get_price_with_discount(self):
+        return self.price - self.price / 100 * self.discount
 
     class Meta:
         verbose_name = 'Товар'

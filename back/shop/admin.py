@@ -1,6 +1,16 @@
 from django.contrib import admin
 
-from .models import Category, Product, CartProduct, Cart, ProductFeature, AdditionalImageProduct, Order, Review, Feedback
+from .models import (
+    Category,
+    Product,
+    CartProduct,
+    Cart,
+    ProductFeature,
+    AdditionalImageProduct,
+    Order,
+    Review,
+    Feedback,
+)
 
 
 admin.site.register(AdditionalImageProduct)
