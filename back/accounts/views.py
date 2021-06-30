@@ -1,5 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -56,8 +57,11 @@ class LogoutAPIView(APIView):
         return Response({'success': True})
 
 
-class UserProfileAPIView(APIView):
+class UserProfileAPIView(ListAPIView):
     """ Профиль """
 
-    def get(self, request, *args, **kwargs):
-        return Response(OrderSerializer(Order.objects.filter(user=request.user), many=True).data)
+    queryset = Order.objects
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)

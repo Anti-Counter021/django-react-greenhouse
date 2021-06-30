@@ -3,10 +3,13 @@ from datetime import datetime
 from django.shortcuts import get_object_or_404
 
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
+from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet, ViewSet
 
 from .cart import get_cart, get_or_create_cart_product, recalculate_cart
 from .models import Category, Product, CartProduct, Order, Review
@@ -14,18 +17,19 @@ from .send_mail import send_manager_about_new_order
 from .serializers import CustomCategorySerializer, ProductSerializer, CartSerializer, ReviewSerializer
 
 
-class CategoryAPIView(ListAPIView):
+class CategoryAPIView(ListModelMixin, GenericViewSet):
     """ Категории """
 
     queryset = Category.objects
     serializer_class = CustomCategorySerializer
 
 
-class ProductAPIView(APIView):
+class ProductAPIView(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     """ Товары """
 
-    def get(self, request, *args, **kwargs):
-        return Response(ProductSerializer(Product.objects.all(), many=True).data)
+    queryset = Product.objects
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'
 
 
 class NewProductAPIView(APIView):
@@ -35,26 +39,19 @@ class NewProductAPIView(APIView):
         return Response(ProductSerializer(Product.objects.first()).data)
 
 
-class ProductDetailAPIView(APIView):
-    """ Детализация товара """
-
-    def get(self, request, *args, **kwargs):
-        return Response(ProductSerializer(Product.objects.filter(slug=kwargs['slug']).first()).data)
-
-
-class CartAPIView(APIView):
-    """ Получение корзины """
-
-    def get(self, request, *args, **kwargs):
-        return Response(CartSerializer(get_cart(request.user)).data)
-
-
-class ActionCartAPIView(APIView):
+class CartAPIView(ViewSet):
     """ Действие с товарами в корзине """
 
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, *args, **kwargs):
+    @action(methods=['get'], detail=False)
+    def get(self, request, *args, **kwargs):
+        """ Получение корзины """
+
+        return Response(CartSerializer(get_cart(request.user)).data)
+
+    @action(methods=['post'], detail=False, url_path='add/(?P<product_id>\d+)')
+    def add_to_cart(self, request, *args, **kwargs):
         """ Добавление товара в корзину """
 
         cart = get_cart(request.user)
@@ -68,7 +65,8 @@ class ActionCartAPIView(APIView):
             return Response({'detail': 'Товар добавлен в корзину', 'added': True})
         return Response({'detail': 'Товар уже в корзине', 'added': False}, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, *args, **kwargs):
+    @action(methods=['put'], detail=False, url_path='change-qty/(?P<cart_product_id>\d+)/(?P<qty>\d+)')
+    def change_qty(self, request, *args, **kwargs):
         """ Изменение количества товара в корзине """
 
         cart_product = get_object_or_404(CartProduct, id=kwargs['cart_product_id'])
@@ -80,7 +78,8 @@ class ActionCartAPIView(APIView):
             'final_price': cart_product.final_price, 'cart_price': cart_product.cart.final_price
         })
 
-    def delete(self, request, *args, **kwargs):
+    @action(methods=['delete'], detail=False, url_path='remove/(?P<cart_product_id>\d+)')
+    def delete_from_cart(self, request, *args, **kwargs):
         """ Удаление товара из корзины """
 
         cart = get_cart(request.user)
@@ -116,10 +115,10 @@ class OrderAPIView(APIView):
         return Response({'detail': 'Заказ создан успешно. Ждите ответа'})
 
 
-class ReviewAPIView(APIView):
+class ReviewAPIView(ListAPIView):
 
-    def get(self, request, *args, **kwargs):
-        return Response(ReviewSerializer(Review.objects.all(), many=True).data)
+    queryset = Review.objects
+    serializer_class = ReviewSerializer
 
 
 class CreateReviewAPIView(APIView):

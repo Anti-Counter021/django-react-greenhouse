@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 import Error from "../error/error";
-import host from "../../services/host";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
 import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
@@ -61,7 +60,7 @@ class Products extends Component {
                             <div className="card" key={id}>
                                 <div className="card__title">{title}</div>
                                 <Link to={`/products/${slug}`}>
-                                    <img className="card__image" src={host + image} alt={title}/>
+                                    <img className="card__image" src={image} alt={title}/>
                                 </Link>
                                 <div className="card__content">
                                     <div className="card__price">Цена: {price} руб.</div>

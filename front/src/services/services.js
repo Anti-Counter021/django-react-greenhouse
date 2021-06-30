@@ -32,7 +32,7 @@ export default class Services {
     }
 
     getNewProduct = async () => {
-        return await this.httpRequest('GET', 'new-product');
+        return await this.httpRequest('GET', 'products/new-product');
     }
 
     getCategoryProducts = async () => {
@@ -56,19 +56,19 @@ export default class Services {
     /* Корзина */
 
     getUserCart = async (token) => {
-        return await this.httpRequest('GET', 'cart', token);
+        return await this.httpRequest('GET', 'cart/get/', token);
     }
 
     addNewProductInCart = async (productId, token) => {
-        return await this.httpRequest('POST',`cart/add/${productId}`, token);
+        return await this.httpRequest('POST',`cart/add/${productId}/`, token);
     }
 
     deleteProductFromCart = async (cartProductId, token) => {
-        return await this.httpRequest('DELETE', `cart/remove/${cartProductId}`, token);
+        return await this.httpRequest('DELETE', `cart/remove/${cartProductId}/`, token);
     }
 
     changeProductQTYFromCart = async (cartProductId, qty, token) => {
-        return await this.httpRequest('PUT', `cart/change-qty/${cartProductId}/${qty}`, token);
+        return await this.httpRequest('PUT', `cart/change-qty/${cartProductId}/${qty}/`, token);
     }
 
     makeOrder = async (data, token) => {
