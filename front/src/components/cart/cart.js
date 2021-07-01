@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
+import Error from "../error/error";
 import Navbar from "../navbar/navbar";
 import host from "../../services/host";
 import Spinner from "../spinner/spinner";
@@ -78,11 +79,21 @@ class Cart extends Component {
                     <Navbar active='cart'/>
                     <Spinner/>
                 </>
-            )
+            );
         }
 
         if (error) {
-            document.querySelector('.error').style.display = 'block';
+            const errorBlock = document.querySelector('.error');
+            if (errorBlock) {
+                errorBlock.style.display = 'block';
+            } else {
+                return (
+                    <>
+                        <Navbar active='cart'/>
+                        <Error/>
+                    </>
+                );
+            }
         }
 
         return (
@@ -173,8 +184,8 @@ const mapStateToProps = (state) => {
     return {
         cartCount: state.cartCount,
         cart: state.cart,
-        error: state.error,
-        loading: state.loading,
+        error: state.errorCart,
+        loading: state.loadingCart,
     };
 };
 

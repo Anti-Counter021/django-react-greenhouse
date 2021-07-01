@@ -42,7 +42,12 @@ class Profile extends Component {
         }
 
         if (error) {
-            return <Error/>;
+            return (
+                <>
+                    <Navbar active="profile"/>
+                    <Error/>
+                </>
+            );
         }
 
         return (
@@ -120,8 +125,8 @@ class Profile extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        error: state.error,
-        loading: state.loading,
+        error: state.errorCart,
+        loading: state.loadingCart,
         orders: state.orders,
         userIsAuthenticated: state.userIsAuthenticated,
     };

@@ -5,7 +5,7 @@ import React from "react";
 
 const Error = () => {
 
-    return <div className="error">Error</div>
+    return <div className="error">Произошла ошибка... Нам очень жаль. Попробуйте пожалуйста чуть позже</div>
 
 }
 

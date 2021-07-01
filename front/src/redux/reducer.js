@@ -6,12 +6,18 @@ import CartNavbar from "../components/cart_navbar/cart_navbar";
 
 // Начальное состояние
 const initialState = {
-    error: false,
-    loading: true,
+    errorProducts: false,
+    productsLoading: true,
     products: {},
     newProduct: {},
+    errorNewProduct: false,
+    loadingNewProduct: true,
     categories: [],
+    loadingCategories: true,
+    errorCategories: false,
     productDetail: {},
+    loadingProductDetail: true,
+    errorProductDetail: false,
     navbarLinks: [
         {path: '/', body: 'Главная', id: 'home'},
         {path: '/categories', body: 'Категории', id: 'categories'},
@@ -21,10 +27,14 @@ const initialState = {
     ],
     sliderItem: 0,
     cart: {},
+    loadingCart: true,
+    errorCart: false,
     userIsAuthenticated: false,
     orders: [],
     date: new Date(),
     reviews: [],
+    loadingReviews: true,
+    errorReviews: false,
     cartCount: 0,
     filtersReviews: {
         minAppraisal: '1',
@@ -38,7 +48,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 products: action.payload,
-                loading: false,
+                productsLoading: false,
             };
         case 'PRODUCTS_NEXT_LOADED':
             return {
@@ -48,65 +58,65 @@ const reducer = (state = initialState, action) => {
                     results: [...state.products.results, ...action.payload.results],
                     next: action.payload.next,
                 },
-                loading: false,
+                productsLoading: false,
             };
         case 'PRODUCTS_REQUESTED':
             return {
                 ...state,
-                loading: true,
+                productsLoading: true,
             };
         case 'PRODUCTS_ERROR':
             return {
                 ...state,
-                error: true,
+                errorProducts: true,
             };
         case 'PRODUCT_NEW_LOADED':
             return {
                 ...state,
                 newProduct: action.payload,
-                loading: false,
+                loadingNewProduct: false,
             };
         case 'PRODUCT_NEW_REQUESTED':
             return {
                 ...state,
-                loading: true,
+                loadingNewProduct: true,
             };
         case 'PRODUCT_NEW_ERROR':
             return {
                 ...state,
-                error: true,
+                errorNewProduct: true,
             };
         case 'CATEGORIES_LOADED':
             return {
                 ...state,
                 categories: action.payload,
-                loading: false,
+                loadingCategories: false,
             };
         case 'CATEGORIES_REQUESTED':
             return {
                 ...state,
-                loading: true,
+                loadingCategories: true,
             };
         case 'CATEGORIES_ERROR':
             return {
                 ...state,
-                error: true,
+                errorCategories: true,
             };
         case 'PRODUCT_DETAIL_LOADED':
             return {
                 ...state,
                 productDetail: action.payload,
-                loading: false,
+                loadingProductDetail: false,
             };
         case 'PRODUCT_DETAIL_REQUESTED':
             return {
                 ...state,
-                loading: true,
+                loadingProductDetail: true,
             };
         case 'PRODUCT_DETAIL_ERROR':
             return {
                 ...state,
-                error: true,
+                errorProductDetail: true,
             };
         case 'ADD_NAVBAR_ELEMENT':
             const navbarLinks = state.navbarLinks;
@@ -133,17 +143,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 cart: action.payload,
-                loading: false,
+                loadingCart: false,
             };
         case 'CART_REQUESTED':
             return {
                 ...state,
-                loading: true,
+                loadingCart: true,
             };
         case 'CART_ERROR':
             return {
                 ...state,
-                error: true,
+                errorCart: true,
             };
         case 'USER_IS_AUTHENTICATED':
             return {
@@ -154,17 +164,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 orders: action.payload,
-                loading: false,
+                loadingCart: false,
             };
         case 'ORDER_REQUESTED':
             return {
                 ...state,
-                loading: true,
+                loadingCart: true,
             };
         case 'ORDER_ERROR':
             return {
                 ...state,
-                error: true,
+                errorCart: true,
             };
         case 'ORDER_DATE':
             return {
@@ -175,17 +185,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 reviews: action.payload,
-                loading: false,
+                loadingReviews: false,
             };
         case 'REVIEWS_REQUESTED':
             return {
                 ...state,
-                loading: true,
+                loadingReviews: true,
             };
         case 'REVIEWS_ERROR':
             return {
                 ...state,
-                error: true,
+                errorReviews: true,
             };
         case 'CART_COUNT':
             return {

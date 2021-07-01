@@ -6,8 +6,13 @@ import {Link} from "react-router-dom";
 import Error from "../error/error";
 import Spinner from "../spinner/spinner";
 import WithServices from "../hoc/with_services";
-import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
-import {productsLoaded, productsRequested, productsError, setCartCount, nexPageWithProductsLoaded} from "../../redux/action";
+import {
+    productsLoaded,
+    productsRequested,
+    productsError,
+    setCartCount,
+    nexPageWithProductsLoaded,
+} from "../../redux/action";
 
 import "./card.scss";
 
@@ -30,24 +35,6 @@ class Products extends Component {
         this.loadProducts();
     }
 
-    addToCart = (productId) => {
-        /* Добавление товара в корзину */
-
-        const {Services, userIsAuthenticated, setCartCount, cartCount} = this.props;
-        Services.addNewProductInCart(productId, GetTokenFromLocalStorage())
-            .then(res => {
-                alert('Товар добавлен в корзину!');
-                setCartCount(cartCount + 1);
-            })
-            .catch(error => {
-                if (!userIsAuthenticated) {
-                    alert('Необходимо авторизироваться!');
-                } else {
-                    alert('Товар уже в корзине!');
-                }
-            });
-    }
-
     nextPage = (nextPage) => {
         this.loadProducts(nextPage.split('=').pop());
     }
@@ -57,11 +44,11 @@ class Products extends Component {
         const {products: {results, next}, loading, error, showButton} = this.props;
 
         if (loading) {
-            return <Spinner/>
+            return <Spinner/>;
         }
 
         if (error) {
-            return <Error/>
+            return <Error/>;
         }
 
         const nextBtn = (
@@ -95,15 +82,10 @@ class Products extends Component {
                                                             -{discount}%
                                                         </sup>
                                                     </div>
-                                                    <div className="card__price">Цена: {price_with_discount} руб.</div>
+                                                    <div className="card__price">{price_with_discount} руб.</div>
                                                 </>
                                             )
                                         }
-                                    </div>
-                                    <div className="products__action">
-                                        <button className="buttons buttons__success" onClick={() => this.addToCart(id)}>
-                                            Добавить в корзину
-                                        </button>
                                     </div>
                                 </div>
                             ))
@@ -124,8 +106,8 @@ class Products extends Component {
 const mapStateToProps = (state) => {
     return {
         products: state.products,
-        loading: state.loading,
-        error: state.error,
+        loading: state.productsLoading,
+        error: state.errorProducts,
         cartCount: state.cartCount,
         userIsAuthenticated: state.userIsAuthenticated,
     };

@@ -3,7 +3,9 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
+import Error from "../error/error";
 import Navbar from "../navbar/navbar";
+import Spinner from "../spinner/spinner";
 import Products from "../products/products";
 import WithServices from "../hoc/with_services";
 import {
@@ -38,7 +40,25 @@ class Categories extends Component {
 
     render() {
 
-        const {categories, Services} = this.props;
+        let {categories, Services, loading, error} = this.props;
+
+        if (error) {
+            return (
+                <>
+                    <Navbar active="categories"/>
+                    <Error/>
+                </>
+            );
+        }
+
+        if (loading) {
+            return (
+                <>
+                    <Navbar active="categories"/>
+                    <Spinner/>
+                </>
+            );
+        }
 
         return (
             <>
@@ -86,8 +106,8 @@ class Categories extends Component {
 const mapStateToProps = (state) => {
     return {
         categories: state.categories,
-        loading: state.loading,
-        error: state.error,
+        loading: state.loadingCategories,
+        error: state.errorCategories,
     };
 };
 

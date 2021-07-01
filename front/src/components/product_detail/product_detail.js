@@ -125,7 +125,12 @@ class ProductDetail extends Component {
         }
 
         if (error) {
-            return <Error/>
+            return (
+                <>
+                    <Navbar/>
+                    <Error/>
+                </>
+            );
         }
 
         if (loading) {
@@ -243,8 +248,8 @@ const mapStateToProps = (state) => {
     return {
         cartCount: state.cartCount,
         productDetail: state.productDetail,
-        loading: state.loading,
-        error: state.error,
+        loading: state.loadingProductDetail,
+        error: state.errorProductDetail,
         sliderItem: state.sliderItem,
         userIsAuthenticated: state.userIsAuthenticated,
     };

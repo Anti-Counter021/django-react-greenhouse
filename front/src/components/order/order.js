@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import DatePicker from "react-datepicker";
 
+import Error from "../error/error";
 import Navbar from "../navbar/navbar";
 import host from "../../services/host";
 import Spinner from "../spinner/spinner";
@@ -61,11 +62,16 @@ class Order extends Component {
                     <Navbar active='cart'/>
                     <Spinner/>
                 </>
-            )
+            );
         }
 
         if (error) {
-            alert('Произошла ошибка...');
+            return (
+                <>
+                    <Navbar active='cart'/>
+                    <Error/>
+                </>
+            );
         }
 
         return (
@@ -247,8 +253,8 @@ class Order extends Component {
 const mapStateToProps = (state) => {
     return {
         cart: state.cart,
-        error: state.error,
-        loading: state.loading,
+        error: state.errorCart,
+        loading: state.loadingCart,
         date: state.date,
     };
 };

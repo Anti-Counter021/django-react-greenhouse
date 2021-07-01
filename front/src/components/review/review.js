@@ -87,7 +87,12 @@ class Review extends Component {
         }
 
         if (error) {
-            return <Error/>;
+            return (
+                <>
+                    <Navbar active="reviews"/>
+                    <Error/>
+                </>
+            );
         }
 
         return (
@@ -204,8 +209,8 @@ class Review extends Component {
 const mapStateToProps = (state) => {
     return {
         reviews: state.reviews,
-        loading: state.loading,
-        error: state.error,
+        loading: state.loadingReviews,
+        error: state.errorReviews,
         userIsAuthenticated: state.userIsAuthenticated,
         filter: state.filtersReviews,
     };

@@ -31,11 +31,11 @@ class New extends Component {
         } = this.props;
 
         if (loading) {
-            return <Spinner/>
+            return <Spinner/>;
         }
 
         if (error) {
-            return <Error/>
+            return <Error/>;
         }
 
         return (
@@ -84,8 +84,8 @@ class New extends Component {
 const mapStateToProps = (state) => {
     return {
         newProduct: state.newProduct,
-        loading: state.loading,
-        error: state.error,
+        loading: state.loadingNewProduct,
+        error: state.errorNewProduct,
     };
 };
 
