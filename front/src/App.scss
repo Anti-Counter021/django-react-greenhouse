@@ -11,6 +11,17 @@
     font-weight: bold;
 }
 
+.anchor {
+    position: fixed;
+    right: 40px;
+    bottom: 35px;
+    cursor: pointer;
+    background: #747070FF;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+}
+
 .discount {
     background: #ff2400;
     color: #fff;

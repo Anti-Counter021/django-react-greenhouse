@@ -3,15 +3,35 @@
     font-size: 17px;
 }
 
+.hide__nav__phone__btn {
+    display: none;
+}
+
 .nav {
     display: flex;
     justify-content: center;
+
+    &__icons {
+        padding: 15px;
+        font-size: 25px;
+        cursor: pointer;
+        color: #fff;
+    }
 
     &__phone {
         display: none;
 
         .active {
             color: #fff;
+        }
+
+        &__hide {
+            text-align: end;
+            display: none;
+        }
+
+        .nav__item {
+            padding: 10px;
         }
     }
 

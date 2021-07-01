@@ -18,8 +18,13 @@ import './App.scss';
 
 
 function App() {
+
+    const scrollWindow = () => {
+        document.querySelector('#app').scrollIntoView();
+    }
+
     return (
-        <div className="App">
+        <div className="App" id="app">
             <Switch>
                 <Route path='/categories/:slug' render={
                     ({match}) => {
@@ -44,8 +49,15 @@ function App() {
                 <Route component={Home}/>
             </Switch>
             <Footer/>
+            <div
+                onClick={scrollWindow}
+                className="anchor"
+            >
+                <i className="fa fa-arrow-up" aria-hidden="true"/>
+            </div>
         </div>
     );
+
 }
 
 export default App;

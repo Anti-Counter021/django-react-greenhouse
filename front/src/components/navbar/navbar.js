@@ -12,7 +12,9 @@ import "./navbar.scss";
 
 /* Навигация */
 
-const Navbar = ({Services, addNavbarElement, navbarLinks, setUserIsAuthenticated, userIsAuthenticated, active, setCartCount}) => {
+const Navbar = (
+    {Services, addNavbarElement, navbarLinks, setUserIsAuthenticated, userIsAuthenticated, active, setCartCount}
+) => {
 
     useEffect(() => {
         Services.userIsAuthenticated(GetTokenFromLocalStorage())
@@ -33,6 +35,18 @@ const Navbar = ({Services, addNavbarElement, navbarLinks, setUserIsAuthenticated
         }
     });
 
+    const showNavbar = (event) => {
+        document.querySelector('.nav__phone').style.display = 'block';
+        event.target.classList.add('hide__nav__phone__btn');
+        document.querySelector('.close').classList.remove('hide__nav__phone__btn');
+    }
+
+    const hideNavbar = (event) => {
+        document.querySelector('.nav__phone').style.display = 'none';
+        event.target.classList.add('hide__nav__phone__btn');
+        document.querySelector('.open').classList.remove('hide__nav__phone__btn');
+    }
+
     return (
         <nav className="navbar">
             <div className="nav">
@@ -45,6 +59,11 @@ const Navbar = ({Services, addNavbarElement, navbarLinks, setUserIsAuthenticated
                         </div>
                     ))
                 }
+            </div>
+
+            <div className="nav__phone__hide">
+                <i onClick={showNavbar} className="open nav__icons fas fa-bars"/>
+                <i onClick={hideNavbar} className="close nav__icons fas fa-times-circle hide__nav__phone__btn"/>
             </div>
 
             <div className="nav__phone">

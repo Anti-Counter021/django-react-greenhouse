@@ -24,6 +24,14 @@
 
 @media (max-width: 770px) {
 
+    .nav {
+        display: none;
+
+        &__phone__hide {
+            display: block;
+        }
+    }
+
     .feedback__text {
         width: 400px;
     }
@@ -96,14 +104,6 @@
 
     .password__help {
         margin-left: 20%;
-    }
-
-    .nav {
-        display: none;
-
-        &__phone {
-            display: block;
-        }
     }
 
     img {
