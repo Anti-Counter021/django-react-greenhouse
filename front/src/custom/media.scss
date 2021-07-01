@@ -137,6 +137,14 @@
         }
     }
 
+    .reviews__count {
+        font-size: 15px;
+
+        &__number {
+            padding: 1px 5px;
+        }
+    }
+
     .header {
         font-size: 20px;
     }

@@ -14,7 +14,7 @@ from rest_framework.viewsets import GenericViewSet, ViewSet
 from .cart import get_cart, get_or_create_cart_product, recalculate_cart
 from .filters import ReviewFilter
 from .models import Category, Product, CartProduct, Order, Review, Feedback
-from .pagination import PaginationAPIView
+from .pagination import PaginationAPIView, ReviewPaginationAPIView
 from .send_mail import send_manager_about_new_order
 from .serializers import (
     CustomCategorySerializer,
@@ -142,7 +142,7 @@ class ReviewAPIView(ListCreateAPIView):
 
     queryset = Review.objects.all()
     serializer_class = CreateReviewSerializer
-    pagination_class = PaginationAPIView
+    pagination_class = ReviewPaginationAPIView
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ReviewFilter
 

@@ -52,7 +52,7 @@ export default class Services {
     }
 
     postReview = async (data, token) => {
-        return await this.httpRequest('POST', 'reviews/add', token, data);
+        return await this.httpRequest('POST', 'reviews/', token, data);
     }
 
     /* Баги */

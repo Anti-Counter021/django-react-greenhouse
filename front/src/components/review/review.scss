@@ -6,6 +6,26 @@
         text-align: center;
     }
 
+    &__count {
+        font-size: 17px;
+        display: flex;
+        justify-content: center;
+
+        &__item {
+            font-weight: bold;
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        &__number {
+            padding: 3px 7px;
+            color: #fff;
+            background: #205635;
+            border-radius: 15px;
+            margin: 0 10px;
+        }
+    }
+
     &__form {
         &__input {
             border: 1px solid black;

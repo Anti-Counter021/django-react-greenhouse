@@ -66,7 +66,12 @@ class Review extends Component {
 
     render() {
 
-        const {reviews: {results, next, previous}, error, loading, userIsAuthenticated} = this.props;
+        const {
+            reviews: {results, next, previous, count_positive_reviews, count_negative_reviews},
+            error,
+            loading,
+            userIsAuthenticated
+        } = this.props;
 
         const paginationBtn = (text, paginationParam) =>
         {
@@ -154,6 +159,16 @@ class Review extends Component {
                                     max="5"
                                 />
                             </form>
+                            <div className="reviews__count">
+                                <div className="reviews__count__item">
+                                    Количество негативных
+                                    <span className="reviews__count__number">{count_negative_reviews}</span>
+                                </div>
+                                <div className="reviews__count__item">
+                                    Количество позитивных
+                                    <span className="reviews__count__number">{count_positive_reviews}</span>
+                                </div>
+                            </div>
                         </div>
                         {
                             results && results.length ? (
@@ -165,7 +180,8 @@ class Review extends Component {
                                         </div>
                                         <div className="reviews__content">
                                             <div className="reviews__text">
-                                                {comment ? `${comment},` : null} Дата публикации {<Moment format="DD.MM.YYYY" date={created_at}/>}
+                                                {comment ? `${comment} ` : null}
+                                                Дата публикации {<Moment format="DD.MM.YYYY" date={created_at}/>}
                                             </div>
                                             <div className="rating" data-total-value={appraisal}>
                                                 <div className="rating__item" data-item-value="5">
