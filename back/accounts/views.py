@@ -1,6 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,7 +8,9 @@ from rest_framework.views import APIView
 from shop.serializers import OrderSerializer
 from shop.models import Order
 from shop.cart import get_cart
+
 from .models import User
+from .serializers import UserSerializer
 
 
 class UserIsAuthenticated(APIView):
@@ -69,3 +71,14 @@ class UserProfileAPIView(ListAPIView):
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
+
+
+class UserDataUpdateAPIView(RetrieveUpdateAPIView):
+    """ Изменение личных данных пользователя """
+
+    queryset = User.objects
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user

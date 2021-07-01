@@ -37,7 +37,7 @@ class CategoryAPIView(ListModelMixin, GenericViewSet):
 class ProductAPIView(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     """ Товары """
 
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter(delivery_terminated=False)
     serializer_class = ProductSerializer
     pagination_class = PaginationAPIView
     lookup_field = 'slug'
@@ -47,7 +47,9 @@ class NewProductAPIView(APIView):
     """ Новый товар """
 
     def get(self, request, *args, **kwargs):
-        return Response(ProductSerializer(Product.objects.order_by('-id').first()).data)
+        return Response(
+            ProductSerializer(Product.objects.filter(delivery_terminated=False).order_by('-id').first()).data
+        )
 
 
 class CartAPIView(ViewSet):

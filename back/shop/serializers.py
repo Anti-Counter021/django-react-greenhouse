@@ -1,5 +1,7 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
+from accounts.serializers import UserSerializer
+
 from .models import (
     Category,
     Product,
@@ -74,11 +76,11 @@ class CustomCategorySerializer(CategorySerializer):
 
     @staticmethod
     def get_products_count(obj):
-        return Product.objects.filter(category=obj).count()
+        return Product.objects.filter(category=obj, delivery_terminated=False).count()
 
     @staticmethod
     def get_products(obj):
-        return ProductSerializer(Product.objects.filter(category=obj), many=True).data
+        return ProductSerializer(Product.objects.filter(category=obj, delivery_terminated=False), many=True).data
 
 
 class ProductMinSerializer(ModelSerializer):
@@ -103,6 +105,7 @@ class CartSerializer(ModelSerializer):
     """ Корзина """
 
     products = SerializerMethodField()
+    owner = UserSerializer()
 
     @staticmethod
     def get_products(obj):
@@ -110,7 +113,7 @@ class CartSerializer(ModelSerializer):
 
     class Meta:
         model = Cart
-        exclude = ('owner',)
+        fields = '__all__'
 
 
 class OrderSerializer(ModelSerializer):

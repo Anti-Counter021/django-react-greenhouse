@@ -29,6 +29,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name='Описание')
     price = models.PositiveIntegerField(verbose_name='Цена', default=0)
     discount = models.PositiveIntegerField(verbose_name='Скидка', default=0)
+    delivery_terminated = models.BooleanField(verbose_name='Поставка товара прекращена', default=False)
 
     def __str__(self):
         return f'{self.title}'

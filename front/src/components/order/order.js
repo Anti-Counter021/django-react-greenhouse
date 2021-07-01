@@ -50,10 +50,14 @@ class Order extends Component {
     render() {
 
         const {orderDate, date, loading, error, cart: {for_anonymous_user, final_price}} = this.props;
-        let {products} = this.props.cart;
+        let {products, owner} = this.props.cart;
 
         if (!products) {
             products = [];
+        }
+
+        if (!owner) {
+            owner = {};
         }
 
         if (loading) {
@@ -130,6 +134,7 @@ class Order extends Component {
                                             Имя<span className="required">*</span>
                                         </label>
                                         <input
+                                            defaultValue={owner.first_name}
                                             required
                                             name="first_name"
                                             className="order__form__input"
@@ -143,6 +148,7 @@ class Order extends Component {
                                             Фамилия<span className="required">*</span>
                                         </label>
                                         <input
+                                            defaultValue={owner.last_name}
                                             required
                                             name="last_name"
                                             className="order__form__input"
@@ -157,6 +163,7 @@ class Order extends Component {
                                             Телефон<span className="required">*</span>
                                         </label>
                                         <input
+                                            defaultValue={owner.phone}
                                             required
                                             name="phone"
                                             className="order__form__input"
@@ -171,6 +178,7 @@ class Order extends Component {
                                             Адрес<span className="required">*</span>
                                         </label>
                                         <input
+                                            defaultValue={owner.address}
                                             required
                                             name="address"
                                             className="order__form__input"
