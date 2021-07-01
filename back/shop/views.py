@@ -1,12 +1,10 @@
-from datetime import datetime
-
 from django.shortcuts import get_object_or_404
 
 from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -22,15 +20,16 @@ from .serializers import (
     CustomCategorySerializer,
     ProductSerializer,
     CartSerializer,
-    ReviewSerializer,
     FeedbackSerializer,
+    CreateOrderSerializer,
+    CreateReviewSerializer,
 )
 
 
-class CategoryAPIView(ListModelMixin, GenericViewSet):
+class CategoryAPIView(ListAPIView):
     """ Категории """
 
-    queryset = Category.objects
+    queryset = Category.objects.all()
     serializer_class = CustomCategorySerializer
 
 
@@ -118,23 +117,18 @@ class CartAPIView(ViewSet):
         return Response({'detail': 'Товар успешно удалён'})
 
 
-class OrderAPIView(APIView):
+class CreateOrderAPIView(CreateAPIView):
     """ Заказы """
 
     permission_classes = (IsAuthenticated,)
+    serializer_class = CreateOrderSerializer
+    queryset = Order.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        attrs = request.data
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         cart = get_cart(request.user)
-        order_date = datetime.strptime(attrs['order_date'], '%d/%m/%Y').date()
-        if order_date < datetime.today().date():
-            return Response({'detail': 'Желаемая дата получения не может быть прошедшей!', 'error': 400})
-        order = Order.objects.create(
-            user=request.user, cart=cart, first_name=attrs['first_name'],
-            last_name=attrs['last_name'], phone=attrs['phone'], address=attrs['address'],
-            buying_type=attrs['buying_type'], comment=attrs['comment'],
-            order_date=order_date,
-        )
+        order = serializer.save(cart=cart, user=request.user)
         cart.in_order = True
         cart.save()
         request.user.orders.add(order)
@@ -143,24 +137,19 @@ class OrderAPIView(APIView):
         return Response({'detail': 'Заказ создан успешно. Ждите ответа'})
 
 
-class ReviewAPIView(ListAPIView):
+class ReviewAPIView(ListCreateAPIView):
     """ Отзывы """
 
     queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+    serializer_class = CreateReviewSerializer
     pagination_class = PaginationAPIView
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ReviewFilter
 
-
-class CreateReviewAPIView(APIView):
-    """ Создание отзыва """
-
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request, *args, **kwargs):
-        attrs = request.data
-        Review.objects.create(user=request.user, appraisal=attrs['appraisal'], comment=attrs['comment'])
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
         return Response({'detail': 'Спасибо за отзыв!'})
 
 

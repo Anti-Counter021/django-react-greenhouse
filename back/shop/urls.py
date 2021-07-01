@@ -7,9 +7,8 @@ from .views import (
     ProductAPIView,
     NewProductAPIView,
     CartAPIView,
-    OrderAPIView,
+    CreateOrderAPIView,
     ReviewAPIView,
-    CreateReviewAPIView,
     FeedbackCreateAPIView,
 )
 
@@ -21,10 +20,9 @@ app_name = 'shop'
 urlpatterns = [
     path('', include(router.urls)),
     path('feedback', FeedbackCreateAPIView.as_view(), name='feedback'),
-    path('categories/', CategoryAPIView.as_view({'get': 'list'}), name='categories'),
-    path('reviews/add', CreateReviewAPIView.as_view(), name='create_review'),
+    path('categories/', CategoryAPIView.as_view(), name='categories'),
     path('reviews/', ReviewAPIView.as_view(), name='reviews'),
-    path('orders/', OrderAPIView.as_view(), name='orders'),
+    path('orders/', CreateOrderAPIView.as_view(), name='orders'),
     path('products/new-product', NewProductAPIView.as_view(), name='new'),
     path('products/<str:slug>', ProductAPIView.as_view({'get': 'retrieve'}), name='product_detail'),
     path('products/', ProductAPIView.as_view({'get': 'list'}), name='products'),

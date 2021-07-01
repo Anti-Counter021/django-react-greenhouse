@@ -1,4 +1,6 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from datetime import datetime
+
+from rest_framework import serializers
 
 from accounts.serializers import UserSerializer
 
@@ -15,7 +17,7 @@ from .models import (
 )
 
 
-class AdditionalImageProductSerializer(ModelSerializer):
+class AdditionalImageProductSerializer(serializers.ModelSerializer):
     """ Дополнительные изображения товара """
 
     class Meta:
@@ -23,7 +25,7 @@ class AdditionalImageProductSerializer(ModelSerializer):
         fields = ('image', 'id')
 
 
-class FeatureSerializer(ModelSerializer):
+class FeatureSerializer(serializers.ModelSerializer):
     """ Характеристика """
 
     class Meta:
@@ -31,7 +33,7 @@ class FeatureSerializer(ModelSerializer):
         exclude = ('product',)
 
 
-class CategorySerializer(ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     """ Категория """
 
     class Meta:
@@ -39,13 +41,13 @@ class CategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
-class ProductSerializer(ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     """ Товар """
 
-    features = SerializerMethodField()
-    additional_images = SerializerMethodField()
-    count_images = SerializerMethodField()
-    price_with_discount = SerializerMethodField()
+    features = serializers.SerializerMethodField()
+    additional_images = serializers.SerializerMethodField()
+    count_images = serializers.SerializerMethodField()
+    price_with_discount = serializers.SerializerMethodField()
 
     @staticmethod
     def get_price_with_discount(obj):
@@ -71,8 +73,8 @@ class ProductSerializer(ModelSerializer):
 class CustomCategorySerializer(CategorySerializer):
     """ Категория с товарами """
 
-    products = SerializerMethodField()
-    products_count = SerializerMethodField()
+    products = serializers.SerializerMethodField()
+    products_count = serializers.SerializerMethodField()
 
     @staticmethod
     def get_products_count(obj):
@@ -83,7 +85,7 @@ class CustomCategorySerializer(CategorySerializer):
         return ProductSerializer(Product.objects.filter(category=obj, delivery_terminated=False), many=True).data
 
 
-class ProductMinSerializer(ModelSerializer):
+class ProductMinSerializer(serializers.ModelSerializer):
     """ Минимально о товаре """
 
     class Meta:
@@ -91,7 +93,7 @@ class ProductMinSerializer(ModelSerializer):
         exclude = ('category', 'slug', 'description')
 
 
-class CartProductSerializer(ModelSerializer):
+class CartProductSerializer(serializers.ModelSerializer):
     """ Товары в корзине """
 
     product = ProductMinSerializer()
@@ -101,10 +103,10 @@ class CartProductSerializer(ModelSerializer):
         exclude = ('user', 'cart')
 
 
-class CartSerializer(ModelSerializer):
+class CartSerializer(serializers.ModelSerializer):
     """ Корзина """
 
-    products = SerializerMethodField()
+    products = serializers.SerializerMethodField()
     owner = UserSerializer()
 
     @staticmethod
@@ -116,10 +118,29 @@ class CartSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class OrderSerializer(ModelSerializer):
+class CreateOrderSerializer(serializers.ModelSerializer):
     """ Заказы """
 
-    cart = SerializerMethodField()
+    cart = serializers.SerializerMethodField()
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    phone = serializers.CharField(max_length=30)
+    address = serializers.CharField(max_length=300)
+    buying_type = serializers.CharField(max_length=30)
+    comment = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    order_date = serializers.DateField(format='%d/%m/%Y', input_formats=['%d/%m/%Y'])
+
+    def validate(self, data):
+        if data['buying_type'] not in ('Самовывоз', 'Доставка'):
+            raise serializers.ValidationError({'error': 'Неправильный тип заказа!'})
+
+        if data['order_date'] < datetime.today().date():
+            raise serializers.ValidationError({'error': 'Желаемая дата получения не может быть прошедшей!'})
+
+        return data
+
+    def create(self, validated_data):
+        return Order.objects.create(**validated_data)
 
     @staticmethod
     def get_cart(obj):
@@ -130,10 +151,15 @@ class OrderSerializer(ModelSerializer):
         exclude = ('user',)
 
 
-class ReviewSerializer(ModelSerializer):
+class CreateReviewSerializer(serializers.ModelSerializer):
     """ Отзывы """
 
-    user = SerializerMethodField()
+    user = serializers.SerializerMethodField()
+    appraisal = serializers.IntegerField(min_value=1, max_value=5)
+    comment = serializers.CharField(max_length=200, required=False, allow_blank=True, allow_null=True)
+
+    def create(self, validated_data):
+        return Review.objects.create(**validated_data)
 
     @staticmethod
     def get_user(obj):
@@ -144,7 +170,7 @@ class ReviewSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class FeedbackSerializer(ModelSerializer):
+class FeedbackSerializer(serializers.ModelSerializer):
     """ Сообщение о багах """
 
     class Meta:

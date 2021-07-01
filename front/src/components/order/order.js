@@ -33,9 +33,11 @@ class Order extends Component {
 
         Services.makeOrder(data, GetTokenFromLocalStorage())
             .then(res => {
-                alert(res.detail);
                 if (!res.error) {
+                    alert(res.detail);
                     window.location.href = '/';
+                } else {
+                    alert(res.error);
                 }
 
                 document.querySelector('.order__form__btn').style.opacity = '1';
