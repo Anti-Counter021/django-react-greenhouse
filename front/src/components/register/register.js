@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import Navbar from "../navbar/navbar";
 import WithServices from "../hoc/with_services";
 import {setUserIsAuthenticated} from "../../redux/action";
-import {SetTokenToLocalStorage} from "../../services/token_from_localstorage";
+import GetTokenFromLocalStorage, {SetTokenToLocalStorage} from "../../services/token_from_localstorage";
 
 import "./register.scss";
 
@@ -15,7 +15,7 @@ import "./register.scss";
 const Register = ({Services, setUserIsAuthenticated, userIsAuthenticated}) => {
 
     useEffect(() => {
-        if (userIsAuthenticated) {
+        if (userIsAuthenticated && GetTokenFromLocalStorage()) {
             window.location.href = '/';
         }
     });

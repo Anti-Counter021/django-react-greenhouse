@@ -197,6 +197,25 @@ const filterReviews = (name, value) => {
     };
 };
 
+const userChangeLoaded = (newUserChangeData) => {
+    return {
+        type: 'USER_DATA_LOADED',
+        payload: newUserChangeData,
+    };
+};
+
+const userChangeRequested = () => {
+    return {
+        type: 'USER_DATA_REQUESTED',
+    };
+};
+
+const userChangeError = () => {
+    return {
+        type: 'USER_DATA_ERROR',
+    };
+};
+
 export {
     productsLoaded,
     productsError,
@@ -239,4 +258,8 @@ export {
     reviewsLoaded,
 
     filterReviews,
+
+    userChangeError,
+    userChangeLoaded,
+    userChangeRequested,
 };

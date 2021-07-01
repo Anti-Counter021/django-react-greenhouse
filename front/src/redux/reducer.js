@@ -40,6 +40,9 @@ const initialState = {
         minAppraisal: '1',
         maxAppraisal: '5',
     },
+    userData: {},
+    loadingUser: true,
+    errorUser: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -206,6 +209,22 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 filtersReviews: {...state.filtersReviews, ...{[action.name]: action.value}},
+            };
+        case 'USER_DATA_LOADED':
+            return {
+                ...state,
+                userData: action.payload,
+                loadingUser: false,
+            };
+        case 'USER_DATA_REQUESTED':
+            return {
+                ...state,
+                loadingUser: true,
+            };
+        case 'USER_DATA_ERROR':
+            return {
+                ...state,
+                errorUser: true,
             };
         default:
             return state;

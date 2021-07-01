@@ -15,7 +15,7 @@ import "./logout.scss";
 const Logout = ({Services, setUserIsAuthenticated, userIsAuthenticated}) => {
 
     useEffect(() => {
-        if (!userIsAuthenticated) {
+        if (!userIsAuthenticated && !GetTokenFromLocalStorage()) {
             window.location.href = '/';
         }
     });

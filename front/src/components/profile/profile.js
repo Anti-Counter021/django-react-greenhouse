@@ -2,6 +2,7 @@ import React, {Component} from "react";
 
 import Moment from "react-moment";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 import Error from "../error/error";
 import Navbar from "../navbar/navbar";
@@ -19,7 +20,7 @@ class Profile extends Component {
 
     componentDidMount() {
         const {Services, ordersRequested, ordersError, ordersLoaded, userIsAuthenticated} = this.props;
-        if (!userIsAuthenticated) {
+        if (!userIsAuthenticated && !GetTokenFromLocalStorage()) {
             window.location.href = '/';
         }
         ordersRequested();
@@ -56,8 +57,13 @@ class Profile extends Component {
                 <section className="profile">
                     <div className="container">
                         <div className="profile__header">Профиль</div>
+                        <Link to='/profile/change'
+                            style={{color: '#fff', padding: '10px'}}
+                            className="buttons buttons__success">
+                            Изменить данные
+                        </Link>
                         {orders && orders.length ? (
-                            <table className="table">
+                            <table style={{marginTop: '20px'}} className="table">
                                 <thead>
                                     <tr className="profile__table__header">
                                         <th>ID заказа</th>

@@ -104,4 +104,8 @@ export default class Services {
         return await this.httpRequest('POST', 'auth/register', '', data);
     }
 
+    profileChangeRequest = async (token, data = '', method = 'GET') => {
+        return await this.httpRequest(method, 'auth/profile/change', token, data);
+    }
+
 }
