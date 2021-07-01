@@ -141,7 +141,6 @@ const Register = ({Services, setUserIsAuthenticated, userIsAuthenticated}) => {
                                 <ul className="password__help">
                                     <li>Пароль не должен быть слишком похож на другую вашу личную информацию.</li>
                                     <li>Ваш пароль должен содержать как минимум 8 символов.</li>
-                                    <li>Такой пароль часто используется.</li>
                                     <li>Пароль не может состоять только из цифр.</li>
                                 </ul>
                             </div>

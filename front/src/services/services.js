@@ -19,7 +19,9 @@ export default class Services {
         });
 
         if (!res.ok) {
-            throw new Error(`Ошибка ${url}, статус = ${res.status}`);
+            if (res.status !== 400) {
+                throw new Error(`Ошибка ${url}, статус = ${res.status}`);
+            }
         }
 
         return await res.json();
