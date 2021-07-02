@@ -149,7 +149,7 @@ class ShopAPITestCase(APITestCase):
 
     def create_cart_product(self):
         self.cart_product = CartProduct.objects.create(
-            product=self.product, user=self.user, price=self.product.price, qty=2, cart=self.cart,
+            product=self.product, user=self.user, price=self.product.price, qty=1, cart=self.cart,
         )
         self.cart.products.add(self.cart_product)
         recalculate_cart(self.cart)
@@ -174,6 +174,12 @@ class ShopAPITestCase(APITestCase):
         self.new_product_url = reverse('shop:new')
         self.reviews_url = reverse('shop:reviews')
         self.feedback_url = reverse('shop:feedback')
+        self.cart_base_url = '/api/cart/'
+        self.cart_url = self.cart_base_url + 'get/'
+        self.add_to_cart_url = self.cart_base_url + f'add/{self.product.id}/'
+        self.change_qty_url = self.cart_base_url + 'change-qty/'
+        self.remove_from_cart_url = self.cart_base_url + 'remove/'
+        self.make_order_url = reverse('shop:orders')
 
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
@@ -252,3 +258,111 @@ class ShopAPITestCase(APITestCase):
         self.client.force_authenticate(user=None)
         response = self.client.post(self.feedback_url, {'text': 'I have a bug!'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_cart_auth(self):
+        response = self.client.get(self.cart_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["for_anonymous_user"], False)
+
+    def test_cart_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.cart_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["for_anonymous_user"], True)
+
+    def test_add_to_cart_auth(self):
+        response = self.client.post(self.add_to_cart_url)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data, {'detail': 'Товар добавлен в корзину', 'added': True})
+        self.assertEqual(self.cart.products.count(), 1)
+
+        response = self.client.post(self.add_to_cart_url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, {'detail': 'Товар уже в корзине', 'added': False})
+        self.assertEqual(self.cart.products.count(), 1)
+
+    def test_add_to_cart_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.post(self.add_to_cart_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data, {'error': 'Необходимо авторизироваться!'})
+
+    def test_change_qty_auth_owner(self):
+        self.create_cart_product()
+        response = self.client.put(self.change_qty_url + f'{self.cart_product.id}' + f'/{3}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data,
+            {
+                'detail': 'Количество товара успешно изменено',
+                'final_price': response.data['final_price'], 'cart_price': response.data['cart_price'],
+            }
+        )
+
+    def test_change_qty_auth_other(self):
+        self.create_cart_product()
+        self.client.force_authenticate(user=User.objects.create_user('admin1', 'password'))
+        response = self.client.put(self.change_qty_url + f'{self.cart_product.id}' + f'/{3}/')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data, {'error': 'Вы не имеете права изменять что-то не в своей корзине!'})
+
+    def test_change_qty_un_auth(self):
+        self.create_cart_product()
+        self.client.force_authenticate(user=None)
+        response = self.client.put(self.change_qty_url + f'{self.cart_product.id}' + f'/{3}/')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data, {'error': 'Необходимо авторизироваться!'})
+
+    def test_remove_from_cart_auth_owner(self):
+        self.create_cart_product()
+        response = self.client.delete(self.remove_from_cart_url + f'{self.cart_product.id}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, {'detail': 'Товар успешно удалён'})
+
+    def test_remove_from_cart_auth_other(self):
+        self.create_cart_product()
+        self.client.force_authenticate(user=User.objects.create_user('admin1', 'password'))
+        response = self.client.delete(self.remove_from_cart_url + f'{self.cart_product.id}/')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data, {'error': 'Вы не имеете права удалять что-то не в своей корзине!'})
+
+    def test_remove_from_cart_un_auth(self):
+        self.create_cart_product()
+        self.client.force_authenticate(user=None)
+        response = self.client.delete(self.remove_from_cart_url + f'{self.cart_product.id}/')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data, {'error': 'Необходимо авторизироваться!'})
+
+    def test_make_order_auth(self):
+        self.create_cart_product()
+        response = self.client.post(
+            self.make_order_url,
+            {
+                'first_name': 'Arkady',
+                'last_name': 'Kounter',
+                'phone': '88005553535',
+                'address': 'Backer Street',
+                'comment': 'Please need fast',
+                'buying_type': 'Самовывоз',
+                'order_date': '25/08/2022'
+            }
+        )
+        self.assertEqual(response.data, {'detail': 'Заказ создан успешно. Ждите ответа'})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_make_order_un_auth(self):
+        self.create_cart_product()
+        self.client.force_authenticate(user=None)
+        response = self.client.post(
+            self.make_order_url,
+            {
+                'first_name': 'Arkady',
+                'last_name': 'Kounter',
+                'phone': '88005553535',
+                'address': 'Backer Street',
+                'comment': 'Please need fast',
+                'buying_type': 'Самовывоз',
+                'order_date': '25/08/2022'
+            }
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
