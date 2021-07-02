@@ -28,8 +28,12 @@ const Login = ({userIsAuthenticated, Services, setUserIsAuthenticated}) => {
         const data = Object.fromEntries(new FormData(e.target).entries());
         Services.loginUser(data)
             .then(res => {
-                SetTokenToLocalStorage(res.token);
-                setUserIsAuthenticated(true);
+                if (res.token) {
+                    SetTokenToLocalStorage(res.token);
+                    setUserIsAuthenticated(true);
+                } else {
+                    document.querySelector('.error').style.display = 'block';
+                }
             })
             .catch(error => document.querySelector('.error').style.display = 'block');
     }
@@ -92,7 +96,7 @@ const Login = ({userIsAuthenticated, Services, setUserIsAuthenticated}) => {
                             </div>
 
                             <div className="reset_password__btn">
-                                <Link to="/password/reset">
+                                <Link to="/password/reset/request">
                                     <button className="buttons buttons__success other__button" type="submit">
                                         Сбросить пароль
                                     </button>

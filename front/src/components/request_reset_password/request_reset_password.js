@@ -1,12 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
+
+import {connect} from "react-redux";
 
 import Navbar from "../navbar/navbar";
 import WithServices from "../hoc/with_services";
+import GetTokenFromLocalStorage from "../../services/token_from_localstorage";
 
 import "./request_reset_password.scss";
 
 
-const RequestResetPassword = ({Services}) => {
+const RequestResetPassword = ({Services, userIsAuthenticated}) => {
+
+    useEffect(() => {
+        if (userIsAuthenticated && GetTokenFromLocalStorage()) {
+            window.location.href = '/';
+        }
+    });
 
     const requestDataForResetPassword = (event) => {
         event.preventDefault();
@@ -50,7 +59,7 @@ const RequestResetPassword = ({Services}) => {
                                 style={{width: '25%'}}
                                 className="buttons buttons__success reset_password__request__form__btn"
                                 type="submit">
-                                Отправить письмо о сбросе пароля
+                                Отправить запрос на сброс пароля
                             </button>
 
                         </form>
@@ -62,4 +71,10 @@ const RequestResetPassword = ({Services}) => {
 
 };
 
-export default WithServices()(RequestResetPassword);
+const mapStateToProps = (state) => {
+    return {
+        userIsAuthenticated: state.userIsAuthenticated,
+    };
+};
+
+export default WithServices()(connect(mapStateToProps)(RequestResetPassword));

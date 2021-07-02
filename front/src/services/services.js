@@ -114,4 +114,12 @@ export default class Services {
         return await this.httpRequest('POST', 'auth/password/reset/', '', data);
     }
 
+    resetPassword = async (data) => {
+        return await this.httpRequest('POST', 'auth/password/reset/confirm/', '', data);
+    }
+
+    tokenIsTrue = async (data) => {
+        return await this.httpRequest('POST', 'auth/password/reset/validate_token/', '', data);
+    }
+
 }

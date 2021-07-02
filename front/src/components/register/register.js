@@ -35,8 +35,10 @@ const Register = ({Services, setUserIsAuthenticated, userIsAuthenticated}) => {
                 } else if (res.success) {
                     Services.loginUser(data)
                         .then(res => {
-                            SetTokenToLocalStorage(res.token);
-                            setUserIsAuthenticated(true);
+                            if (res.token) {
+                                SetTokenToLocalStorage(res.token);
+                                setUserIsAuthenticated(true);
+                            }
                         })
                         .catch(error => {
                             console.log(error);
