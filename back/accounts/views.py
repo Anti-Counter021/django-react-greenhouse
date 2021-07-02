@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -16,8 +17,11 @@ class UserIsAuthenticated(APIView):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return Response({'is_authenticated': True, 'cart_count': get_cart(request.user).total_products})
-        return Response({'is_authenticated': False, 'cart_count': 0})
+            return Response(
+                {'is_authenticated': True, 'cart_count': get_cart(request.user).total_products},
+                status=status.HTTP_200_OK,
+            )
+        return Response({'is_authenticated': False, 'cart_count': 0}, status=status.HTTP_200_OK)
 
 
 class RegisterAPIView(CreateAPIView):
@@ -30,7 +34,7 @@ class RegisterAPIView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({'success': 'Пользователь создан'})
+        return Response({'success': 'Пользователь создан'}, status=status.HTTP_201_CREATED)
 
 
 class LogoutAPIView(APIView):
@@ -40,7 +44,7 @@ class LogoutAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         request.user.auth_token.delete()
-        return Response({'success': 'Токен пользователя удалён'})
+        return Response({'success': 'Токен пользователя удалён'}, status=status.HTTP_200_OK)
 
 
 class UserProfileAPIView(ListAPIView):

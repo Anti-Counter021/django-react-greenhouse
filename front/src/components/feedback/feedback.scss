@@ -1,0 +1,27 @@
+.feedback {
+    text-align: center;
+
+    &__text {
+        border: 1px solid #000;
+        border-radius: 10px;
+        text-align: center;
+        width: 800px;
+        height: 250px;
+        margin: 30px auto;
+        display: block;
+        padding: 10px;
+    }
+}
+
+.feedback__section {
+    background: #205635;
+    color: #fff;
+    padding: 30px;
+
+    &__header {
+        font-weight: bold;
+        font-size: 20px;
+        text-align: center;
+        margin: 10px 10px 30px 10px;
+    }
+}

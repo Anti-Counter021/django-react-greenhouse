@@ -49,10 +49,7 @@ function App() {
                 <Route component={Home}/>
             </Switch>
             <Footer/>
-            <div
-                onClick={scrollWindow}
-                className="anchor"
-            >
+            <div onClick={scrollWindow} className="anchor">
                 <i className="fa fa-arrow-up" aria-hidden="true"/>
             </div>
         </div>

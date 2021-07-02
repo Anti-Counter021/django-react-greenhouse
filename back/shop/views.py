@@ -47,7 +47,8 @@ class NewProductAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         return Response(
-            ProductSerializer(Product.objects.filter(delivery_terminated=False).order_by('-id').first()).data
+            ProductSerializer(Product.objects.filter(delivery_terminated=False).order_by('-id').first()).data,
+            status=status.HTTP_200_OK,
         )
 
 
@@ -58,7 +59,7 @@ class CartAPIView(ViewSet):
     def get(self, request, *args, **kwargs):
         """ Получение корзины """
 
-        return Response(CartSerializer(get_cart(request.user)).data)
+        return Response(CartSerializer(get_cart(request.user)).data, status=status.HTTP_200_OK)
 
     @action(methods=['post'], detail=False, url_path='add/(?P<product_id>\d+)')
     def add_to_cart(self, request, *args, **kwargs):
@@ -77,7 +78,7 @@ class CartAPIView(ViewSet):
             cart_product.save()
             cart.products.add(cart_product)
             recalculate_cart(cart)
-            return Response({'detail': 'Товар добавлен в корзину', 'added': True})
+            return Response({'detail': 'Товар добавлен в корзину', 'added': True}, status=status.HTTP_201_CREATED)
         return Response({'detail': 'Товар уже в корзине', 'added': False}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(methods=['put'], detail=False, url_path='change-qty/(?P<cart_product_id>\d+)/(?P<qty>\d+)')
@@ -89,15 +90,19 @@ class CartAPIView(ViewSet):
         cart_product = get_object_or_404(CartProduct, id=kwargs['cart_product_id'])
         if cart_product.user != request.user:
             return Response(
-                {'error': 'Вы не имеете права изменять что-то не в своей корзине!'}, status=status.HTTP_403_FORBIDDEN
+                {'error': 'Вы не имеете права изменять что-то не в своей корзине!'},
+                status=status.HTTP_403_FORBIDDEN,
             )
         cart_product.qty = int(kwargs['qty'])
         cart_product.save()
         recalculate_cart(cart_product.cart)
-        return Response({
-            'detail': 'Количество товара успешно изменено',
-            'final_price': cart_product.final_price, 'cart_price': cart_product.cart.final_price
-        })
+        return Response(
+            {
+                'detail': 'Количество товара успешно изменено',
+                'final_price': cart_product.final_price, 'cart_price': cart_product.cart.final_price,
+            },
+            status=status.HTTP_200_OK,
+        )
 
     @action(methods=['delete'], detail=False, url_path='remove/(?P<cart_product_id>\d+)')
     def delete_from_cart(self, request, *args, **kwargs):
@@ -114,7 +119,7 @@ class CartAPIView(ViewSet):
         cart.products.remove(cart_product)
         cart_product.delete()
         recalculate_cart(cart)
-        return Response({'detail': 'Товар успешно удалён'})
+        return Response({'detail': 'Товар успешно удалён'}, status=status.HTTP_200_OK)
 
 
 class CreateOrderAPIView(CreateAPIView):
@@ -134,7 +139,7 @@ class CreateOrderAPIView(CreateAPIView):
         request.user.orders.add(order)
         request.user.save()
         send_manager_about_new_order(order)
-        return Response({'detail': 'Заказ создан успешно. Ждите ответа'})
+        return Response({'detail': 'Заказ создан успешно. Ждите ответа'}, status=status.HTTP_201_CREATED)
 
 
 class ReviewAPIView(ListCreateAPIView):
@@ -150,7 +155,7 @@ class ReviewAPIView(ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
-        return Response({'detail': 'Спасибо за отзыв!'})
+        return Response({'detail': 'Спасибо за отзыв!'}, status=status.HTTP_201_CREATED)
 
 
 class FeedbackCreateAPIView(CreateAPIView):
