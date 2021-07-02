@@ -2,6 +2,11 @@ from datetime import datetime
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from django.urls import reverse
+
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APITestCase
 
 from accounts.models import User
 
@@ -10,7 +15,7 @@ from .cart import recalculate_cart
 
 
 class ShopModelTestCase(TestCase):
-    """ Тесты основного приложения """
+    """ Тесты моделей основного приложения """
 
     def create_cart_product(self):
         self.cart_product = CartProduct.objects.create(
@@ -134,3 +139,116 @@ class ShopModelTestCase(TestCase):
     def test_feedback(self):
         feedback = Feedback.objects.create(text='I have a bug! No work on site "products cart"!')
         self.assertEqual(feedback.status, Feedback.NEW)
+
+
+class ShopAPITestCase(APITestCase):
+    """ Тесты представлений основного приложения """
+
+    def api_authentication(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token}')
+
+    def create_cart_product(self):
+        self.cart_product = CartProduct.objects.create(
+            product=self.product, user=self.user, price=self.product.price, qty=2, cart=self.cart,
+        )
+        self.cart.products.add(self.cart_product)
+        recalculate_cart(self.cart)
+
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(username='test', password='password', email='test@example.com')
+        self.category = Category.objects.create(name='Greenhouses', slug='greenhouse')
+        self.product = Product.objects.create(
+            category=self.category,
+            title='Greenhouse Botan',
+            slug='greenhouse-botan',
+            image=SimpleUploadedFile('greenhouse_image.png', content=b'', content_type='image/png'),
+            description='New product Greenhouse Botan!',
+            price=35000,
+        )
+        self.cart = Cart.objects.create(owner=self.user)
+        self.review = Review.objects.create(user=self.user, appraisal=3, comment='Very good site!')
+
+        self.categories_url = reverse('shop:categories')
+        self.products_url = reverse('shop:products')
+        self.product_detail_url = reverse('shop:product_detail', kwargs={'slug': self.product.slug})
+        self.new_product_url = reverse('shop:new')
+        self.reviews_url = reverse('shop:reviews')
+        self.feedback_url = reverse('shop:feedback')
+
+        self.token = Token.objects.create(user=self.user)
+        self.api_authentication()
+
+    def test_categories_auth(self):
+        response = self.client.get(self.categories_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]["name"], self.category.name)
+
+    def test_categories_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.categories_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]["name"], self.category.name)
+
+    def test_product_auth(self):
+        response = self.client.get(self.products_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"][0]["title"], self.product.title)
+
+    def test_product_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.products_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"][0]["title"], self.product.title)
+
+    def test_product_detail_auth(self):
+        response = self.client.get(self.product_detail_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["title"], self.product.title)
+
+    def test_product_detail_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.product_detail_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["title"], self.product.title)
+
+    def test_new_product_auth(self):
+        response = self.client.get(self.new_product_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["title"], self.product.title)
+
+    def test_new_product_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.new_product_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["title"], self.product.title)
+
+    def test_reviews_auth(self):
+        response = self.client.get(self.reviews_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"][0]["appraisal"], self.review.appraisal)
+
+    def test_reviews_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.reviews_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"][0]["appraisal"], self.review.appraisal)
+
+    def test_create_review_auth(self):
+        response = self.client.post(self.reviews_url, {'appraisal': 3, 'comment': 'Very good site!'})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data, {'detail': 'Спасибо за отзыв!'})
+
+    def test_create_review_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.post(self.reviews_url, {'appraisal': 3, 'comment': 'Very good site!'})
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data, {'error': 'Чтобы оставить отзыв необходимо быть авторизованным!'})
+
+    def test_create_feedback_auth(self):
+        response = self.client.post(self.feedback_url, {'text': 'I have a bug!'})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_feedback_un_auth(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.post(self.feedback_url, {'text': 'I have a bug!'})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

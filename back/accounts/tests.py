@@ -10,6 +10,9 @@ from .models import User
 class AccountsTestCase(APITestCase):
     """ Тест приложения для работы с пользователями """
 
+    def api_authentication(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token}')
+
     def setUp(self) -> None:
         self.data = {
             'email': 'user@example.com',
@@ -46,9 +49,6 @@ class AccountsTestCase(APITestCase):
         response = self.client.post(self.register_url, self.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, {'success': 'Пользователь создан'})
-
-    def api_authentication(self):
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token}')
 
     def test_logout_auth(self):
         response = self.client.get(self.logout_url)

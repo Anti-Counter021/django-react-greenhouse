@@ -152,6 +152,10 @@ class ReviewAPIView(ListCreateAPIView):
     filterset_class = ReviewFilter
 
     def create(self, request, *args, **kwargs):
+        if request.user.is_anonymous:
+            return Response(
+                {'error': 'Чтобы оставить отзыв необходимо быть авторизованным!'}, status=status.HTTP_403_FORBIDDEN,
+            )
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
