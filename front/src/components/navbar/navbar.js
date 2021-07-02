@@ -24,6 +24,7 @@ const Navbar = (
             })
             .catch(error => {
                 console.log(error);
+                alert('Произошла ошибка...');
             });
         if (!userIsAuthenticated) {
             if (!navbarLinks.find(item => item.path === '/login') && !GetTokenFromLocalStorage()) {

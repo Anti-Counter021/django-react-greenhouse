@@ -108,4 +108,10 @@ export default class Services {
         return await this.httpRequest(method, 'auth/profile/change', token, data);
     }
 
+    /* Сброс пароля */
+
+    requestResetPassword = async (data) => {
+        return await this.httpRequest('POST', 'auth/password/reset/', '', data);
+    }
+
 }

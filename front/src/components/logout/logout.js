@@ -29,7 +29,10 @@ const Logout = ({Services, setUserIsAuthenticated, userIsAuthenticated}) => {
                 window.location.href = '/';
                 setUserIsAuthenticated(false);
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+                alert('Произошла ошибка...')
+            });
     };
 
     return (

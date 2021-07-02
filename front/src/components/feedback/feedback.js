@@ -14,7 +14,10 @@ const Feedback = ({Services}) => {
         const data = Object.fromEntries(new FormData(event.target).entries());
         Services.postFeedback(data)
             .then(res => alert('Спасибо за сообщение об ошибке! Мы очень вам благодарны!'))
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+                alert('Произошла ошибка...');
+            });
         event.target.reset();
     }
 

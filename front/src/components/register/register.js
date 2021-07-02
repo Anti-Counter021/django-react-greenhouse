@@ -38,11 +38,15 @@ const Register = ({Services, setUserIsAuthenticated, userIsAuthenticated}) => {
                             SetTokenToLocalStorage(res.token);
                             setUserIsAuthenticated(true);
                         })
-                        .catch(error => console.log(error))
+                        .catch(error => {
+                            console.log(error);
+                            alert('Произошла ошибка...');
+                        })
                 }
             })
             .catch(error => {
                 console.log(error);
+                alert('Произошла ошибка...');
             });
     };
 

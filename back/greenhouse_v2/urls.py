@@ -7,6 +7,7 @@ from .yasg import urlpatterns as doc_url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/auth/password/reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('api/auth/', include('accounts.urls')),
     path('api/', include('shop.urls')),
 ]

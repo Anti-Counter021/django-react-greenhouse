@@ -81,11 +81,24 @@ const Login = ({userIsAuthenticated, Services, setUserIsAuthenticated}) => {
                             </button>
 
                         </form>
-                        <Link to="/register">
-                            <button style={{width: '25%'}} className="buttons buttons__success" type="submit">
-                                Зарегистрироваться
-                            </button>
-                        </Link>
+
+                        <div className="other__btn">
+                            <div className="register__btn">
+                                <Link to="/register">
+                                    <button className="buttons buttons__success other__button" type="submit">
+                                        Зарегистрироваться
+                                    </button>
+                                </Link>
+                            </div>
+
+                            <div className="reset_password__btn">
+                                <Link to="/password/reset">
+                                    <button className="buttons buttons__success other__button" type="submit">
+                                        Сбросить пароль
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

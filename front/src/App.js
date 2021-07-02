@@ -12,6 +12,7 @@ import Register from "./components/register/register";
 import Contacts from "./components/contacts/contacts";
 import Categories from "./components/categories/categories";
 import ProfileChange from "./components/profile_change/profile_change";
+import RequestResetPassword from "./components/request_reset_password/request_reset_password";
 import ProductDetail from "./components/product_detail/product_detail";
 
 import './App.scss';
@@ -40,6 +41,7 @@ function App() {
                 <Route exact path='/contacts' component={Contacts}/>
                 <Route exact path='/reviews' component={Review}/>
                 <Route exact path='/cart' component={Cart}/>
+                <Route exact path='/password/reset' component={RequestResetPassword}/>
                 <Route exact path='/profile/change' component={ProfileChange}/>
                 <Route exact path='/profile' component={Profile}/>
                 <Route exact path='/login' component={Login}/>
