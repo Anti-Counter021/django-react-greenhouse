@@ -63,7 +63,8 @@ class AdditionalImageProduct(models.Model):
     """ Дополнительные изображения товара """
 
     product = models.ForeignKey(
-        Product, verbose_name='Товар', on_delete=models.CASCADE, related_name='images')
+        Product, verbose_name='Товар', on_delete=models.CASCADE, related_name='images'
+    )
     image = models.ImageField(verbose_name='Дополнительное изображение', upload_to=get_timestamp_path)
 
     def __str__(self):
