@@ -12,7 +12,28 @@ from .models import User
 from .serializers import UserSerializer, RegisterUserSerializer
 
 
-class UserIsAuthenticated(APIView):
+#                               Need testing!!!
+# =======================================================================================
+class ExistsUsernameView(APIView):
+    """ Есть такое username? (для бота) """
+
+    def post(self, request, *args, **kwargs):
+        if not User.objects.filter(username=request.data['username']).exists():
+            return Response({'username': False}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'username': True}, status=status.HTTP_200_OK)
+
+
+class ExistsEmailView(APIView):
+    """ Есть такая почта? (для бота) """
+
+    def post(self, request, *args, **kwargs):
+        if not User.objects.filter(email=request.data['email']).exists():
+            return Response({'email': False}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'email': True}, status=status.HTTP_200_OK)
+# =======================================================================================
+
+
+class UserIsAuthenticatedView(APIView):
     """ Пользователь аутентифицирован? """
 
     def get(self, request, *args, **kwargs):
