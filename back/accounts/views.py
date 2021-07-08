@@ -12,8 +12,6 @@ from .models import User
 from .serializers import UserSerializer, RegisterUserSerializer
 
 
-#                               Need testing!!!
-# =======================================================================================
 class ExistsUsernameView(APIView):
     """ Есть такое username? (для бота) """
 
@@ -30,7 +28,6 @@ class ExistsEmailView(APIView):
         if not User.objects.filter(email=request.data['email']).exists():
             return Response({'email': False}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'email': True}, status=status.HTTP_200_OK)
-# =======================================================================================
 
 
 class UserIsAuthenticatedView(APIView):

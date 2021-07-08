@@ -29,10 +29,32 @@ class AccountsTestCase(APITestCase):
         self.profile_url = reverse('accounts:profile')
         self.profile_change_url = reverse('accounts:profile_change')
         self.user_is_authenticated_url = reverse('accounts:user')
+        self.username_exists = reverse('accounts:username')
+        self.email_exists = reverse('accounts:email')
 
         self.user = User.objects.create_user(username='test', password='test')
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
+
+    def test_exists_username(self):
+        response = self.client.post(self.username_exists, {'username': 'test'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'username': True})
+
+        response = self.client.post(self.username_exists, {'username': 'test2'})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data, {'username': False})
+
+    def test_exists_email(self):
+        self.user.email = 'user@example.com'
+        self.user.save()
+        response = self.client.post(self.email_exists, {'email': 'user@example.com'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'email': True})
+
+        response = self.client.post(self.email_exists, {'email': 'us3er@example.com'})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data, {'email': False})
 
     def test_user_is_authenticated_auth(self):
         response = self.client.get(self.user_is_authenticated_url, self.data)
