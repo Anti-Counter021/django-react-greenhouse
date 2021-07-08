@@ -64,8 +64,8 @@ class ProductFeature(models.Model):
         verbose_name_plural = 'Характеристики'
 
     def save(self, *args, **kwargs):
-        self.product.features.add(self)
         super().save(*args, **kwargs)
+        self.product.features.add(self)
 
 
 class AdditionalImageProduct(models.Model):
