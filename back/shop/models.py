@@ -30,6 +30,9 @@ class Product(models.Model):
     price = models.PositiveIntegerField(verbose_name='Цена', default=0)
     discount = models.PositiveIntegerField(verbose_name='Скидка', default=0)
     delivery_terminated = models.BooleanField(verbose_name='Поставка товара прекращена', default=False)
+    features = models.ManyToManyField(
+        'ProductFeature', verbose_name='Характеристики', blank=True, related_name='features_for_product'
+    )
 
     def __str__(self):
         return f'{self.title}'
@@ -46,7 +49,9 @@ class Product(models.Model):
 class ProductFeature(models.Model):
     """ Характеристики товара """
 
-    product = models.ForeignKey(Product, verbose_name='Товар', on_delete=models.CASCADE, related_name='features')
+    product = models.ForeignKey(
+        Product, verbose_name='Товар', on_delete=models.CASCADE, related_name='related_features'
+    )
     name = models.CharField(max_length=50, verbose_name='Название характеристики')
     feature_value = models.CharField(max_length=50, verbose_name='Значение')
     unit = models.CharField(max_length=20, verbose_name='Единица измерения', blank=True, null=True)
@@ -57,6 +62,10 @@ class ProductFeature(models.Model):
     class Meta:
         verbose_name = 'Характеристика'
         verbose_name_plural = 'Характеристики'
+
+    def save(self, *args, **kwargs):
+        self.product.features.add(self)
+        super().save(*args, **kwargs)
 
 
 class AdditionalImageProduct(models.Model):

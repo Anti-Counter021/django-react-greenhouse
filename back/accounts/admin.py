@@ -6,6 +6,9 @@ from .models import User
 class UserAdmin(admin.ModelAdmin):
     """ Пользователи """
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
     list_display = ('username', 'phone', 'email', 'address')
     search_fields = ('username', 'address', 'phone', 'email')
     fields = (
@@ -20,9 +23,6 @@ class UserAdmin(admin.ModelAdmin):
     )
     readonly_fields = ('date_joined', 'last_login')
     actions = None
-
-    def has_delete_permission(self, request, obj=None):
-        return False
 
 
 admin.site.register(User, UserAdmin)
