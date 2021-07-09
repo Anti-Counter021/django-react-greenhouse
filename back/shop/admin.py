@@ -13,10 +13,27 @@ from .models import (
 )
 
 
+class ProductFeatureInline(admin.TabularInline):
+    """ Характеристики для редактора товаров """
+
+    model = ProductFeature
+
+
 class AdditionalImageProductInline(admin.TabularInline):
-    """ Дополнительные изображения """
+    """ Дополнительные изображения для редактора товаров """
 
     model = AdditionalImageProduct
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    """ Категории """
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    list_display = ('name', 'slug')
+    search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -36,6 +53,10 @@ class ProductAdmin(admin.ModelAdmin):
     def delivery_terminated_action_false(self, request, queryset):
         queryset.update(delivery_terminated=False)
 
+    @admin.action(description='Скидки закончились для этих товаров')
+    def stop_discount(self, request, queryset):
+        queryset.update(discount=0)
+
     price_with_discount.short_description = 'Цена со скидкой'
 
     list_display = ('category', 'title', 'price', 'discount', 'price_with_discount', 'delivery_terminated')
@@ -47,15 +68,15 @@ class ProductAdmin(admin.ModelAdmin):
         'category', ('title', 'slug'), 'description', 'image', 'price', 'discount', 'delivery_terminated', 'features'
     )
     prepopulated_fields = {'slug': ('title',)}
-    inlines = (AdditionalImageProductInline,)
-    actions = (delivery_terminated_action_true, delivery_terminated_action_false)
+    inlines = (AdditionalImageProductInline, ProductFeatureInline)
+    actions = (delivery_terminated_action_true, delivery_terminated_action_false, stop_discount)
 
 
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 
 admin.site.register(Cart)
 admin.site.register(CartProduct)
-admin.site.register(Category)
 admin.site.register(ProductFeature)
 admin.site.register(Order)
 admin.site.register(Review)
