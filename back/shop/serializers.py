@@ -90,7 +90,7 @@ class ProductMinSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ('category', 'slug', 'description')
+        exclude = ('category', 'description', 'features')
 
 
 class CartProductSerializer(serializers.ModelSerializer):
