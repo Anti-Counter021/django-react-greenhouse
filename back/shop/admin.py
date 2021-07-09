@@ -34,6 +34,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
+    fields = (('name', 'slug'),)
 
 
 class CartAdmin(admin.ModelAdmin):
@@ -44,7 +45,7 @@ class CartAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'owner', 'total_products', 'final_price', 'in_order', 'for_anonymous_user')
     list_display_links = ('owner',)
-    list_filter = ('owner',)
+    list_filter = ('owner', 'in_order', 'for_anonymous_user')
     empty_value_display = 'unknown'
     search_fields = ('owner__username',)
     fields = ('owner', 'products', ('total_products', 'final_price'), ('in_order', 'for_anonymous_user'))
@@ -58,7 +59,9 @@ class CartProductAdmin(admin.ModelAdmin):
 
     list_display = ('cart', 'user', 'product', 'qty', 'price', 'final_price')
     list_display_links = ('cart', 'user', 'product')
+    list_filter = ('user',)
     search_fields = ('cart__id', 'user__username', 'product__title')
+    fields = ('user', 'cart', 'product', ('qty', 'price'), 'final_price')
 
 
 class FeedbackAdmin(admin.ModelAdmin):
@@ -74,6 +77,31 @@ class FeedbackAdmin(admin.ModelAdmin):
     search_fields = ('text',)
     list_editable = ('status',)
     actions = (fix_action,)
+
+
+class OrderAdmin(admin.ModelAdmin):
+    """ Заказы """
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    @admin.action(description='Выбранные заказы будут помечены как выполненные')
+    def completed_orders_action(self, request, queryset):
+        queryset.update(status='completed')
+
+    list_display = ('id', 'cart', 'user', 'phone', 'address', 'buying_type', 'status')
+    list_display_links = ('cart',)
+    list_filter = ('status', 'buying_type')
+    search_fields = ('id', 'user__username')
+    fields = (
+        'user',
+        ('first_name', 'last_name'),
+        ('phone', 'address'),
+        ('buying_type', 'cart'),
+        'comment', 'status', 'order_date'
+    )
+    list_editable = ('status',)
+    actions = (completed_orders_action,)
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -116,7 +144,9 @@ class ProductFeatureAdmin(admin.ModelAdmin):
     """ Характеристики """
 
     list_display = ('product', 'name', 'feature_value', 'unit')
+    list_filter = ('product',)
     search_fields = ('name', 'product__title')
+    fields = ('product', 'name', ('feature_value', 'unit'))
 
 
 class ReviewAdmin(admin.ModelAdmin):
@@ -137,8 +167,7 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartProduct, CartProductAdmin)
 admin.site.register(Feedback, FeedbackAdmin)
+admin.site.register(Order, OrderAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductFeature, ProductFeatureAdmin)
 admin.site.register(Review, ReviewAdmin)
-
-admin.site.register(Order)

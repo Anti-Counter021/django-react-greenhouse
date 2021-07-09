@@ -135,6 +135,14 @@ class Order(models.Model):
         (BUYING_TYPE_DELIVERY, 'Доставка'),
     )
 
+    STATUS_NEW = 'new'
+    STATUS_COMPLETED = 'completed'
+
+    STATUS_CHOICES = (
+        (STATUS_NEW, 'Новый'),
+        (STATUS_COMPLETED, 'Выполнен')
+    )
+
     user = models.ForeignKey(
         'accounts.User', verbose_name='Покупатель', on_delete=models.CASCADE, related_name='related_orders'
     )
@@ -149,6 +157,7 @@ class Order(models.Model):
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата оформления заказа')
     order_date = models.DateField(verbose_name='Дата для получения заказа', default=datetime.utcnow(), db_index=True)
+    status = models.CharField(max_length=40, verbose_name='Статус заказа', choices=STATUS_CHOICES, default=STATUS_NEW)
 
     def __str__(self):
         return f'{self.user.username} - {self.cart} - заказ № {self.id}'
