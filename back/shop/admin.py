@@ -45,15 +45,15 @@ class ProductAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
-    @admin.action(description='Поставка этих товаров прекращена')
+    @admin.action(description='Поставка выбранных товаров прекращена')
     def delivery_terminated_action_true(self, request, queryset):
         queryset.update(delivery_terminated=True)
 
-    @admin.action(description='Поставка этих товаров возобновилась')
+    @admin.action(description='Поставка выбранных товаров возобновилась')
     def delivery_terminated_action_false(self, request, queryset):
         queryset.update(delivery_terminated=False)
 
-    @admin.action(description='Скидки закончились для этих товаров')
+    @admin.action(description='Скидки закончились для выбранных товаров')
     def stop_discount(self, request, queryset):
         queryset.update(discount=0)
 
@@ -72,12 +72,33 @@ class ProductAdmin(admin.ModelAdmin):
     actions = (delivery_terminated_action_true, delivery_terminated_action_false, stop_discount)
 
 
+class ProductFeatureAdmin(admin.ModelAdmin):
+    """ Характеристики """
+
+    list_display = ('product', 'name', 'feature_value', 'unit')
+    search_fields = ('name', 'product__title')
+
+
+class ReviewAdmin(admin.ModelAdmin):
+    """ Отзывы """
+    
+    @admin.action(description='Выбранные записи изменят свои оценки на максимальные (нежелательно)')
+    def max_appraisal(self, request, queryset):
+        queryset.update(appraisal=5)
+
+    list_display = ('user', 'appraisal', 'created_at')
+    list_editable = ('appraisal',)
+    list_filter = ('appraisal',)
+    search_fields = ('user__username',)
+    actions = (max_appraisal,)
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(ProductFeature, ProductFeatureAdmin)
+admin.site.register(Review, ReviewAdmin)
 
 admin.site.register(Cart)
 admin.site.register(CartProduct)
-admin.site.register(ProductFeature)
 admin.site.register(Order)
-admin.site.register(Review)
 admin.site.register(Feedback)

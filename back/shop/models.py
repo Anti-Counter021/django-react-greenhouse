@@ -77,7 +77,7 @@ class AdditionalImageProduct(models.Model):
     image = models.ImageField(verbose_name='Дополнительное изображение', upload_to=get_timestamp_path)
 
     def __str__(self):
-        return f'{self.product.title}'
+        return f'{self.product.title} - Изображение'
 
     class Meta:
         verbose_name = 'Дополнительное изображение'
@@ -127,8 +127,8 @@ class Cart(models.Model):
 class Order(models.Model):
     """ Заказы """
 
-    BUYING_TYPE_SELF = 'self'
-    BUYING_TYPE_DELIVERY = 'delivery'
+    BUYING_TYPE_SELF = 'Самовывоз'
+    BUYING_TYPE_DELIVERY = 'Доставка'
 
     BUYING_TYPE_CHOICES = (
         (BUYING_TYPE_SELF, 'Самовывоз'),
@@ -151,7 +151,7 @@ class Order(models.Model):
     order_date = models.DateField(verbose_name='Дата для получения заказа', default=datetime.utcnow(), db_index=True)
 
     def __str__(self):
-        return f'{self.id}'
+        return f'{self.user.username} - {self.cart} - заказ № {self.id}'
 
     class Meta:
         verbose_name = 'Заказ'
@@ -178,7 +178,7 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата создания отзыва')
 
     def __str__(self):
-        return f'{self.id} - {self.user}'
+        return f'{self.get_appraisal_display()} - {self.user}'
 
     class Meta:
         verbose_name = 'Отзыв'
@@ -202,7 +202,7 @@ class Feedback(models.Model):
     created_at = models.DateTimeField(auto_now=True, verbose_name='Дата поступления проблемы')
 
     def __str__(self):
-        return f'{self.id} - {self.status}'
+        return f'{self.id} - {self.get_status_display()}'
 
     class Meta:
         verbose_name = 'Ошибка'
