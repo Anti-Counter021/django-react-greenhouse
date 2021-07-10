@@ -61,8 +61,8 @@ class LogoutAPIView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        request.user.auth_token.delete()
-        return Response({'success': 'Токен пользователя удалён'}, status=status.HTTP_200_OK)
+        # request.user.auth_token.delete()
+        return Response({'success': 'Токен пользователя вышел'}, status=status.HTTP_200_OK)
 
 
 class UserProfileAPIView(ListAPIView):
