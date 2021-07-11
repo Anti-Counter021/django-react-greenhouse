@@ -10,6 +10,7 @@ urlpatterns = [
     path('api/auth/password/reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('api/auth/', include('accounts.urls')),
     path('api/', include('shop.urls')),
+    path('', include('main.urls')),
 ]
 
 urlpatterns += doc_url

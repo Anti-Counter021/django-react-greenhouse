@@ -6,8 +6,10 @@
 /back/config.env
 /back/media/
 /front/node_modules/
+/front/build/
 *.css
 *.map
 /layout_html_scss/.idea/
 /back/logs/
 /.scannerwork/
+/back/static/
