@@ -2,11 +2,11 @@
 
 ### Installing:
 
-    cd front
+    cd client
     npm install
     npm run build
 
-    cd ../back
+    cd ../
 
     create Database from Postgres
     create file config.env how config.ini
