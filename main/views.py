@@ -5,7 +5,7 @@ from greenhouse_v2.settings import BASE_DIR
 
 
 def response_file(filename):
-    return FileResponse(open(f'{BASE_DIR}/../front/build/{filename}', 'rb'))
+    return FileResponse(open(f'{BASE_DIR}/client/build/{filename}', 'rb'))
 
 
 def page(request):

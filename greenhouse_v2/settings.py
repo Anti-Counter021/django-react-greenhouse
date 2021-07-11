@@ -62,7 +62,7 @@ ROOT_URLCONF = 'greenhouse_v2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / '../front/build'],
+        'DIRS': [BASE_DIR / 'client/build'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,7 +132,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = (
-    BASE_DIR / '../front/build/static',
+    BASE_DIR / 'client/build/static',
 )
 
 MEDIA_URL = '/media/'
